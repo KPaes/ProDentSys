@@ -443,8 +443,8 @@ public class CadCliente extends JDialog {
 		
 		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
-        ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.gif"));  
-        ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir.png"));
+        ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar"));  
+        ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir"));
 
 		TableColumnModel columnModel = table.getColumnModel();
 		
