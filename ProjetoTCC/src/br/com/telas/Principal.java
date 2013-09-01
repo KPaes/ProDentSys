@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 
+import br.com.backup.Backup;
+import br.com.backup.ManageBackup;
 import br.com.enviaremail.Interface;
 import br.com.exception.DaoException;
 import br.com.telas.CadFuncionario;
@@ -55,6 +57,15 @@ public class Principal extends JFrame {
 					teste.fechaSplash();					
 					Login login = new Login();
 					login.setVisible(true);
+					
+					//Rodando Backup
+				/*	ManageBackup.createScriptBackup();  
+			          
+			        Backup backup = new Backup(ManageBackup.getTime("05:00"));//executa o backup de hora em hora  
+			  
+			        backup.createBackup(ManageBackup.getScriptBackup());  
+			  
+			        backup.start();*/
 	}
 	
 	/**
