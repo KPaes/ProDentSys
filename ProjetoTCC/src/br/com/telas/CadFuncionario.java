@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
+
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import java.awt.Font;
@@ -35,6 +37,8 @@ import br.com.util.ValidacaoUtil;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -63,6 +67,7 @@ public class CadFuncionario extends JDialog {
 	private JTextField textField_5;
 	private JFormattedTextField textField_1;
 	private JTextField txtDigiteONome;
+	private JTextField textComissao;
 	
 	
 
@@ -96,7 +101,8 @@ public class CadFuncionario extends JDialog {
         buttonPanel.add(txtDigiteONome);
         txtDigiteONome.setColumns(10);
         
-        JButton btnOk = new JButton("OK");
+        JButton btnOk = new JButton("");
+        btnOk.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/pesquisar.png")));
         btnOk.setToolTipText("Pesquisar funcion\u00E1rio");
         btnOk.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -108,7 +114,7 @@ public class CadFuncionario extends JDialog {
 				}
           	}
         });
-        btnOk.setBounds(35, 134, 72, 23);
+        btnOk.setBounds(42, 134, 41, 33);
         buttonPanel.add(btnOk);
             
 
@@ -163,8 +169,10 @@ public class CadFuncionario extends JDialog {
                 label_5.setBounds(12, 31, 70, 18);
                 panel.add(label_5);
                 
-                JButton button = new JButton("Salvar");
-                button.setBounds(491, 254, 89, 23);
+                JButton button = new JButton("");
+                button.setToolTipText("Salvar");
+                button.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/salvar.png")));
+                button.setBounds(491, 242, 60, 35);
                 panel.add(button);
                 
                 button.addActionListener(new ActionListener() {					
@@ -178,24 +186,8 @@ public class CadFuncionario extends JDialog {
 							obj.setTelFunc(textField_3.getText()); //tirei o hideMascara		
 							obj.setSalarioFunc(Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_1)));
 							
-						//	obj.setLogin(textField_4.getText());	
-							boolean teste = false;
-							try {
-								objDAO.login(textField_4.getText());								
-								if(teste==false){
-									textField_4.setText("");
-								}
-								//else{
-								//	obj.setLogin(textField_4.getText());
-								//}
-							} catch (DaoException e2) {
-								// TODO Auto-generated catch block
-								e2.printStackTrace();
-							}
-							
-							
-							obj.setLogin(textField_4.getText());
-							
+							obj.setLogin(textField_4.getText());	
+														
 							obj.setNomeFunc(textField.getText());
 							obj.setProfissaoFunc(textField_2.getText());
 							obj.setSenha(cSenha);
@@ -203,9 +195,7 @@ public class CadFuncionario extends JDialog {
 							int matri = 0;
 							try {
 								
-								if(textField_5.getText().equals("")){	
-								//	objDAO.
-								//	objDAO.login(textField_4.getText());
+								if(textField_5.getText().equals("")){									
 									objDAO.inserirFuncionarios(obj, matri);		
 									limpaFormulario();
 								}else{
@@ -225,8 +215,10 @@ public class CadFuncionario extends JDialog {
 					 
 				});
                 
-                JButton button_1 = new JButton("Limpar");
-                button_1.setBounds(392, 254, 89, 23);
+                JButton button_1 = new JButton("");
+                button_1.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/limpar.png")));
+                button_1.setToolTipText("Limpar");
+                button_1.setBounds(435, 242, 46, 35);
                 panel.add(button_1);
                 button_1.addActionListener(new ActionListener() {
 					
@@ -283,7 +275,20 @@ public class CadFuncionario extends JDialog {
                  label.setBounds(130, 258, 206, 14);
                  panel.add(label);
                  
-                 JButton btnVoltar = new JButton("Voltar");
+                 JLabel lblComisso = new JLabel("Comiss\u00E3o:");
+                 lblComisso.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                 lblComisso.setBounds(12, 128, 82, 14);
+                 panel.add(lblComisso);
+                 
+                 textComissao = new JTextField();
+                 textComissao.setBounds(92, 126, 86, 20);
+                 panel.add(textComissao);
+                 textComissao.setColumns(10);
+                 
+                 JButton btnVoltar = new JButton("");
+                 btnVoltar.setToolTipText("Voltar");
+                 //btnVoltar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_MASK));
+                 btnVoltar.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/voltar.png")));
                  btnVoltar.setBounds(21, 340, 89, 23);
                  formulario.add(btnVoltar);
                  formulario.setVisible(false);

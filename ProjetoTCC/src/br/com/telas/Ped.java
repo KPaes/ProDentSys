@@ -121,7 +121,9 @@ public class Ped extends JFrame {
 	        buttonPanel.add(textField_1);
 	        textField_1.setColumns(10);
 	        
-	        JButton btnOk_2 = new JButton("OK");
+	        JButton btnOk_2 = new JButton("");
+	        btnOk_2.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/pesquisar.png")));
+	        btnOk_2.setToolTipText("Pesquisar dentista!");
 	        btnOk_2.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {        		
 	        		try {
@@ -193,9 +195,11 @@ public class Ped extends JFrame {
 	        	        	                  panel.add(lblDataEntraga);
 	        	        	                  
 	        	        	                   
-	        	        	                   JButton button = new JButton("Salvar");
-	        	        	                   button.setBounds(491, 370, 89, 23);
-	        	        	                   panel.add(button);
+	        	        	                  JButton button = new JButton("");
+	                                          button.setToolTipText("Salvar");
+	                                          button.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/salvar.png")));
+	                                          button.setBounds(491, 370, 89, 23);
+	        	        	                  panel.add(button);
 	        	        	                   
 	        	        	                   button.addActionListener(new ActionListener() {					
 						
@@ -238,7 +242,9 @@ public class Ped extends JFrame {
 						}
 					});
 	        	        	                   
-	        	        	                   JButton button_1 = new JButton("Limpar");
+	        	        	                   JButton button_1 = new JButton("");
+	        	        	                   button_1.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/limpar.png")));
+	                                           button_1.setToolTipText("Limpar");
 	        	        	                   button_1.setBounds(398, 370, 89, 23);
 	        	        	                   panel.add(button_1);
 	        	        	                   button_1.addActionListener(new ActionListener() {
@@ -384,7 +390,9 @@ public class Ped extends JFrame {
 	        	        		                   panel.add(textField_3);
 	        	        		                   textField_3.setColumns(10);
 	        	        	                     
-	        	        	                     JButton btnVoltar = new JButton("Voltar");
+	        	        	                     JButton btnVoltar = new JButton("");
+	        	        	                     btnVoltar.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/voltar.png")));
+	                                             btnVoltar.setToolTipText("Voltar");
 	        	        	                     btnVoltar.setBounds(25, 450, 89, 23);
 	        	        	                     formulario.add(btnVoltar);
 	        	        	                     formulario.setVisible(false);	        	        	                
@@ -734,7 +742,7 @@ public class Ped extends JFrame {
 			
 			DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
-	        ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.gif"));  
+	        ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.png"));  
 	        ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir.png"));
 
 			TableColumnModel columnModel = table.getColumnModel();

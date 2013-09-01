@@ -194,6 +194,7 @@ public class Principal extends JFrame {
 		menuBar.add(mnEnviarEmail);
 		
 		JMenuItem mntmEmailParaCliente = new JMenuItem("E-mail Para Cliente");
+		mntmEmailParaCliente.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/email.png")));
 		mntmEmailParaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Interface email;

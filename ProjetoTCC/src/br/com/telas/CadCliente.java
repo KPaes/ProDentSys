@@ -30,6 +30,7 @@ import br.com.dao.ClienteDao;
 import br.com.exception.DaoException;
 import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
+import br.com.util.ValidaCPF;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -93,7 +94,8 @@ public class CadCliente extends JDialog {
         buttonPanel.add(textField_10);
         textField_10.setColumns(10);
         
-        JButton btnOk = new JButton("OK");
+        JButton btnOk = new JButton("");
+        btnOk.setIcon(new ImageIcon(CadCliente.class.getResource("/br/com/images/pesquisar.png")));
         btnOk.setToolTipText("Pesquisar cliente");
         btnOk.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -105,7 +107,7 @@ public class CadCliente extends JDialog {
 				}
         	}
         });
-        btnOk.setBounds(40, 116, 65, 23);
+        btnOk.setBounds(40, 116, 45, 33);
         buttonPanel.add(btnOk);
                    
                 
@@ -177,15 +179,22 @@ public class CadCliente extends JDialog {
                            panel.add(label_8);
                            
                             
-                            JButton button = new JButton("Salvar");
-                            button.setBounds(491, 254, 89, 23);
+                            JButton button = new JButton("");
+                            button.setIcon(new ImageIcon(CadCliente.class.getResource("/br/com/images/salvar.png")));
+                            button.setToolTipText("Salvar");
+                            button.setBounds(491, 244, 56, 33);
                             panel.add(button);
                             
                             button.addActionListener(new ActionListener() {					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 					  					  
-						if( validarFormulário() ){
+						if( validarFormulário()){
+						/*	if(ValidaCPF.isCPF(textField_9.getText())==false ){
+							
+								JOptionPane.showMessageDialog(null,"Digite um CPF válido!");
+							}else{*/
+							
 							ClienteDent obj = new ClienteDent();
 							
 							obj.setTelCliente(textField_3.getText());
@@ -196,6 +205,7 @@ public class CadCliente extends JDialog {
 							obj.setCidadeCliente(textField_6.getText());							
 							obj.setNomeCliente(textField.getText());
 							obj.setCepCliente(textField_7.getText());
+							
 							obj.setCpfCliente(textField_9.getText());
 							
 							ClienteDao objDAO = new ClienteDao();
@@ -216,12 +226,15 @@ public class CadCliente extends JDialog {
 							} catch (DaoException e) {
 								e.printStackTrace();
 							}
-					}
+							//}
+						}
 					}
 				});
                             
-                  JButton button_1 = new JButton("Limpar");
-                  button_1.setBounds(392, 254, 89, 23);
+                  JButton button_1 = new JButton("");
+                  button_1.setToolTipText("Limpar");
+                  button_1.setIcon(new ImageIcon(CadCliente.class.getResource("/br/com/images/limpar.png")));
+                  button_1.setBounds(425, 244, 56, 33);
                   panel.add(button_1);
                   button_1.addActionListener(new ActionListener() {
 					
@@ -288,7 +301,9 @@ public class CadCliente extends JDialog {
                  lblTodosOsCampos.setBounds(130, 263, 206, 14);
                  panel.add(lblTodosOsCampos);
                  
-                 JButton btnVoltar = new JButton("Voltar");
+                 JButton btnVoltar = new JButton("");
+                 btnVoltar.setToolTipText("Voltar");
+                 btnVoltar.setIcon(new ImageIcon(CadCliente.class.getResource("/br/com/images/voltar.png")));
                  btnVoltar.setBounds(21, 340, 89, 23);
                  formulario.add(btnVoltar);
                  formulario.setVisible(false);

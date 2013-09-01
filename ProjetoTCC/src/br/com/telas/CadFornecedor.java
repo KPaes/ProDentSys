@@ -88,7 +88,8 @@ public class CadFornecedor extends JDialog {
         buttonPanel.add(textField_1);
         textField_1.setColumns(10);
         
-        JButton btnOk = new JButton("OK");
+        JButton btnOk = new JButton("");
+        btnOk.setIcon(new ImageIcon(CadFornecedor.class.getResource("/br/com/images/pesquisar.png")));
         btnOk.setToolTipText("Pesquisar fornecedor");
         btnOk.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -100,7 +101,7 @@ public class CadFornecedor extends JDialog {
 				}
           	}
         });
-        btnOk.setBounds(35, 111, 62, 23);
+        btnOk.setBounds(35, 111, 48, 33);
         buttonPanel.add(btnOk);                  
                                  
 
@@ -158,8 +159,10 @@ public class CadFornecedor extends JDialog {
                                     panel.add(label_8);
                                     
                                      
-                                     JButton button = new JButton("Salvar");
-                                     button.setBounds(491, 254, 89, 23);
+                                     JButton button = new JButton("");
+                                     button.setToolTipText("Salvar");
+                                     button.setIcon(new ImageIcon(CadFornecedor.class.getResource("/br/com/images/salvar.png")));
+                                     button.setBounds(491, 242, 63, 35);
                                      panel.add(button);
                                      
                                      button.addActionListener(new ActionListener() {					
@@ -200,8 +203,10 @@ public class CadFornecedor extends JDialog {
 					}
 				});
                                      
-                                     JButton button_1 = new JButton("Limpar");
-                                     button_1.setBounds(392, 254, 89, 23);
+                                     JButton button_1 = new JButton("");
+                                     button_1.setIcon(new ImageIcon(CadFornecedor.class.getResource("/br/com/images/limpar.png")));
+                                     button_1.setToolTipText("Limpar");
+                                     button_1.setBounds(418, 242, 63, 35);
                                      panel.add(button_1);
                                      button_1.addActionListener(new ActionListener() {
 					
@@ -256,7 +261,9 @@ public class CadFornecedor extends JDialog {
                                      lblTodosOsCampos.setBounds(122, 257, 206, 14);
                                      panel.add(lblTodosOsCampos);
                                      
-                                     JButton btnVoltar = new JButton("Voltar");
+                                     JButton btnVoltar = new JButton("");
+                                     btnVoltar.setIcon(new ImageIcon(CadFornecedor.class.getResource("/br/com/images/voltar.png")));
+                                     btnVoltar.setToolTipText("Voltar");
                                      btnVoltar.setBounds(21, 340, 89, 23);
                                      formulario.add(btnVoltar);
                                      
