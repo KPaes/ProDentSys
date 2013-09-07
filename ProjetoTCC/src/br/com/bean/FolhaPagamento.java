@@ -3,7 +3,7 @@ package br.com.bean;
 import br.com.bean.Funcionario;
 
 public class FolhaPagamento extends Funcionario{
-	private Double comissaoFunc;
+	private Double comissaoFuncTotal;
 	private Double bonusFunc;
 	private Double totalFunc;
 	private Integer codDep;
@@ -14,8 +14,8 @@ public class FolhaPagamento extends Funcionario{
 
 	//Getter and Setter	
 	
-	public Double getComissaoFunc() {
-		return comissaoFunc;
+	public Double getComissaoFuncTotal() {
+		return comissaoFuncTotal;
 	}
 
 	public Integer getCodDep() {
@@ -30,8 +30,8 @@ public class FolhaPagamento extends Funcionario{
 		return totalFunc;
 	}
 
-	public void setComissaoFunc(Double comissaoFunc) {
-		this.comissaoFunc = comissaoFunc;
+	public void setComissaoFuncTotal(Double comissaoFuncTotal) {
+		this.comissaoFuncTotal = comissaoFuncTotal;
 	}
 
 	public Double getBonusFunc() {

@@ -28,6 +28,7 @@ import br.com.enviaremail.Interface;
 import br.com.exception.DaoException;
 
 import br.com.telas.Principal;
+import br.com.util.Moeda;
 //import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
 
@@ -203,6 +204,7 @@ public class ConTabeladePreco extends JFrame {
 		
        // textField_2 = new JFormattedTextField(MascaraUtil.setMascara("R$###,##"));
         textField_2 = new JTextField();
+        textField_2.setDocument(new Moeda());
         textField_2.setBounds(110, 96, 100, 20);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
@@ -320,8 +322,9 @@ public class ConTabeladePreco extends JFrame {
 		contentPane.add(btnLimpar);
 		
 		JButton btnEnviarEmail = new JButton("E-mail");
+		btnEnviarEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnEnviarEmail.setToolTipText("Enviar e-mail para  cliente");
-		btnEnviarEmail.setIcon(new ImageIcon(ConTabeladePreco.class.getResource("/br/com/images/icon_email.png")));
+		btnEnviarEmail.setIcon(new ImageIcon(ConTabeladePreco.class.getResource("/br/com/images/email.png")));
 		btnEnviarEmail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Interface enviarEmail;
@@ -349,7 +352,8 @@ public class ConTabeladePreco extends JFrame {
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
-		JButton btnOk = new JButton("OK");
+		JButton btnOk = new JButton("");
+		btnOk.setIcon(new ImageIcon(ConTabeladePreco.class.getResource("/br/com/images/pesquisar.png")));
 		btnOk.setToolTipText("Pesquisar protese");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -361,14 +365,9 @@ public class ConTabeladePreco extends JFrame {
 				}
 			}
 		});
-		btnOk.setBounds(492, 261, 66, 23);
+		btnOk.setBounds(492, 258, 57, 26);
 		contentPane.add(btnOk);
-		
-		JLabel lblPreenchaAssimR = new JLabel("Preencha assim: R$010,00 ou R$100,00");
-		lblPreenchaAssimR.setForeground(Color.RED);
-		lblPreenchaAssimR.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPreenchaAssimR.setBounds(220, 99, 233, 14);
-		contentPane.add(lblPreenchaAssimR);
+				
 		}
 	
 	

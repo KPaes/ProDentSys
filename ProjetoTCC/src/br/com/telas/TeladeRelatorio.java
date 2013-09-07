@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +76,13 @@ public class TeladeRelatorio extends JFrame {
 	        lblPesquisar.setBounds(41, 59, 88, 14);
 	        buttonPanel.add(lblPesquisar);
 	        
-	        textField_1 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
+	    //    textField_1 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
+	        try {
+				textField_1 = new JFormattedTextField(MascaraUtil.setMaskDateInTf((JFormattedTextField) textField_1));
+			} catch (ParseException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 	        textField_1.setToolTipText("Digite a data de entrega");
 	        textField_1.setBounds(10, 75, 132, 20);
 	        buttonPanel.add(textField_1);

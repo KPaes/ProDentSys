@@ -33,6 +33,7 @@ import br.com.dao.PedidoDao;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
+import br.com.util.Moeda;
 //import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
 
@@ -274,12 +275,14 @@ public class TelaFolhadePagamento extends JDialog {
                           
                          // textField_4 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
                           textField_4 = new JTextField();
+                          textField_4.setDocument(new Moeda()); 
                           textField_4.setBounds(80, 210, 80, 20);
                           panel.add(textField_4);
                           textField_4.setColumns(10);
                           
                         //  textField_6 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
-                          textField_6 = new JTextField();
+                          textField_6 = new JTextField();                          
+                          textField_6.setDocument(new Moeda()); 
                           textField_6.setBounds(80, 255, 80, 20);
                           panel.add(textField_6);
                           textField_6.setColumns(10);
@@ -293,7 +296,7 @@ public class TelaFolhadePagamento extends JDialog {
                           		if(validarFormulárioCalculo()){
                           				bonus = Double.parseDouble(textField_4.getText());
                                   	//	salario = Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_3));
-                                  		salario = Double.parseDouble(textField_3.getText());
+                                  		salario = Double.parseDouble(textField_3.getText());                                  		
                                   		salarioTotal = totalCom + bonus + salario;
                                   		textField_6.setText(String.valueOf(salarioTotal));
                                   		textField_6.setEditable(false);
@@ -493,7 +496,7 @@ public class TelaFolhadePagamento extends JDialog {
 		
 		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
-        ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.gif"));  
+        ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.png"));  
         ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir.png"));
 
 		TableColumnModel columnModel = table.getColumnModel();

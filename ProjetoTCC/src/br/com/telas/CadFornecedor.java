@@ -35,6 +35,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JScrollPane;
@@ -221,11 +222,21 @@ public class CadFornecedor extends JDialog {
                                      textField.setBounds(92, 31, 335, 20);
                                      panel.add(textField);
                                      textField.setColumns(10);
-                                     textField_2 = new JFormattedTextField(MascaraUtil.setMascara("(##)####-####"));
+                                     try {
+										textField_2 = new JFormattedTextField(MascaraUtil.setMaskTelefoneInTf(textField_2));
+									} catch (ParseException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
                                      textField_2.setBounds(92, 60, 127, 20);
                                      panel.add(textField_2);
                                      textField_2.setColumns(10);
-                                     textField_3 = new JFormattedTextField(MascaraUtil.setMascara("#####-###"));
+                                     try {
+										textField_3 = new JFormattedTextField(MascaraUtil.setMaskCepInTable(textField_3));
+									} catch (ParseException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
                                      textField_3.setBounds(92, 205, 127, 20);
                                      panel.add(textField_3);
                                      textField_3.setColumns(10);

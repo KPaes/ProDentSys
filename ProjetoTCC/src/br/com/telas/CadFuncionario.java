@@ -32,6 +32,7 @@ import br.com.TableModel.TableCellRenderer;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
+import br.com.util.Moeda;
 import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
 
@@ -42,6 +43,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JScrollPane;
@@ -65,7 +67,7 @@ public class CadFuncionario extends JDialog {
 	private JFormattedTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
-	private JFormattedTextField textField_1;
+	private JTextField textField_1;
 	private JTextField txtDigiteONome;
 	private JTextField textComissao;
 	
@@ -185,7 +187,9 @@ public class CadFuncionario extends JDialog {
 							Funcionario obj = new Funcionario();
 							obj.setTelFunc(textField_3.getText()); //tirei o hideMascara		
 							obj.setSalarioFunc(Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_1)));
-							
+							//fazer replace da vírgula pro ponto
+						//	obj.setSalarioFunc(Double.parseDouble(textField_1.getText()));
+							obj.setComissaoFunc(Double.parseDouble(textComissao.getText()));
 							obj.setLogin(textField_4.getText());	
 														
 							obj.setNomeFunc(textField.getText());
@@ -239,8 +243,15 @@ public class CadFuncionario extends JDialog {
                 panel.add(textField_2);
                 textField_2.setColumns(10);
                 
-                 textField_3 = new JFormattedTextField(MascaraUtil.setMascara("(##)####-####"));
-                 textField_3.setBounds(92, 91, 127, 20);
+               //  textField_3 = new JFormattedTextField(MascaraUtil.setMascara("(##)####-####"));
+                try {
+					textField_3 = new JFormattedTextField(MascaraUtil.setMaskTelefoneInTf(textField_3));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+               // textField_3.setDocument(new Moeda()); 
+                textField_3.setBounds(92, 91, 127, 20);
                  panel.add(textField_3);
                  textField_3.setColumns(10);
                  
@@ -264,7 +275,9 @@ public class CadFuncionario extends JDialog {
                  lblSalrio.setBounds(236, 63, 70, 14);
                  panel.add(lblSalrio);
                  
-                 textField_1 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
+              //   textField_1 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
+                 textField_1 =  new JTextField();
+                 textField_1.setDocument(new Moeda()); 
                  textField_1.setBounds(310, 60, 117, 20);
                  panel.add(textField_1);
                  textField_1.setColumns(10);
@@ -281,6 +294,7 @@ public class CadFuncionario extends JDialog {
                  panel.add(lblComisso);
                  
                  textComissao = new JTextField();
+                 textComissao.setToolTipText("Em porcentagem");
                  textComissao.setBounds(92, 126, 86, 20);
                  panel.add(textComissao);
                  textComissao.setColumns(10);
@@ -496,6 +510,8 @@ public class CadFuncionario extends JDialog {
 		textField_4.setText(objFunc.getLogin());
 		textField.setText(objFunc.getNomeFunc());
 		
+		textComissao.setText(objFunc.getComissaoFunc().toString());
+		
 		String aux = objFunc.getSalarioFunc().toString();
 		aux = aux.replace(".","");
 		textField_1.setText(aux);
@@ -518,7 +534,8 @@ public class CadFuncionario extends JDialog {
 		textField_4.setText("");
 		textField_5.setText("");
 		passwordField.setText("");
-		passwordField_1.setText("");		
+		passwordField_1.setText("");	
+		textComissao.setText("");
 	}
 	
 	public boolean validarFormulário(){

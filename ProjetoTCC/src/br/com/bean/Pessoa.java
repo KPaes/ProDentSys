@@ -28,9 +28,10 @@ public class Pessoa extends TabeladePreco { //esse extends pode?
 		private String telFunc;
 		private String profissaoFunc;
 		private Double salarioFunc;
-		
+		private Double comissaoFunc;
 			
-	//Getter and Setter Cliente
+	//Getter and Setter Cliente		
+		
 		public String getNomeCliente() {
 			return nomeCliente;
 		}
@@ -186,6 +187,12 @@ public class Pessoa extends TabeladePreco { //esse extends pode?
 		}
 		public void setSalarioFunc(Double salarioFunc) {
 			this.salarioFunc = salarioFunc;
+		}
+		public Double getComissaoFunc() {
+			return comissaoFunc;
+		}
+		public void setComissaoFunc(Double comissaoFunc) {
+			this.comissaoFunc = comissaoFunc;
 		}
 		
 		

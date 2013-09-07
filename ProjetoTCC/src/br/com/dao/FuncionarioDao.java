@@ -22,8 +22,8 @@ public class FuncionarioDao {
 	
 	private static final String INSERIR_FUNCIONARIO =
 			"insert into tbfuncionario(nomeFunc, telFunc, profissaoFunc, "+
-			"login_funcionario, senha_funcionario, salarioFunc) " +
-			"values (?,?,?,?,?,?)";
+			"login_funcionario, senha_funcionario, salarioFunc, comissaoFunc) " +
+			"values (?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_FUNCIONARIO =
 			"update tbfuncionario set " +
@@ -32,7 +32,8 @@ public class FuncionarioDao {
 			"profissaoFunc = ?, " +
 			"login_funcionario = ?, " +
 			"senha_funcionario = ?, " +
-			"salarioFunc = ? " +			
+			"salarioFunc = ?, " +
+			"comissaoFunc = ? " +
 			"where numFunc = ? ";
 	
 	private static final String ATUALIZAR_FUNCIONARIO_FOLHA =
@@ -64,7 +65,7 @@ public class FuncionarioDao {
 			"select * from tbfuncionario where nomeFunc like ? order by nomeFunc";	
 	
 	private static final String PROCURAR_FUNCIONARIO_ID =
-			"select nomeFunc, profissaoFunc, salarioFunc from tbfuncionario where numFunc = ?";
+			"select nomeFunc, profissaoFunc, salarioFunc, comissaoFunc from tbfuncionario where numFunc = ?";
 	
 	private static final String LOGIN_IGUAL = 
 			"select login_funcionario from tbfuncionario where login_funcionario = ?";
@@ -116,6 +117,7 @@ public class FuncionarioDao {
 				objFunc.setNomeFunc(result.getString(1)); // o número 1 indica a posição do dado no sql--> select (1)nomeCliente, (2)emailCliente from tbcliente where numCliente = ?
 				objFunc.setProfissaoFunc(result.getString(2));
 				objFunc.setSalarioFunc(result.getDouble(3));
+				objFunc.setComissaoFunc(result.getDouble(4));
 				
 			}else{
 				JOptionPane.showMessageDialog(null, "Funcionário não encontrado!");
@@ -178,7 +180,8 @@ public class FuncionarioDao {
 				objFunc.setProfissaoFunc(result.getString(4));
 				objFunc.setLogin(result.getString(5));
 				objFunc.setSenha(result.getString(6));
-				objFunc.setSalarioFunc(result.getDouble(7));				
+				objFunc.setSalarioFunc(result.getDouble(7));
+				objFunc.setComissaoFunc(result.getDouble(8));	
 				listaFunc.add(objFunc);
 			}
 		} catch (SQLException e) {
@@ -206,7 +209,8 @@ public class FuncionarioDao {
 				objFunc.setProfissaoFunc(result.getString(4));
 				objFunc.setLogin(result.getString(5));
 				objFunc.setSenha(result.getString(6));
-				objFunc.setSalarioFunc(result.getDouble(7));				
+				objFunc.setSalarioFunc(result.getDouble(7));
+				objFunc.setComissaoFunc(result.getDouble(8));
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e);
@@ -236,6 +240,7 @@ public class FuncionarioDao {
 				objFunc.setTelFunc(result.getString(3));
 				objFunc.setProfissaoFunc(result.getString(4));
 				objFunc.setSalarioFunc(result.getDouble(7));
+				objFunc.setComissaoFunc(result.getDouble(8));
 				objFunc.setLogin(result.getString(5));
 				objFunc.setSenha(result.getString(6));
 				listaFunc.add(objFunc);
@@ -266,7 +271,11 @@ public class FuncionarioDao {
 				e.printStackTrace();
 			}
 			statement.setDouble(6, obj.getSalarioFunc());			
+
+			statement.setDouble(7, obj.getComissaoFunc());
+			
 			statement.executeUpdate();
+			
 			
 			statement = conn.prepareStatement("select max(numFunc) from tbfuncionario");
 			result = statement.executeQuery();
@@ -301,8 +310,9 @@ public class FuncionarioDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 	
-			statement.setInt(7, objFunc.getNumFunc()); //6
-			statement.setDouble(6, objFunc.getSalarioFunc());			
+			statement.setInt(8, objFunc.getNumFunc()); //6
+			statement.setDouble(6, objFunc.getSalarioFunc());
+			statement.setDouble(7, objFunc.getComissaoFunc());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

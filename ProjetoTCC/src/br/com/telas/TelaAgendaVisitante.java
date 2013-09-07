@@ -75,7 +75,7 @@ import br.com.util.MascaraUtil;
 		        lblPesquisar.setBounds(41, 59, 88, 14);
 		        buttonPanel.add(lblPesquisar);
 		        
-		        textField_1 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
+		    //    textField_1 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
 		        textField_1.setToolTipText("Digite a data de entrega");
 		        textField_1.setBounds(10, 75, 132, 20);
 		        buttonPanel.add(textField_1);

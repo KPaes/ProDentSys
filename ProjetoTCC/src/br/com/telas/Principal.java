@@ -18,6 +18,7 @@ import br.com.backup.Backup;
 import br.com.backup.ManageBackup;
 import br.com.enviaremail.Interface;
 import br.com.exception.DaoException;
+import br.com.util.SwingUtil;
 import br.com.telas.CadFuncionario;
 import br.com.telas.CadCliente;
 import br.com.telas.CadFornecedor;
@@ -77,7 +78,7 @@ public class Principal extends JFrame {
 		setTitle("ProDentSys");
         for (int i = 0; i < 500; i++){  
             System.out.println(i);      
-        }
+        }        
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         int width = 1000;
         int height =600;
@@ -86,6 +87,7 @@ public class Principal extends JFrame {
         int y = (screen.height-height)/2;
         setBounds(x,y,1382,729);
         this.setExtendedState(Principal.MAXIMIZED_BOTH); 
+        SwingUtil.lookWindows(this);
         
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(152, 251, 152));
@@ -100,11 +102,13 @@ public class Principal extends JFrame {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel);
 		JMenuBar menuBar = new JMenuBar();
+		//menuBar.setMnemonic(InputEvent.ALT_MASK);
 		setJMenuBar(menuBar);
 		
-		JMenu mnCadastros = new JMenu("Consultas");
+		JMenu mnCadastros = new JMenu("Consultas e Cadastros");
 		menuBar.add(mnCadastros);
-		mnCadastros.setToolTipText("Consultar"); //Hint das Consultas
+		mnCadastros.setMnemonic('C');
+		mnCadastros.setToolTipText("Consultar ou Cadastrar"); //Hint das Consultas
 		
 		JMenuItem mntmCliente = new JMenuItem("Cliente");
 		mntmCliente.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_MASK));
@@ -180,6 +184,7 @@ public class Principal extends JFrame {
 		mnCadastros.add(mntmPreos);
 		
 		JMenu mnTabela = new JMenu("Tabela de Pre\u00E7o");
+		mnTabela.setMnemonic('T');
 		mnTabela.setToolTipText("Consultar as tabelas de preços");
 		menuBar.add(mnTabela);
 		
@@ -202,6 +207,7 @@ public class Principal extends JFrame {
 			});
 		
 		JMenu mnEnviarEmail = new JMenu("Enviar E-mail");
+		mnEnviarEmail.setMnemonic('E');
 		menuBar.add(mnEnviarEmail);
 		
 		JMenuItem mntmEmailParaCliente = new JMenuItem("E-mail Para Cliente");
@@ -216,6 +222,7 @@ public class Principal extends JFrame {
 		mnEnviarEmail.add(mntmEmailParaCliente);
 		
 		JMenu mnRelatrio = new JMenu("Relat\u00F3rio");
+		mnRelatrio.setMnemonic('R');
 		menuBar.add(mnRelatrio);
 		
 		JMenuItem mntmRelatrioDoDia = new JMenuItem("Relat\u00F3rio do Dia");

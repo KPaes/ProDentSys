@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -261,7 +262,12 @@ public class Ped extends JFrame {
 	        	        	                   panel.add(textField);
 	        	        	                   textField.setColumns(10);
 	        	        	                   
-	        	        	                   textField_2 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
+	        	        	                   try {
+												textField_2 = new JFormattedTextField(MascaraUtil.setMaskDateInTf(textField_2));
+											} catch (ParseException e2) {
+												// TODO Auto-generated catch block
+												e2.printStackTrace();
+											}
 	        	        	                   textField_2.setBounds(128, 133, 95, 20);
 	        	        	                   panel.add(textField_2);
 	        	        	                   textField_2.setColumns(10);
@@ -299,7 +305,12 @@ public class Ped extends JFrame {
 	        	        	                     panel.add(textField_9);	                   
 	        	        	                     textField_9.setColumns(10);
 	        	        	                     
-	        	        	                     textField_10 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
+	        	        	                     try {
+													textField_10 = new JFormattedTextField(MascaraUtil.setMaskDateInTf(textField_10));
+												} catch (ParseException e1) {
+													// TODO Auto-generated catch block
+													e1.printStackTrace();
+												}
 	        	        	                     textField_10.setColumns(10);
 	        	        	                     textField_10.setBounds(361, 133, 95, 20);
 	        	        	                     panel.add(textField_10);
@@ -932,6 +943,8 @@ public class Ped extends JFrame {
 			textValorServ.setText("");
 			textValorProt.setText("");
 			textTotal.setText("");
+		//	naoSelecionado.removeAll();
+			
 					
 		//	naoSelecionado.setSelecione(false); //colocar falso nos selecionáveis
 		}

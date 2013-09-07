@@ -29,6 +29,10 @@ alter table tbFuncionario
 add salarioFunc numeric(12,2) not null
 go
 
+alter table tbFuncionario
+add comissaoFunc numeric(12,2) null
+go
+
 SET ANSI_PADDING OFF
 GO
 --Criação de tabela - Cliente
@@ -95,13 +99,16 @@ codDep int identity not null,
 numFunc integer not null,
 nomeFunc varchar(65),
 salarioFunc numeric(12,2),
-comissaoFunc numeric(12,2),
+comissaoFuncTotal numeric(12,2),
 bonusFunc numeric(12,2),
 totalFunc numeric(12,2),
 profissaoFunc varchar(15)
 constraint PK_codDep primary key (codDep),
 constraint FK_numFuncionario foreign key (numFunc) references tbFuncionario)
 go
+
+--ALTER TABLE tbFolhadePagamento DROP comissaoFunc
+
 
 --Deletando uma coluna
 --ALTER TABLE (NOME DA TABELA) DROP (NOME DA COLUNA)

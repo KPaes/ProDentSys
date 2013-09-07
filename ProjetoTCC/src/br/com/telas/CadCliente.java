@@ -36,6 +36,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JScrollPane;
@@ -189,11 +190,11 @@ public class CadCliente extends JDialog {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 					  					  
-						if( validarFormulário()){
-						/*	if(ValidaCPF.isCPF(textField_9.getText())==false ){
+						if( validarFormulário()){							
 							
-								JOptionPane.showMessageDialog(null,"Digite um CPF válido!");
-							}else{*/
+								if(ValidaCPF.valida(textField_9)==false ){
+															
+							}else{
 							
 							ClienteDent obj = new ClienteDent();
 							
@@ -205,8 +206,8 @@ public class CadCliente extends JDialog {
 							obj.setCidadeCliente(textField_6.getText());							
 							obj.setNomeCliente(textField.getText());
 							obj.setCepCliente(textField_7.getText());
-							
-							obj.setCpfCliente(textField_9.getText());
+														
+							obj.setCpfCliente(textField_9.getText());				
 							
 							ClienteDao objDAO = new ClienteDao();
 							int matri = 0;
@@ -226,7 +227,7 @@ public class CadCliente extends JDialog {
 							} catch (DaoException e) {
 								e.printStackTrace();
 							}
-							//}
+							}
 						}
 					}
 				});
@@ -260,7 +261,12 @@ public class CadCliente extends JDialog {
                  panel.add(textField_2);
                  textField_2.setColumns(10);
                  
-                  textField_3 = new JFormattedTextField(MascaraUtil.setMascara("(##)####-####"));
+                  try {
+					textField_3 = new JFormattedTextField(MascaraUtil.setMaskTelefoneInTf(textField_3));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                   textField_3.setBounds(80, 118, 127, 20);
                   panel.add(textField_3);
                   textField_3.setColumns(10);
@@ -275,7 +281,12 @@ public class CadCliente extends JDialog {
                  panel.add(textField_6);
                  textField_6.setColumns(10);
                  
-                 textField_7 = new JFormattedTextField(MascaraUtil.setMascara("#####-###"));
+                 try {
+					textField_7 = new JFormattedTextField(MascaraUtil.setMaskCepInTf(textField_7));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                  textField_7.setBounds(80, 234, 115, 20); 
                  panel.add(textField_7);
                  textField_7.setColumns(10);
@@ -290,7 +301,12 @@ public class CadCliente extends JDialog {
                  textField_5.setText("");
                  panel.add(textField_5);
                  
-                 textField_9 = new JFormattedTextField(MascaraUtil.setMascara("###.###.###-##"));
+                 try {
+					textField_9 = new JFormattedTextField(MascaraUtil.setMaskCpfInTf(textField_9));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                  textField_9.setBounds(80, 60, 127, 20);
                  panel.add(textField_9);
                  textField_9.setColumns(10);
@@ -583,5 +599,7 @@ public class CadCliente extends JDialog {
 	
 		return result;
 	}		
+	
+	
 }
 

@@ -248,7 +248,7 @@ public class CadPedido extends JFrame {
 	                   panel.add(textField);
 	                   textField.setColumns(10);
 	                   
-	                   textField_2 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
+	             //      textField_2 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
 	                   textField_2.setBounds(128, 133, 95, 20);
 	                   panel.add(textField_2);
 	                   textField_2.setColumns(10);
@@ -285,7 +285,7 @@ public class CadPedido extends JFrame {
 	                   panel.add(textField_9);	                   
 	                   textField_9.setColumns(10);
 	                   
-	                   textField_10 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
+	             //      textField_10 = new JFormattedTextField(MascaraUtil.setMascara("##/##/####"));
 	                   textField_10.setColumns(10);
 	                   textField_10.setBounds(361, 133, 95, 20);
 	                   panel.add(textField_10);
