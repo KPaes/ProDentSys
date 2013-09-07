@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class Interface extends JFrame {
 
@@ -98,7 +99,9 @@ public class Interface extends JFrame {
 		textField_2.setColumns(10);
 		
 
-		JButton btnEnviar = new JButton("Enviar");
+		JButton btnEnviar = new JButton("");
+		btnEnviar.setToolTipText("Enviar E-mail");
+		btnEnviar.setIcon(new ImageIcon(Interface.class.getResource("/br/com/images/send.png")));
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Mensagem mensagem = new Mensagem();
@@ -121,7 +124,7 @@ public class Interface extends JFrame {
 			}
 		});
 
-		btnEnviar.setBounds(203, 266, 89, 23);
+		btnEnviar.setBounds(203, 266, 67, 23);
 		contentPane.add(btnEnviar);
 		
 		textField_3 = new JTextField();
@@ -134,7 +137,8 @@ public class Interface extends JFrame {
 		lblEnviarEmail.setBounds(171, 11, 157, 14);
 		contentPane.add(lblEnviarEmail);
 		
-		JButton btnProcurar = new JButton("Procurar");
+		JButton btnProcurar = new JButton("");
+		btnProcurar.setIcon(new ImageIcon(Interface.class.getResource("/br/com/images/pesquisar.png")));
 		btnProcurar.setToolTipText("Procurar o cliente para enviar email");
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -165,7 +169,7 @@ public class Interface extends JFrame {
 				
 			}
 		});
-		btnProcurar.setBounds(239, 44, 89, 23);
+		btnProcurar.setBounds(239, 44, 46, 23);
 		contentPane.add(btnProcurar);
 		
 		textField_4 = new JTextField();

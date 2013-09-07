@@ -33,12 +33,14 @@ import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.awt.Font;
 
 public class Principal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
+	 * Author: Karina Paes
 	 * Launch the application.
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
@@ -75,7 +77,7 @@ public class Principal extends JFrame {
 	public Principal() {
 		super("ProDentSys");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/br/com/images/logo_transp.png")));
-		setTitle("ProDentSys");
+		setTitle("ProDentSys v1.0");
         for (int i = 0; i < 500; i++){  
             System.out.println(i);      
         }        
@@ -111,6 +113,8 @@ public class Principal extends JFrame {
 		mnCadastros.setToolTipText("Consultar ou Cadastrar"); //Hint das Consultas
 		
 		JMenuItem mntmCliente = new JMenuItem("Cliente");
+		mntmCliente.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mntmCliente.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/cliente.png")));
 		mntmCliente.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_MASK));
 		mntmCliente.setToolTipText("Consultar os clientes"); //Hint Cliente
 		mntmCliente.addActionListener(new ActionListener() {
@@ -129,6 +133,8 @@ public class Principal extends JFrame {
 		mnCadastros.add(mntmCliente);
 
 		JMenuItem mntmFuncionrios = new JMenuItem("Funcion\u00E1rio");
+		mntmFuncionrios.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mntmFuncionrios.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/people-icon.png")));
 		mntmFuncionrios.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.SHIFT_MASK));
 		mntmFuncionrios.setToolTipText("Consultar os funcionários");
 		mntmFuncionrios.addActionListener(new ActionListener() {
@@ -147,6 +153,8 @@ public class Principal extends JFrame {
 		mnCadastros.add(mntmFuncionrios);
 		
 		JMenuItem mntmFornecedor = new JMenuItem("Fornecedor");
+		mntmFornecedor.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/Office-Customer-Male-Light-icon.png")));
+		mntmFornecedor.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		mntmFornecedor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.SHIFT_MASK));
 		mntmFornecedor.setToolTipText("Consultar os fornecedores");
 		mntmFornecedor.addActionListener(new ActionListener() {
@@ -165,6 +173,8 @@ public class Principal extends JFrame {
 		mnCadastros.add(mntmFornecedor);
 		
 		JMenuItem mntmPreos = new JMenuItem("Pedido");
+		mntmPreos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mntmPreos.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/Sport-Wrestler-Male-Light-icon.png")));
 		mntmPreos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_MASK));
 		mntmPreos.setToolTipText("Consultar os pedidos");
 		mntmPreos.addActionListener(new ActionListener() {
@@ -188,9 +198,11 @@ public class Principal extends JFrame {
 		mnTabela.setToolTipText("Consultar as tabelas de preços");
 		menuBar.add(mnTabela);
 		
-		JMenuItem mntmTabelaDePreo_1 = new JMenuItem("Tabela de Pre\u00E7o Neila");
+		JMenuItem mntmTabelaDePreo_1 = new JMenuItem("Tabela de Pre\u00E7o");
+		mntmTabelaDePreo_1.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mntmTabelaDePreo_1.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/tooth-icon.png")));
 		mntmTabelaDePreo_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
-		mntmTabelaDePreo_1.setToolTipText("Tabela de preço da Neila");
+		mntmTabelaDePreo_1.setToolTipText("Tabela de pre\u00E7o");
 		mnTabela.add(mntmTabelaDePreo_1);
 		mntmTabelaDePreo_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -211,6 +223,7 @@ public class Principal extends JFrame {
 		menuBar.add(mnEnviarEmail);
 		
 		JMenuItem mntmEmailParaCliente = new JMenuItem("E-mail Para Cliente");
+		mntmEmailParaCliente.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		mntmEmailParaCliente.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/email.png")));
 		mntmEmailParaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -226,6 +239,8 @@ public class Principal extends JFrame {
 		menuBar.add(mnRelatrio);
 		
 		JMenuItem mntmRelatrioDoDia = new JMenuItem("Relat\u00F3rio do Dia");
+		mntmRelatrioDoDia.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mntmRelatrioDoDia.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/rela.png")));
 		mntmRelatrioDoDia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TeladeRelatorio relatorio;
@@ -241,10 +256,13 @@ public class Principal extends JFrame {
 		mnRelatrio.add(mntmRelatrioDoDia);
 		
 		JMenu menu_1 = new JMenu("Restrito");
+		menu_1.setMnemonic('R');
 		menu_1.setToolTipText("Área restrita!");
 		menuBar.add(menu_1);
 		
 		JMenuItem menuItem_1 = new JMenuItem("Folha de Pagamento");
+		menuItem_1.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		menuItem_1.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/secrecy-icon.png")));
 		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_MASK));
 		menuItem_1.setToolTipText("Folha de Pagamento Funcionário");
 		menuItem_1.addActionListener(new ActionListener() {
@@ -270,9 +288,11 @@ public class Principal extends JFrame {
 		menu_1.add(menuItem_1);
 		
 		JMenu mnSobre = new JMenu("Ajuda");
+		mnSobre.setMnemonic('A');
 		menuBar.add(mnSobre);
 		
 		JMenuItem mntmAjuda = new JMenuItem("Ajuda");
+		mntmAjuda.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/help.png")));
 		mntmAjuda.addActionListener(new ActionListener() {
 			/**Acesso ao manual do usuário em .pdf
 			  */
@@ -292,6 +312,7 @@ public class Principal extends JFrame {
 		mnSobre.add(mntmAjuda);
 		
 		JMenuItem mntmSobre = new JMenuItem("Sobre ProDentsys");
+		mntmSobre.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/inf.png")));
 		mntmSobre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SobreSys sobre = new SobreSys();
@@ -300,7 +321,8 @@ public class Principal extends JFrame {
 		});
 		mnSobre.add(mntmSobre);
 		
-		JMenuItem menuItem_3 = new JMenuItem("Sair");
+		JMenuItem menuItem_3 = new JMenuItem("");
+		menuItem_3.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/off.png")));
 		menuItem_3.setToolTipText("Sair do sistema!");
 		menuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

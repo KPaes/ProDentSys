@@ -22,7 +22,7 @@ public class FolhadePagamentoDao {
 	
 	private static final String INSERIR_PAGAMENTO =
 			"insert into tbfolhadepagamento(numFunc, nomeFunc, salarioFunc, " +
-			"comissaoFunc, bonusFunc, totalFunc, profissaoFunc)" +
+			"comissaoFuncTotal, bonusFunc, totalFunc, profissaoFunc)" +
 			"values (?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_PAGAMENTO =
@@ -30,7 +30,7 @@ public class FolhadePagamentoDao {
 			"numFunc = ?, " +
 			"nomeFunc = ?, " +			
 			"salarioFunc = ?, " +
-			"comissaoFunc = ?, " +
+			"comissaoFuncTotal = ?, " +
 			"bonusFunc = ?, " +
 			"totalFunc = ?, " +
 			"profissaoFunc = ? " +
@@ -66,7 +66,7 @@ public class FolhadePagamentoDao {
 				objFolha.setNomeFunc(result.getString(3));
 				objFolha.setSalarioFunc(result.getDouble(4));
 				objFolha.setProfissaoFunc(result.getString(8));
-				objFolha.setComissaoFunc(result.getDouble(5));
+				objFolha.setComissaoFuncTotal(result.getDouble(5));
 				objFolha.setBonusFunc(result.getDouble(6));
 				objFolha.setTotalFunc(result.getDouble(7));
 				listaFolha.add(objFolha);
@@ -94,7 +94,7 @@ public class FolhadePagamentoDao {
 				objFolha.setNomeFunc(result.getString(3));
 				objFolha.setSalarioFunc(result.getDouble(4));
 				objFolha.setProfissaoFunc(result.getString(8));
-				objFolha.setComissaoFunc(result.getDouble(5));
+				objFolha.setComissaoFuncTotal(result.getDouble(5));
 				objFolha.setBonusFunc(result.getDouble(6));
 				objFolha.setTotalFunc(result.getDouble(7));
 				listaFolha.add(objFolha);
@@ -122,7 +122,7 @@ public class FolhadePagamentoDao {
 				objFolha.setNomeFunc(result.getString(3));
 				objFolha.setSalarioFunc(result.getDouble(4));
 				objFolha.setProfissaoFunc(result.getString(8));
-				objFolha.setComissaoFunc(result.getDouble(5));
+				objFolha.setComissaoFuncTotal(result.getDouble(5));
 				objFolha.setBonusFunc(result.getDouble(6));
 				objFolha.setTotalFunc(result.getDouble(7));
 			}
@@ -144,7 +144,7 @@ public class FolhadePagamentoDao {
 			statement.setString(2, obj.getNomeFunc());
 			statement.setDouble(3, obj.getSalarioFunc());
 			statement.setString(7, obj.getProfissaoFunc());
-			statement.setDouble(4, obj.getComissaoFunc());
+			statement.setDouble(4, obj.getComissaoFuncTotal());
 			statement.setDouble(5, obj.getBonusFunc());
 			statement.setDouble(6, obj.getTotalFunc());
 			statement.executeUpdate();
@@ -166,7 +166,7 @@ public class FolhadePagamentoDao {
 			statement.setInt(1, objFolha.getNumFunc());
 			statement.setString(2, objFolha.getNomeFunc());
 			statement.setDouble(3, objFolha.getSalarioFunc());			
-			statement.setDouble(4, objFolha.getComissaoFunc());
+			statement.setDouble(4, objFolha.getComissaoFuncTotal());
 			statement.setDouble(5, objFolha.getBonusFunc());
 			statement.setDouble(6, objFolha.getTotalFunc());
 			statement.setString(7, objFolha.getProfissaoFunc());			
