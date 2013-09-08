@@ -595,8 +595,17 @@ public class Ped extends JFrame {
               	    	            }  
 
               	    	        textValorProt.setText(String.valueOf(precoProtese));  
-              	    	        
-              	    	        } 	        	                         	    	     
+              	    	   //     protesesTable.isSelecione = false;
+              	    	     /* for(TabeladePreco protesesIn : protesesTable){ 
+              	    	        if(protesesIn.isSelecione() == true)  {
+              	    	        	for(int i = 0; i < tabela.getRowCount(); i++){
+              	    	        		tableModel.setValueAt(false, i, 4);
+              	    	        }
+        	    	                precoProtese+=protesesIn.getPrecoProtese();  
+        	    	            }  
+              	    	      
+              	    	      }*/
+              	    	        }
               	    	    };
               	    	    
 	        	        tabela = new JTable(tableModel); 
@@ -921,7 +930,6 @@ public class Ped extends JFrame {
                 if(protesesIn.isSelecione() == true)  {                	
                 	mensagemNome += " " + protesesIn.getNomeProtese() + " / "; 
                 	mensagemTipo += " " +  protesesIn.getTipoProtese() + " / ";
-                //	mensagem = "Nome(s): " +  mensagemNome + " // Tipo(s): " + mensagemTipo;
                 }
                 
     			textProteses.setText(mensagemNome); 
@@ -943,9 +951,14 @@ public class Ped extends JFrame {
 			textValorServ.setText("");
 			textValorProt.setText("");
 			textTotal.setText("");
+			for(int i = 0; i < tabela.getRowCount(); i++){
+				tableModel.setValueAt(false, i, 4);
+			}
+			
+			
 		//	naoSelecionado.removeAll();
 			
 					
-		//	naoSelecionado.setSelecione(false); //colocar falso nos selecionáveis
+//			naoSelecionado.setSelecione(false); //colocar falso nos selecionáveis
 		}
 }

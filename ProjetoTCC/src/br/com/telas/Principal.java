@@ -41,6 +41,7 @@ public class Principal extends JFrame {
 
 	/**
 	 * Author: Karina Paes
+	 * 
 	 * Launch the application.
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 

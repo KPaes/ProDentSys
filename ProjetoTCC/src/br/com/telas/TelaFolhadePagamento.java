@@ -91,7 +91,8 @@ public class TelaFolhadePagamento extends JDialog {
         getContentPane().add(buttonPanel);
         buttonPanel.setLayout(null);
         
-        JButton btnPesquisar = new JButton("Pesquisar");
+        JButton btnPesquisar = new JButton("");
+        btnPesquisar.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/pesquisar.png")));
         btnPesquisar.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		try {
@@ -103,7 +104,7 @@ public class TelaFolhadePagamento extends JDialog {
         	}
         });
         btnPesquisar.setToolTipText("Pesquisar Pagamento");
-        btnPesquisar.setBounds(20, 107, 99, 23);
+        btnPesquisar.setBounds(48, 107, 50, 23);
         buttonPanel.add(btnPesquisar);
         
         textField_7 = new JTextField();
@@ -310,7 +311,8 @@ public class TelaFolhadePagamento extends JDialog {
                           
                           JButton btnGerar = new JButton("Gerar");
                           btnGerar.addActionListener(new ActionListener() {
-                          	public void actionPerformed(ActionEvent e) {
+                          	//puxar pela dao a comissaoFunc e calcular e mostrar
+                        	  public void actionPerformed(ActionEvent e) {
                           		//calcula a comissão
                           		if(validarFormulárioGerar()){	
                           			String aux2;
