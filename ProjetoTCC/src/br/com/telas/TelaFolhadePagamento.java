@@ -33,7 +33,7 @@ import br.com.dao.PedidoDao;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
-import br.com.util.Moeda;
+
 //import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
 
@@ -167,7 +167,7 @@ public class TelaFolhadePagamento extends JDialog {
 							
 							//obj.setSalarioFunc(Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_3)));
 							obj.setSalarioFunc(Double.parseDouble(textField_3.getText()));
-							obj.setComissaoFunc(Double.parseDouble(textField_2.getText()));
+							obj.setComissaoFuncTotal(Double.parseDouble(textField_2.getText()));
 							//obj.setBonusFunc(Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_4)));
 							obj.setBonusFunc(Double.parseDouble(textField_4.getText()));
 						//	obj.setTotalFunc(Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_6))); 
@@ -222,6 +222,7 @@ public class TelaFolhadePagamento extends JDialog {
                           
                           //textField_3 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
                           textField_3 = new JFormattedTextField();
+                        //  textField_3.setDocument(new Moeda());
                           textField_3.setBounds(80, 171, 80, 20);
                           panel.add(textField_3);
                           textField_3.setColumns(10);
@@ -270,20 +271,22 @@ public class TelaFolhadePagamento extends JDialog {
                           panel.add(lblTotal);
                           
                           textField_2 = new JTextField();                          
+                          textField_2.setToolTipText("Comiss\u00E3o calculada");
                           textField_2.setBounds(245, 171, 70, 20);
+                       //   textField_2.setDocument(new Moeda());
                           panel.add(textField_2);
                           textField_2.setColumns(10);
                           
                          // textField_4 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
                           textField_4 = new JTextField();
-                          textField_4.setDocument(new Moeda()); 
+                    //      textField_4.setDocument(new Moeda()); 
                           textField_4.setBounds(80, 210, 80, 20);
                           panel.add(textField_4);
                           textField_4.setColumns(10);
                           
                         //  textField_6 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
                           textField_6 = new JTextField();                          
-                          textField_6.setDocument(new Moeda()); 
+                     //     textField_6.setDocument(new Moeda()); 
                           textField_6.setBounds(80, 255, 80, 20);
                           panel.add(textField_6);
                           textField_6.setColumns(10);
@@ -295,10 +298,17 @@ public class TelaFolhadePagamento extends JDialog {
                           	//	bonus = 0.0;
                           		//textField 3(salario) e 4 (bonus) 2 (comissão)
                           		if(validarFormulárioCalculo()){
-                          				bonus = Double.parseDouble(textField_4.getText());
+                          				
+                          		//		String aux = textField_4.getText().replace(",", ".").trim();
+                          			//	bonus = Double.parseDouble(aux);
+                          			bonus = Double.parseDouble(textField_4.getText());
+                          				
                                   	//	salario = Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_3));
-                                  		salario = Double.parseDouble(textField_3.getText());                                  		
+                                  		salario = Double.parseDouble(textField_3.getText());  
+                                  		totalCom = Double.parseDouble(textField_2.getText());
+                                  		
                                   		salarioTotal = totalCom + bonus + salario;
+                                  		
                                   		textField_6.setText(String.valueOf(salarioTotal));
                                   		textField_6.setEditable(false);
                           		}                          	
@@ -308,40 +318,6 @@ public class TelaFolhadePagamento extends JDialog {
                           });
                           btnCalcular.setBounds(188, 209, 89, 23);
                           panel.add(btnCalcular);
-                          
-                          JButton btnGerar = new JButton("Gerar");
-                          btnGerar.addActionListener(new ActionListener() {
-                          	//puxar pela dao a comissaoFunc e calcular e mostrar
-                        	  public void actionPerformed(ActionEvent e) {
-                          		//calcula a comissão
-                          		if(validarFormulárioGerar()){	
-                          			String aux2;
-                          			aux2 = textField_2.getText();
-                          			if(aux2.matches("^[0-9]*$")){
-								try {
-									objPed =	pedDao.comissaoTotalPedido(Integer.parseInt(textField.getText()));
-									total = objPed.getTotalPedido();
-									porCentCom = Double.parseDouble(textField_2.getText());
-									totalCom = (total * porCentCom)/100 ;
-									JOptionPane.showMessageDialog(null,"Comissão calculada!"+ "\nR$ " + totalCom);	
-									
-								} catch (NumberFormatException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								} catch (DaoException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
-                          			}else{
-                          				JOptionPane.showMessageDialog(null, "Digite apenas número!");
-
-                          			}
-								
-                          		}
-                          	}
-                          });
-                          btnGerar.setBounds(325, 170, 89, 23);
-                          panel.add(btnGerar);
                           
                           JButton btnVoltar = new JButton("Voltar");
                           btnVoltar.setBounds(21, 340, 89, 23);
@@ -549,7 +525,7 @@ public class TelaFolhadePagamento extends JDialog {
 		textField.setText(objFolha.getNumFunc().toString());
 		textField_3.setText(objFolha.getSalarioFunc().toString());
 		textField_1.setText(objFolha.getProfissaoFunc());
-		textField_2.setText(objFolha.getComissaoFunc().toString());
+		textField_2.setText(objFolha.getComissaoFuncTotal().toString());
 		textField_4.setText(objFolha.getBonusFunc().toString());
 		textField_6.setText(String.valueOf(objFolha.getTotalFunc()));
 		
@@ -601,13 +577,29 @@ public class TelaFolhadePagamento extends JDialog {
 		textField_9.setText(objFunc.getNomeFunc());
 		textField_1.setText(objFunc.getProfissaoFunc());
 		
-	/*	String aux; 		
-		aux = objFunc.getSalarioFunc().toString();
-		aux = aux.replace(".","");
-		textField_3.setText(aux);*/
 		textField_3.setText(String.valueOf(objFunc.getSalarioFunc()));
+		textField_3.getText().replace(",", ".");  
 		textField_3.setEditable(false);
+		
+		//Gerar a comissão automaticamente
+		textField_2.setText(String.valueOf(objFunc.getComissaoFunc()));
+		textField_2.setEditable(false);
 
+		try {
+			objPed =	pedDao.comissaoTotalPedido(Integer.parseInt(textField.getText()));
+			total = objPed.getTotalPedido();
+			porCentCom = Double.parseDouble(textField_2.getText());
+			totalCom = (total * porCentCom)/100 ;
+			JOptionPane.showMessageDialog(null,"Comissão calculada!"+ "\nR$ " + totalCom);	
+			textField_2.setText(String.valueOf(totalCom));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public boolean validarFormulário(){

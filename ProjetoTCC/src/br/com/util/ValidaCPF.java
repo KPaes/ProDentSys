@@ -1,11 +1,14 @@
 package br.com.util;
 
+import java.awt.HeadlessException;
 import java.util.InputMismatchException;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 
 import br.com.exception.EntradaUsuarioException;
+import br.com.dao.ClienteDao;
+import br.com.exception.DaoException;
 import br.com.util.ValidaCPF;
 
 public class ValidaCPF {
@@ -95,6 +98,31 @@ public class ValidaCPF {
 	}
 	return ret;
   }
+  
+  public static boolean existe(JFormattedTextField cpf, boolean existe){
+		String param = cpf.getText().replace("-", "").replace(".", "");
+	//	String param = cpf.getText();
+		boolean ret = false;
+		ClienteDao clienteDao = new ClienteDao();
+			
+				try {
+					if(clienteDao.buscarCpfExistente(param) == true){
+						JOptionPane.showMessageDialog(null, "O CPF digitado (" + cpf.getText() + ") já existe no nosso banco de dados, favor tente novamente!");
+					}
+					else{
+						ret = true;
+					}
+				} catch (HeadlessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DaoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+		return ret;
+	}
+
 }
 
 

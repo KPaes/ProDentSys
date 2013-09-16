@@ -31,9 +31,11 @@ import br.com.exception.DaoException;
 import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
 import br.com.util.ValidaCPF;
+import br.com.util.ValidaEmail;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -189,12 +191,24 @@ public class CadCliente extends JDialog {
                             button.addActionListener(new ActionListener() {					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-					  					  
-						if( validarFormulário()){							
+						if(ValidaCPF.existe(textField_9, false) == false){
+							textField_9.setText("");
+						}else if(ValidaCPF.valida(textField_9) == false)  {	
+							textField_9.setText("");
+						
+						}					  
+						if( validarFormulário()){	
 							
-								if(ValidaCPF.valida(textField_9)==false ){
-															
+						/*	String email = textField_1.getText();
+							if(ValidaCPF.existe(textField_9, false) == true){
+									
+							}else if(ValidaCPF.valida(textField_9) == false)  {	
+								textField_9.setText("");
+							
 							}else{
+							
+							}
+						//|| ValidaEmail.validaEmail(email)==false){*/
 							
 							ClienteDent obj = new ClienteDent();
 							
@@ -229,7 +243,7 @@ public class CadCliente extends JDialog {
 							}
 							}
 						}
-					}
+					
 				});
                             
                   JButton button_1 = new JButton("");
@@ -594,12 +608,27 @@ public class CadCliente extends JDialog {
 			JOptionPane.showMessageDialog(null, "Campo CPF Vazio!");
 			result = false;
 		}
-
-
 	
 		return result;
 	}		
 	
-	
+	private void validaCpf(JFormattedTextField ftCpf){
+		if(ValidaCPF.valida(ftCpf) == false || ValidaCPF.existe(ftCpf, false) == true){
+			ftCpf.setText("");
+		}
+	}
+	/*
+	public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void focusLost(FocusEvent event) {
+		 if(event.getSource() == textField_9){
+			validaCpf(textField_9);			
+			
+		}
+		
+	}*/
 }
 

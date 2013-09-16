@@ -58,18 +58,20 @@ public class Principal extends JFrame {
 					
 			        Principal frame = new Principal();
 					frame.setVisible(true);
-					teste.fechaSplash();					
+					
+					teste.fechaSplash();	
+					
 					Login login = new Login();
 					login.setVisible(true);
 					
 					//Rodando Backup
-				/*	ManageBackup.createScriptBackup();  
+					ManageBackup.createScriptBackup();  
 			          
-			        Backup backup = new Backup(ManageBackup.getTime("05:00"));//executa o backup de hora em hora  
+			        Backup backup = new Backup(ManageBackup.getTime("00:03"));//executa o backup de hora em hora  
 			  
 			        backup.createBackup(ManageBackup.getScriptBackup());  
 			  
-			        backup.start();*/
+			        backup.start();
 	}
 	
 	/**
@@ -244,17 +246,12 @@ public class Principal extends JFrame {
 		mntmRelatrioDoDia.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/rela.png")));
 		mntmRelatrioDoDia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TeladeRelatorio relatorio;
-				try {
-					relatorio = new TeladeRelatorio();
-					relatorio.setVisible(true);					
-				} catch (DaoException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				TelaRelatorio relatorio;
+				relatorio = new TelaRelatorio();
+				relatorio.setVisible(true);
 			}
 		});
-		mnRelatrio.add(mntmRelatrioDoDia);
+		mnRelatrio.add(mntmRelatrioDoDia);	
 		
 		JMenu menu_1 = new JMenu("Restrito");
 		menu_1.setMnemonic('R');

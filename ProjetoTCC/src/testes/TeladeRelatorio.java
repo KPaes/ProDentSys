@@ -1,4 +1,4 @@
-package br.com.telas;
+package testes;
 
 
 import java.awt.Color;
@@ -35,6 +35,7 @@ import br.com.bean.Pedido;
 
 import br.com.dao.RelatorioDao;
 import br.com.exception.DaoException;
+import br.com.telas.CadPedido;
 import br.com.util.MascaraUtil;
 
 

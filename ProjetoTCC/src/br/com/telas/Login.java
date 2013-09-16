@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -92,6 +93,7 @@ public class Login extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				getRootPane().setDefaultButton(okButton);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if(tentativas >=2){
@@ -115,6 +117,17 @@ public class Login extends JDialog {
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
+				{
+					/*JButton btnCancelar = new JButton("Cancelar");
+					btnCancelar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							dispose();
+							//Principal.dispose();
+							setDefaultCloseOperation(Principal.EXIT_ON_CLOSE);
+						}
+					});
+					buttonPane.add(btnCancelar);*/
+				}
 			}
 		}
 	}

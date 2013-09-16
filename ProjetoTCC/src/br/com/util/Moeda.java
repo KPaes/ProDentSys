@@ -8,8 +8,13 @@ import javax.swing.text.*;
  */
 public class Moeda extends PlainDocument {  
   
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 public static final int NUMERO_DIGITOS_MAXIMO = 12;  
   
+@SuppressWarnings("static-access")
 public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {  
   
   String texto = getText(0, getLength());  

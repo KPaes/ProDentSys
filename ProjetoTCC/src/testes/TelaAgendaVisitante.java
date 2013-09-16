@@ -1,4 +1,4 @@
-package br.com.telas;
+package testes;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,7 +12,7 @@ import java.util.List;
 
 
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -33,8 +33,7 @@ import br.com.bean.Pedido;
 
 import br.com.dao.RelatorioDao;
 import br.com.exception.DaoException;
-import br.com.util.MascaraUtil;
-
+import br.com.telas.CadPedido;
 
 	public class TelaAgendaVisitante extends JFrame {
 		

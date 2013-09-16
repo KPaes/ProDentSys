@@ -31,7 +31,8 @@ public class Backup {
         }  
     }  
   
-    public void stop() {  
+    @SuppressWarnings("deprecation")
+	public void stop() {  
         thread.stop();  
     }  
   

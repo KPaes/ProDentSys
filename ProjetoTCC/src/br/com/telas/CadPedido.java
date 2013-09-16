@@ -38,7 +38,6 @@ import br.com.dao.ClienteDao;
 import br.com.dao.FuncionarioDao;
 import br.com.dao.PedidoDao;
 import br.com.exception.DaoException;
-import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
 
 import javax.swing.JFormattedTextField;

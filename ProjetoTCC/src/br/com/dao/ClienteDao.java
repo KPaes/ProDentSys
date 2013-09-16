@@ -50,6 +50,10 @@ public class ClienteDao {
 	private static final String PROCURAR_CLIENTE_ID =
 			"select nomeCliente, emailCliente, cpfCliente from tbcliente where numCliente = ?";
 	
+	private static final String VERIFICAR_CPF_EXISTENTE =
+			"SELECT * FROM PRO_PACIENTE WHERE CPF_PACIENTE = ?";
+	
+	
 	/**
 	 * Através do número digitado pelo usuário, o sistema faz uma busca e retorna o nome e o email
 	 * @param idCliente
@@ -256,5 +260,26 @@ public class ClienteDao {
 			DbUtil.close(conn, statement, result);
 		}
 		return true;		
+	}
+	
+	public boolean buscarCpfExistente(String cpfPaciente) throws DaoException{
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;		
+		boolean existe = false;
+		try{
+			statement = conn.prepareStatement(VERIFICAR_CPF_EXISTENTE);		
+			result = statement.executeQuery();
+			if(result.next()){
+				existe = true;				
+			}
+		}catch(SQLException e){
+			throw new DaoException(e);
+		}finally{
+			DbUtil.close(conn, statement, result);
+		
+		}
+		
+		return existe;
 	}
 }

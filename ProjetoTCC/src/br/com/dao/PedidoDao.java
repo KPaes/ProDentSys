@@ -51,13 +51,18 @@ public class PedidoDao {
 	private static final String TOTAL_BUSCAR = 
 			"select SUM(totalPedido) from tbpedido where numFunc = ?";
 	
-	//public Pedido comissaoTotalPedido(int idFunc) throws DaoException{		
+	private static final String RELATORIO =
+			"SELECT *  FROM tbPedido ORDER BY nomeCliente";
+	
+
+	private static final String RELATORIO_MES =
+			"SELECT * FROM tbPedido where dataEntrega like ? ORDER BY nomeCliente";
+	
 	public Pedido comissaoTotalPedido(int idFunc) throws DaoException{		
 		Pedido objPed = new Pedido();
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
 		ResultSet result = null;
-	//	Double totalCom;
 		try {
 			statement = conn.prepareStatement(TOTAL_BUSCAR);
 			statement.setInt(1, idFunc);
@@ -263,4 +268,39 @@ public class PedidoDao {
 		}
 		return true;		
 	}
+	
+	//Para gerar o relatório
+	 public ResultSet pedidosResultSet() throws DaoException {		 
+			Connection conn = DbUtil.getConnection();
+			PreparedStatement statement = null;			
+	        ResultSet rs = null;		
+			
+	        try {	          
+	        	statement = conn.prepareStatement(RELATORIO);
+	        	rs = statement.executeQuery();
+	        } catch (SQLException e) {
+	        	throw new DaoException(e);			
+			}
+	        
+		
+	        return rs;
+	    }
+	 
+	 public ResultSet pedidosResultSet(String mes) throws DaoException {		 
+			Connection conn = DbUtil.getConnection();
+			PreparedStatement statement = null;			
+	        ResultSet rs = null;		
+			
+	        try {	          
+	        	statement = conn.prepareStatement(RELATORIO_MES);
+	        	statement.setString(1, "%/"+mes+"/%");
+	        	rs = statement.executeQuery();
+	        } catch (SQLException e) {
+	        	throw new DaoException(e);			
+			}
+	        
+		
+	        return rs;
+	    }
+	
 }
