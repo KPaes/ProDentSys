@@ -8,16 +8,16 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
-import br.com.dao.PedidoDao;
+import br.com.dao.RelatorioDao;
 import br.com.exception.DaoException;
 
 public class PedidoControle {
-	private PedidoDao dao;
+	private RelatorioDao dao;
 	 
     public void gerarRelatorio() throws DaoException {
         String arquivo = "src/br/com/relatorio/report.jasper";
  
-        dao = new PedidoDao();
+        dao = new RelatorioDao();
         JRDataSource jrds = new JRResultSetDataSource(dao.pedidosResultSet());
         gerarRelatorioDesktop(jrds, null, arquivo);
     }
@@ -34,7 +34,7 @@ public class PedidoControle {
     public void gerarRelatorioMes(String mes) throws DaoException {
         String arquivo = "src/br/com/relatorio/report.jasper";
  
-        dao = new PedidoDao();
+        dao = new RelatorioDao();
         JRDataSource jrds = new JRResultSetDataSource(dao.pedidosResultSet(mes));
         gerarRelatorioDesktopMes(jrds, null, arquivo);
     }

@@ -182,7 +182,7 @@ public class TeladeRelatorio extends JFrame {
 
 	        dtm.setRowCount(0); 
 			List<Pedido> listaPedido  = new ArrayList<Pedido>();
-	 		listaPedido = relatorioDao.consultarRelatorio(data);
+//	 		listaPedido = relatorioDao.consultarRelatorio(data);
 	 		String dados[] = new String[6]; 
 			for (Pedido obj : listaPedido) {
 				dados[0] = String.valueOf(obj.getNumPed()) ;

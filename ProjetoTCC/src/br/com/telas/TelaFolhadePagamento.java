@@ -528,20 +528,7 @@ public class TelaFolhadePagamento extends JDialog {
 		textField_2.setText(objFolha.getComissaoFuncTotal().toString());
 		textField_4.setText(objFolha.getBonusFunc().toString());
 		textField_6.setText(String.valueOf(objFolha.getTotalFunc()));
-		
-		/*String aux, aux1, aux2; 
-		
-		aux = objFolha.getSalarioFunc().toString();
-		aux = aux.replace(".","");
-		textField_3.setText(aux);
-		
-		aux1 = objFolha.getBonusFunc().toString();
-		aux1 = aux1.replace(".","");
-		textField_4.setText(aux1);
-		
-		aux2 = objFolha.getTotalFunc().toString();
-		aux2 = aux2.replace(".","");
-		textField_6.setText(aux2);*/
+
 		
 		Integer matr = objFolha.getNumFunc();
 		textField_5.setText(matr.toString());

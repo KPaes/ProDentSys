@@ -65,13 +65,13 @@ public class Principal extends JFrame {
 					login.setVisible(true);
 					
 					//Rodando Backup
-					ManageBackup.createScriptBackup();  
+				/*	ManageBackup.createScriptBackup();  
 			          
 			        Backup backup = new Backup(ManageBackup.getTime("00:03"));//executa o backup de hora em hora  
 			  
 			        backup.createBackup(ManageBackup.getScriptBackup());  
 			  
-			        backup.start();
+			        backup.start();*/
 	}
 	
 	/**
@@ -241,7 +241,9 @@ public class Principal extends JFrame {
 		mnRelatrio.setMnemonic('R');
 		menuBar.add(mnRelatrio);
 		
-		JMenuItem mntmRelatrioDoDia = new JMenuItem("Relat\u00F3rio do Dia");
+		JMenuItem mntmRelatrioDoDia = new JMenuItem("Relat\u00F3rio de Pedidos");
+		mntmRelatrioDoDia.setToolTipText("Gerar Relatórios de Pedidos");
+		mntmRelatrioDoDia.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_MASK));
 		mntmRelatrioDoDia.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		mntmRelatrioDoDia.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/rela.png")));
 		mntmRelatrioDoDia.addActionListener(new ActionListener() {
