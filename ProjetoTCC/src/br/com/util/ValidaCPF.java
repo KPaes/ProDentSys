@@ -100,8 +100,7 @@ public class ValidaCPF {
   }
   
   public static boolean existe(JFormattedTextField cpf, boolean existe){
-		String param = cpf.getText().replace("-", "").replace(".", "");
-	//	String param = cpf.getText();
+		String param = cpf.getText().replace("-", "").replace(".", "");	
 		boolean ret = false;
 		ClienteDao clienteDao = new ClienteDao();
 			

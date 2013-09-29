@@ -6,17 +6,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 import br.com.exception.DaoException;
 import br.com.relatorio.PedidoControle;
+import br.com.util.DataUtil;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+
+import com.toedter.calendar.JDateChooser;
 
 public class TelaRelatorio extends JFrame {
 
@@ -27,6 +31,7 @@ public class TelaRelatorio extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtMes;
 
+	private JDateChooser datePicker;
 	/**
 	 * Launch the application.
 	 */
@@ -83,6 +88,14 @@ public class TelaRelatorio extends JFrame {
 		lblRelatrio.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblRelatrio.setBounds(151, 11, 197, 14);
 		contentPane.add(lblRelatrio);
+		
+		JDateChooser datePicker = new JDateChooser();
+		datePicker.getDateEditor();		
+
+		//datePicker.getEditor().setToolTipText("Data para gerar o relatório");	
+	//	datePicker.setFormats(new String[] {"dd/MM/yyyy"});
+		datePicker.setBounds(148, 146, 96, 20);
+		contentPane.add(datePicker);
 	
 	
 	}
@@ -104,14 +117,19 @@ public class TelaRelatorio extends JFrame {
 			PedidoControle controle = new PedidoControle();
 			String aux = null;
             try {
-            	String mes = txtMes.getText();
-            	Integer valida = Integer.parseInt(mes);
+            //	String mes = txtMes.getText();
+            //	Integer valida = Integer.parseInt(mes);
             /*	valida se o mês é válido
              * if(valida>12 || valida<1 || mes.contains("^[a-Z]")){
             		JOptionPane.showMessageDialog(null, "Mês inválido!");
             	}else{            		
             			controle.gerarRelatorioMes(aux);
             		}*/
+            	
+            	//String mes = DataUtil.dateToString(datePicker);
+            	String mes = datePicker.getDateEditor().toString();            	
+            	JOptionPane.showMessageDialog(null, mes);
+            	
             	controle.gerarRelatorioMes(mes);
             } catch (DaoException e1) {
 				// TODO Auto-generated catch block

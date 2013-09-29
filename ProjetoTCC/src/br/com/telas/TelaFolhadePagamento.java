@@ -3,17 +3,15 @@ package br.com.telas;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-//import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
-//import javax.swing.border.EtchedBorder;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -34,7 +32,7 @@ import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
 
-//import br.com.util.MascaraUtil;
+import br.com.relatorio.FolhaControle;
 import br.com.util.ValidacaoUtil;
 
 import java.awt.event.ActionListener;
@@ -47,11 +45,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-public class TelaFolhadePagamento extends JDialog {
+public class TelaFolhadePagamento extends JFrame {
     final JPanel lista = new JPanel();
     final JPanel formulario = new JPanel();
     final JPanel buttonPanel = new JPanel();
     private FolhadePagamentoDao folhaDao = new FolhadePagamentoDao();
+    private FuncionarioDao funcDao = new FuncionarioDao();
     private PedidoDao pedDao = new PedidoDao();
     private Pedido objPed = new Pedido();
 	private static final long serialVersionUID = 1L;	
@@ -78,7 +77,7 @@ public class TelaFolhadePagamento extends JDialog {
 		setTitle("Folha de Pagamento");
 		int width = 800;
         int height =600;
-        setModal(true);
+      //  setModal(true);
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screen.width-width)/2;
         int y = (screen.height-height)/3;
@@ -319,6 +318,7 @@ public class TelaFolhadePagamento extends JDialog {
                           btnCalcular.setBounds(188, 209, 89, 23);
                           panel.add(btnCalcular);
                           
+                          
                           JButton btnVoltar = new JButton("Voltar");
                           btnVoltar.setBounds(21, 340, 89, 23);
                           formulario.add(btnVoltar);
@@ -385,7 +385,7 @@ public class TelaFolhadePagamento extends JDialog {
 				int coluna = table.getSelectedColumn();
 				String matricula = (String) table.getValueAt(linha,0);
 				Integer mat = Integer.parseInt(matricula); 
-				if(coluna == 5){
+				if(coluna == 6){
 					int opcao;
 					opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o registro de matricula: "+matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
 					   if(opcao == JOptionPane.YES_OPTION){  
@@ -410,7 +410,21 @@ public class TelaFolhadePagamento extends JDialog {
 						e.printStackTrace();
 					}
 				}
-
+				//Gera a folha pra imprimir
+				if (coluna == 5){
+					FolhaControle controle = new FolhaControle();
+					Funcionario objFunc = new Funcionario();
+					
+					String nome = (String) table.getValueAt(linha,1);
+                     try {                    	 
+                    	 objFunc = funcDao.procurarFuncionarioNome(nome);
+                    	 
+         				controle.gerarRelatorioFolha(objFunc.getNumFunc());
+         			} catch (DaoException e1) {
+         				// TODO Auto-generated catch block
+         				e1.printStackTrace();
+         			}
+				}
 				
 			}
 		});
@@ -422,7 +436,7 @@ public class TelaFolhadePagamento extends JDialog {
         		  new Object[][] {
                                    	},
                                    	new String[] {
-                                   		"Matr\u00EDcula", "Nome", "Profissão", "Salário Total", "Editar","Excluir"
+                                   		"Nº", "Nome", "Profissão", "Salário Total", "Editar","Relatório", "Excluir"
                                    	}
                                    	
                                    )
@@ -436,14 +450,22 @@ public class TelaFolhadePagamento extends JDialog {
                                  	  } 
                                  	  }
                                    );
-                           table.getColumnModel().getColumn(0).setPreferredWidth(55);
-                           table.getColumnModel().getColumn(0).setMinWidth(55);
+                           table.getColumnModel().getColumn(0).setPreferredWidth(50);
+                           table.getColumnModel().getColumn(0).setMinWidth(50);
                            table.getColumnModel().getColumn(1).setPreferredWidth(200);
                            table.getColumnModel().getColumn(1).setMinWidth(200);
                            table.getColumnModel().getColumn(2).setPreferredWidth(80);
                            table.getColumnModel().getColumn(2).setMinWidth(80);
-                           table.getColumnModel().getColumn(3).setPreferredWidth(100);
-                           table.getColumnModel().getColumn(3).setMinWidth(100);
+                           table.getColumnModel().getColumn(3).setPreferredWidth(80);
+                           table.getColumnModel().getColumn(3).setMinWidth(80);
+                           
+                           table.getColumnModel().getColumn(4).setPreferredWidth(50);
+                           table.getColumnModel().getColumn(4).setMinWidth(50);
+                           table.getColumnModel().getColumn(5).setPreferredWidth(50);
+                           table.getColumnModel().getColumn(5).setMinWidth(50);
+
+                           table.getColumnModel().getColumn(6).setPreferredWidth(50);
+                           table.getColumnModel().getColumn(6).setMinWidth(50);
                            table.setBounds(39, 175, 530, 232);
                            atualizaLista(table,"");
                            
@@ -477,10 +499,14 @@ public class TelaFolhadePagamento extends JDialog {
         ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.png"));  
         ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir.png"));
 
+        ImageIcon relatorio = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/rela.png")); //mudar icon
+
+        
 		TableColumnModel columnModel = table.getColumnModel();
 		
 		JTableRenderer renderer = new JTableRenderer();
-		JTableRenderer renderer1 = new JTableRenderer();		
+		JTableRenderer renderer1 = new JTableRenderer();
+		JTableRenderer renderer2 = new JTableRenderer();
 		
 		renderer.setValue(editar);
 		renderer.setHorizontalAlignment(JLabel.CENTER);
@@ -488,7 +514,11 @@ public class TelaFolhadePagamento extends JDialog {
 		
 		renderer1.setValue(excluir);
 		renderer1.setHorizontalAlignment(JLabel.CENTER);
-		columnModel.getColumn(5).setCellRenderer(renderer1);
+		columnModel.getColumn(6).setCellRenderer(renderer1);
+	
+		renderer2.setValue(relatorio);
+		renderer2.setHorizontalAlignment(JLabel.CENTER);
+		columnModel.getColumn(5).setCellRenderer(renderer2);
 
         dtm.setRowCount(0); 
 		List<FolhaPagamento> listaFolha  = new ArrayList<FolhaPagamento>();

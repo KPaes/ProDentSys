@@ -238,7 +238,7 @@ public class Principal extends JFrame {
 		mnEnviarEmail.add(mntmEmailParaCliente);
 		
 		JMenu mnRelatrio = new JMenu("Relat\u00F3rio");
-		mnRelatrio.setMnemonic('R');
+		mnRelatrio.setMnemonic('i');
 		menuBar.add(mnRelatrio);
 		
 		JMenuItem mntmRelatrioDoDia = new JMenuItem("Relat\u00F3rio de Pedidos");

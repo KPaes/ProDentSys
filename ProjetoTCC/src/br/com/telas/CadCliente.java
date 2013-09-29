@@ -333,6 +333,7 @@ public class CadCliente extends JDialog {
                  
                  JButton btnVoltar = new JButton("");
                  btnVoltar.setToolTipText("Voltar");
+            //     ((JButton) btnVoltar.getComponent(1)).setIcon(new ImageIcon(CadCliente.class.getResource("/br/com/images/voltar.png")));
                  btnVoltar.setIcon(new ImageIcon(CadCliente.class.getResource("/br/com/images/voltar.png")));
                  btnVoltar.setBounds(21, 340, 89, 23);
                  formulario.add(btnVoltar);

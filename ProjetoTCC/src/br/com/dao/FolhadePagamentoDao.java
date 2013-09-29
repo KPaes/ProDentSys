@@ -45,6 +45,8 @@ public class FolhadePagamentoDao {
 	
 	private static final  String CONSULTA_PAGAMENTO_NOME =
 			"select * from tbfolhadepagamento where nomeFunc like ? order by nomeFunc";	
+	
+
 
 	public List<FolhaPagamento> consultarPagamento(String nome) throws DaoException{		
 		Connection conn = DbUtil.getConnection();

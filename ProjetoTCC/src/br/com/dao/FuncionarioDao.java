@@ -70,6 +70,9 @@ public class FuncionarioDao {
 	private static final String LOGIN_IGUAL = 
 			"select login_funcionario from tbfuncionario where login_funcionario = ?";
 	
+	private static final  String PROCURAR_FUNCIONARIO_NOME = 
+			"select numFunc from tbfuncionario where nomeFunc = ?";
+	
 	/**
 	 * Através do número digitado pelo usuário, o sistema faz uma busca e retorna o nome do funcionario
 	 * @param string
@@ -118,6 +121,31 @@ public class FuncionarioDao {
 				objFunc.setProfissaoFunc(result.getString(2));
 				objFunc.setSalarioFunc(result.getDouble(3));
 				objFunc.setComissaoFunc(result.getDouble(4));
+				
+			}else{
+				JOptionPane.showMessageDialog(null, "Funcionário não encontrado!");
+			}
+		}
+			catch (SQLException e) {
+				throw new DaoException(e);
+			} finally {
+				DbUtil.close(conn, statement, result);
+			}
+			return objFunc;	
+	}
+	
+	public Funcionario procurarFuncionarioNome(String nomeFunc) throws DaoException{
+		Funcionario objFunc = new Funcionario();
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(PROCURAR_FUNCIONARIO_NOME);
+			statement.setString(1, nomeFunc);
+			result = statement.executeQuery();
+			if(result.next()) {
+			
+				objFunc.setNumFunc(result.getInt(1)); 
 				
 			}else{
 				JOptionPane.showMessageDialog(null, "Funcionário não encontrado!");

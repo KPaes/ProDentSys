@@ -51,7 +51,7 @@ public class ClienteDao {
 			"select nomeCliente, emailCliente, cpfCliente from tbcliente where numCliente = ?";
 	
 	private static final String VERIFICAR_CPF_EXISTENTE =
-			"SELECT * FROM PRO_PACIENTE WHERE CPF_PACIENTE = ?";
+			"SELECT * FROM tbcliente WHERE cpfCliente = ?";
 	
 	
 	/**
