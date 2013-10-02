@@ -8,8 +8,10 @@ import java.sql.Statement;
 import br.com.exception.DaoException;
  
 public class DbUtil {
-//55826
+
     private static final String URL_DB = "jdbc:sqlserver://localhost:1433;databaseName=PROJETO_TCC_PRODENTSYS;";
+    
+//    private static final String URL_DB = "jdbc:sqlserver://localhost:1433;databaseName=PROJETO_TCC_PRODENTSYS_NOVO;";
     private static final String DRIVER_JDBC = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String USER = "sa";
     private static final String PASS = "1234";
@@ -47,6 +49,28 @@ public class DbUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	public static java.sql.Date getSqlDate(java.util.Date date) {
+		java.sql.Date sqlDate = null;
+		if (date != null) {
+			sqlDate = new java.sql.Date(date.getTime());
+		}
+		return sqlDate;
+	}
+	
+	public static void close(Connection conn, Statement statement) {
+		try {
+			if (conn != null) {
+				conn.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public class ConnectionFactory {
 	    public Connection getConnection() {
 	        try {

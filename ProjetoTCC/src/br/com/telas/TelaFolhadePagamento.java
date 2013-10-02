@@ -499,7 +499,7 @@ public class TelaFolhadePagamento extends JFrame {
         ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.png"));  
         ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir.png"));
 
-        ImageIcon relatorio = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/rela.png")); //mudar icon
+        ImageIcon relatorio = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/repo.png")); //mudar icon
 
         
 		TableColumnModel columnModel = table.getColumnModel();

@@ -44,7 +44,7 @@ public void insertString(int offs, String str, AttributeSet a) throws BadLocatio
     }  
    }   
   
-  s.insert(s.length()-2, ",");  
+  s.insert(s.length()-2, ".");  
   
   if(s.length() > 6) {  
     s.insert(s.length()-6, ".");  
@@ -61,7 +61,7 @@ public void insertString(int offs, String str, AttributeSet a) throws BadLocatio
   public void remove(int offset, int length) throws BadLocationException {  
     super.remove(offset, length);   
       String texto = getText(0, getLength());  
-      texto = texto.replace(",", "");  
+      texto = texto.replace(",", ".");  
       texto = texto.replace(".", "");  
     super.remove(0, getLength());  
     insertString(0, texto, null);  

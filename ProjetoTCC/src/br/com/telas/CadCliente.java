@@ -66,6 +66,7 @@ public class CadCliente extends JDialog {
 	private JFormattedTextField textField_9;
 	private JTextField textField_10;
 	
+	private int atualizar;
 	
 
 	public CadCliente() throws DaoException {
@@ -191,24 +192,57 @@ public class CadCliente extends JDialog {
                             button.addActionListener(new ActionListener() {					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						if(ValidaCPF.existe(textField_9, false) == false){
-							textField_9.setText("");
-						}else if(ValidaCPF.valida(textField_9) == false)  {	
-							textField_9.setText("");
-						
-						}					  
-						if( validarFormulário()){	
-							
-						/*	String email = textField_1.getText();
-							if(ValidaCPF.existe(textField_9, false) == true){
-									
-							}else if(ValidaCPF.valida(textField_9) == false)  {	
+						if (atualizar != 4){
+							if(ValidaCPF.existe(textField_9, false) == false){
 								textField_9.setText("");
-							
-							}else{
-							
+							}				  
+							if(ValidaCPF.valida(textField_9) == false){
+								textField_9.setText("");
 							}
-						//|| ValidaEmail.validaEmail(email)==false){*/
+							if( validarFormulário()){	
+								
+							/*	String email = textField_1.getText();
+								if(ValidaCPF.existe(textField_9, false) == true){
+										
+								}else if(ValidaCPF.valida(textField_9) == false)  {	
+									textField_9.setText("");
+								
+								}else{
+								
+								}
+							//|| ValidaEmail.validaEmail(email)==false){*/
+								
+								ClienteDent obj = new ClienteDent();
+								
+								obj.setTelCliente(textField_3.getText());
+								obj.setEmailCliente(textField_1.getText());
+								obj.setRuaCliente(textField_2.getText());
+								obj.setNumEndCliente(textField_8.getText());
+								obj.setBairroCliente(textField_4.getText());
+								obj.setCidadeCliente(textField_6.getText());							
+								obj.setNomeCliente(textField.getText());
+								obj.setCepCliente(textField_7.getText());
+															
+								obj.setCpfCliente(textField_9.getText());				
+								
+								ClienteDao objDAO = new ClienteDao();
+								int matri = 0;
+								try {
+																
+									if(textField_5.getText().equals("")){
+										objDAO.inserirClientes(obj, matri);
+										limpaFormulario();
+								
+																
+									atualizaLista(table,"");
+									}
+								} catch (DaoException e) {
+									e.printStackTrace();
+								}
+								}
+							}
+						                         
+					else if( validarFormulário() && ValidaCPF.valida(textField_9) == true)  {	
 							
 							ClienteDent obj = new ClienteDent();
 							
@@ -224,19 +258,14 @@ public class CadCliente extends JDialog {
 							obj.setCpfCliente(textField_9.getText());				
 							
 							ClienteDao objDAO = new ClienteDao();
-							int matri = 0;
-							try {
-															
-								if(textField_5.getText().equals("")){
-									objDAO.inserirClientes(obj, matri);
-									limpaFormulario();
 							
-								}else{
+							try {
+									
 									Integer matr = Integer.parseInt(textField_5.getText()); 
 									obj.setNumCliente(matr);
 									objDAO.atualizarCliente(obj);
 									JOptionPane.showMessageDialog(formulario, "Dados atualizados com sucesso!");
-								}								
+																
 								atualizaLista(table,"");
 							} catch (DaoException e) {
 								e.printStackTrace();
@@ -416,6 +445,8 @@ public class CadCliente extends JDialog {
 				}
 				if (coluna == 4){
 					ClienteDent objCliente = new ClienteDent();
+					
+					atualizar = 4;
 
 					try {
 						objCliente = clienteDao.consultarClienteID(mat);

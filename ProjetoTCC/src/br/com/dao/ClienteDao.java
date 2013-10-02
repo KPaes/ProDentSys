@@ -268,7 +268,8 @@ public class ClienteDao {
 		ResultSet result = null;		
 		boolean existe = false;
 		try{
-			statement = conn.prepareStatement(VERIFICAR_CPF_EXISTENTE);		
+			statement = conn.prepareStatement(VERIFICAR_CPF_EXISTENTE);	
+			statement.setString(1, cpfPaciente);
 			result = statement.executeQuery();
 			if(result.next()){
 				existe = true;				

@@ -42,10 +42,15 @@ import br.com.dao.FuncionarioDao;
 import br.com.dao.PedidoDao;
 import br.com.dao.TabeladePrecoDao;
 import br.com.exception.DaoException;
-import br.com.util.MascaraUtil;
+
 import br.com.util.ValidacaoUtil;
 
 import javax.swing.JFormattedTextField;
+
+import org.jdesktop.swingx.JXDatePicker;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 
@@ -68,10 +73,13 @@ public class Ped extends JFrame {
 		private JTextField textField_7;
 		private JTextField textField_8;
 		private JTextField textField_9;
-		private JFormattedTextField textField_10;
+		//private JFormattedTextField textField_10;
 		private JTextField textField_1;
 		private JTextField textField_cpf;
 	//	private JTextArea textArea;
+		
+		private JXDatePicker dtDataPedido;
+		private JXDatePicker dtDataEntrega;
 		
 		private JTextField textProteses;
 		private JTextField textTipos;
@@ -207,8 +215,21 @@ public class Ped extends JFrame {
 						public void actionPerformed(ActionEvent arg0) {
 							if( validarFormulário() ){
 							Pedido obj = new Pedido();
-								obj.setDataPedido(textField_2.getText());
-								obj.setDataEntrega(textField_10.getText());
+							//Date obj1 = new Date();
+							
+							Date d  = new Date();
+							SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+							
+								
+								try {
+									obj.setDataPedido(df.parse(dtDataPedido.getEditor().getText())); //_2
+									obj.setDataEntrega(df.parse(dtDataEntrega.getEditor().getText())); //10
+								} catch (ParseException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} 
+								
+								
 								obj.setTotalPedido(Double.parseDouble(textTotalPed.getText()));
 								obj.setNomeProtese(textProteses.getText());
 								obj.setTipoProtese(textTipos.getText());
@@ -262,15 +283,15 @@ public class Ped extends JFrame {
 	        	        	                   panel.add(textField);
 	        	        	                   textField.setColumns(10);
 	        	        	                   
-	        	        	                   try {
-												textField_2 = new JFormattedTextField(MascaraUtil.setMaskDateInTf(textField_2));
-											} catch (ParseException e2) {
-												// TODO Auto-generated catch block
-												e2.printStackTrace();
-											}
-	        	        	                   textField_2.setBounds(128, 133, 95, 20);
-	        	        	                   panel.add(textField_2);
-	        	        	                   textField_2.setColumns(10);
+//	        	        	                   try {
+//												textField_2 = new JFormattedTextField(MascaraUtil.setMaskDateInTf(textField_2));
+//											} catch (ParseException e2) {
+//												// TODO Auto-generated catch block
+//												e2.printStackTrace();
+//											}
+//	        	        	                   textField_2.setBounds(128, 133, 95, 20);
+//	        	        	                   panel.add(textField_2);
+//	        	        	                   textField_2.setColumns(10);
 	        	        	                   
 	        	        	                //   textTotalPed = new JFormattedTextField(MascaraUtil.setMascara("R$###.##"));
 	        	        	                   
@@ -305,15 +326,32 @@ public class Ped extends JFrame {
 	        	        	                     panel.add(textField_9);	                   
 	        	        	                     textField_9.setColumns(10);
 	        	        	                     
-	        	        	                     try {
-													textField_10 = new JFormattedTextField(MascaraUtil.setMaskDateInTf(textField_10));
-												} catch (ParseException e1) {
-													// TODO Auto-generated catch block
-													e1.printStackTrace();
-												}
-	        	        	                     textField_10.setColumns(10);
-	        	        	                     textField_10.setBounds(361, 133, 95, 20);
-	        	        	                     panel.add(textField_10);
+//	        	        	                     try {
+//													textField_10 = new JFormattedTextField(MascaraUtil.setMaskDateInTf(textField_10));
+//												} catch (ParseException e1) {
+//													// TODO Auto-generated catch block
+//													e1.printStackTrace();
+//												}
+//	        	        	                     textField_10.setColumns(10); //Data
+//	        	        	                     textField_10.setBounds(361, 133, 95, 20);
+//	        	        	                     panel.add(textField_10);
+	        	        	                     
+	        	        	                     dtDataPedido = new JXDatePicker();
+	        	        	                     dtDataPedido.getEditor().setToolTipText("Data do pedido!");
+//	        	        	                     dtDataPedido.setName("Data de pedido. Campo ObrigatÃ³rio.");
+	        	        	                     dtDataPedido.getEditor();
+	        	        	                     dtDataPedido.setFormats(new String[] {"dd/MM/yyyy"});
+	        	        	                     dtDataPedido.setBounds(128, 133, 95, 20);
+	        	        	             		 panel.add(dtDataPedido);
+	        	        	             		 
+	        	        	             		 
+	        	        	             		 dtDataEntrega = new JXDatePicker();
+	        	        	             	     dtDataEntrega.getEditor().setToolTipText("Data prevista para entrega!");
+//	        	        	             		 dtDataEntrega.setName("Data de nascimento. Campo ObrigatÃ³rio.");
+	        	        	             		 dtDataEntrega.getEditor();
+	        	        	             		 dtDataEntrega.setFormats(new String[] {"dd/MM/yyyy"});
+	        	        	             		 dtDataEntrega.setBounds(361, 133, 95, 20);
+	        	        	             		 panel.add(dtDataEntrega);
 	        	        	                     
 	        	        	                     JButton btnOk = new JButton("OK");
 	        	        	                     btnOk.addActionListener(new ActionListener() {
@@ -786,7 +824,7 @@ public class Ped extends JFrame {
 				dados[0] = String.valueOf(obj.getNumPed()) ;
 				dados[1] = obj.getNomeCliente();
 				dados[2] = obj.getNomePaciente();
-				dados[3] = obj.getDataEntrega(); //mais uma coluna para mais informações
+				dados[3] = String.valueOf(obj.getDataEntrega()); //mais uma coluna para mais informações
 				dados[4] = obj.getObservacoesPed();
 				((DefaultTableModel) table.getModel()).addRow(dados); 
 			} 
@@ -819,8 +857,10 @@ public class Ped extends JFrame {
 			textField_cpf.setText(objPedido.getCpfCliente());
 						
 			textField_9.setText(objPedido.getNomePaciente());
-			textField_2.setText(objPedido.getDataPedido());
-			textField_10.setText(objPedido.getDataEntrega());			
+			
+			dtDataPedido.setDate(objPedido.getDataPedido());
+			dtDataEntrega.setDate(objPedido.getDataEntrega());			
+			
 			textField_3.setText(objPedido.getObservacoesPed());
 			textTotalPed.setText(String.valueOf(objPedido.getTotalPedido()));
 			textProteses.setText(objPedido.getNomeProtese());
@@ -835,14 +875,14 @@ public class Ped extends JFrame {
 		
 		public void limpaFormulario(){
 			textField.setText("");
-			textField_2.setText("");
+			dtDataPedido.getEditor().setText("");
 			textTotalPed.setText("");
 			textField_5.setText("");
 			textField_6.setText("");
 			textField_7.setText("");
 			textField_8.setText("");
 			textField_9.setText("");
-			textField_10.setText("");
+			dtDataEntrega.getEditor().setText("");
 			textField_cpf.setText("");
 			textProteses.setText("");
 			textTipos.setText("");
@@ -856,11 +896,11 @@ public class Ped extends JFrame {
 				JOptionPane.showMessageDialog(null, "Campo Nome Paciente Vazio!");
 				result = false;
 			}
-			if(!ValidacaoUtil.textFieldVazio(textField_2)){
+			if(!ValidacaoUtil.textFieldVazio(dtDataPedido)){
 				JOptionPane.showMessageDialog(null, "Campo Data Pedido Vazio!");
 				result = false;
 			}
-			if(!ValidacaoUtil.textFieldVazio(textField_10)){
+			if(!ValidacaoUtil.textFieldVazio(dtDataEntrega)){
 				JOptionPane.showMessageDialog(null, "Campo Data Entrega Vazio!");
 				result = false;
 			}

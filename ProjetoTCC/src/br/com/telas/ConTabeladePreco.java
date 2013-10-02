@@ -216,7 +216,6 @@ public class ConTabeladePreco extends JFrame {
 					String aux1;
 					aux1 = textField_2.getText();
 					
-					if(aux1.matches("^[0-9]*$")){
 							TabeladePreco obj = new TabeladePreco();
 							
 							obj.setNomeProtese(textField.getText());
@@ -239,10 +238,7 @@ public class ConTabeladePreco extends JFrame {
 								atualizaLista(tabela,"");
 							} catch (DaoException e) {
 								e.printStackTrace();
-							}
-					}else{
-						JOptionPane.showMessageDialog(null, "Digite apenas número no campo preço!");
-					}
+							}					
 			}
 			}
 		});

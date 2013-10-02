@@ -168,13 +168,13 @@ public class FuncionarioDao {
 		try {			
 			statement = conn.prepareStatement(VALIDAR_LOGIN_SENHA);
 			statement.setString(1, nome);
-		//	statement.setString(2, senha); //habilitar essa linha quando for acessar o sistema pela 1ª vez  e desabilitar o try e catch abaixo
-			try {
-				statement.setString(2, CriptografiaUtil.encripta(senha)); //Encripta a senha para poder comparar com a senha salva no BD
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			statement.setString(2, senha); //habilitar essa linha quando for acessar o sistema pela 1ª vez  e desabilitar o try e catch abaixo
+//			try {
+//				statement.setString(2, CriptografiaUtil.encripta(senha)); //Encripta a senha para poder comparar com a senha salva no BD
+//			} catch (NoSuchAlgorithmException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			result = statement.executeQuery();
 			if (result.next()) {
 				numReg = result.getInt("total");

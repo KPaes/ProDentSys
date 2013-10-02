@@ -51,7 +51,7 @@ public class CalcularData {
 	public static int TirarDiferenca(Date data1, Date data2){
 		
 		if(data1 == null || data2 == null){
-			JOptionPane.showMessageDialog(null, "Data Invï¿½lida!", "Data Invï¿½lida!",  JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Data Inválida!", "Data Inválida!",  JOptionPane.ERROR_MESSAGE);
 			return 0;
 		}
 		

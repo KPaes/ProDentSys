@@ -39,7 +39,7 @@ GO
 create table tbCliente(
 numCliente integer identity primary key,
 nomeCliente varchar(65) not null,
-cpfCliente char(14) unique not null,
+cpfCliente char(14) not null,
 telCliente char(15) not null,
 ruaCliente varchar(40) not null,
 numEndCliente varchar(4) not null,
@@ -56,8 +56,8 @@ numPed integer identity not null primary key,
 nomeCliente varchar(65) not null,
 numCliente integer not null,
 nomePaciente varchar(65) not null,
-dataPedido char(10) not null,
-dataEntrega char(10) not null,
+dataPedido smalldatetime not null,
+dataEntrega smalldatetime not null,
 tipoProtese varchar(max) not null,
 nomeProtese varchar(max) not null,
 --precoProtese numeric(10,2) null,
@@ -127,6 +127,23 @@ primary key(numProtese)
 )
 go
 
+
+--INDICES
+create Index idx_nome_cliente on tbCliente (nomeCliente asc)
+go
+create Index idx_nome_funcionario on tbFuncionario (nomeFunc asc)
+go
+create Index idx_nome_fornecedor on tbFornecedor (nomeFornec asc)
+go
+create Index idx_nome_FolhadePagamento on tbFolhadePagamento (nomeFunc asc)
+go
+create Index idx_nome_Pedido on tbPedido (nomeCliente asc)
+go
+create Index idx_nome_protese on tbTabeladePrecos (nomeProtese asc)
+go
+
+
+--Abaixo tabelas não usadas
 
 --Criação de tabela - Tabela de Preoços Nair
 create table tbTabeladePrecosSeg( ---PrecosSeg ou PrecosDois

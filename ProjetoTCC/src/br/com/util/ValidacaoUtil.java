@@ -3,10 +3,20 @@ package br.com.util;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.jdesktop.swingx.JXDatePicker;
+
 public class ValidacaoUtil {
 	
 	public static boolean textFieldVazio(JTextField componente){
 		if(componente.getText().equals("")){
+			return false;			
+		}else{			
+			return true;
+		}
+	}
+	
+	public static boolean textFieldVazio(JXDatePicker componente){
+		if(componente.getEditor().getText().equals("")){
 			return false;			
 		}else{			
 			return true;

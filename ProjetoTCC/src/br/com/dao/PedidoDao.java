@@ -95,8 +95,13 @@ public class PedidoDao {
 				objPedido.setNumCliente(result.getInt(3)); 
 				objPedido.setNomeCliente(result.getString(2));
 				objPedido.setNomePaciente(result.getString(4));
-				objPedido.setDataPedido(result.getString(5));
-				objPedido.setDataEntrega(result.getString(6));
+				
+//				objPedido.setDataPedido(result.getString(5));
+//				objPedido.setDataEntrega(result.getString(6));
+
+				objPedido.setDataPedido(result.getDate(5));
+				objPedido.setDataEntrega(result.getDate(6));
+				
 				objPedido.setTipoProtese(result.getString(7)); //arrumar
 				objPedido.setNomeProtese(result.getString(8)); //arrumar
 			//	objPedido.setPrecoProtese(result.getDouble(9)); //arrumar
@@ -130,8 +135,14 @@ public class PedidoDao {
 				objPedido.setNumCliente(result.getInt(3)); 
 				objPedido.setNomeCliente(result.getString(2));
 				objPedido.setNomePaciente(result.getString(4));
-				objPedido.setDataPedido(result.getString(5));
-				objPedido.setDataEntrega(result.getString(6));
+				
+//				objPedido.setDataPedido(result.getString(5));
+//				objPedido.setDataEntrega(result.getString(6));
+				
+				objPedido.setDataPedido(result.getDate(5)); 
+				objPedido.setDataEntrega(result.getDate(6));
+				
+				
 				objPedido.setTipoProtese(result.getString(7)); //arrumar
 				objPedido.setNomeProtese(result.getString(8)); //arrumar
 			//	objPedido.setPrecoProtese(result.getDouble(9)); //arrumar
@@ -165,8 +176,13 @@ public class PedidoDao {
 				objPedido.setNumCliente(result.getInt(3)); 
 				objPedido.setNomeCliente(result.getString(2));
 				objPedido.setNomePaciente(result.getString(4));
-				objPedido.setDataPedido(result.getString(5));
-				objPedido.setDataEntrega(result.getString(6));
+				
+//				objPedido.setDataPedido(result.getString(5));
+//				objPedido.setDataEntrega(result.getString(6));
+				
+				objPedido.setDataPedido(result.getDate(5));
+				objPedido.setDataEntrega(result.getDate(6));
+				
 				objPedido.setTipoProtese(result.getString(7)); //arrumar
 				objPedido.setNomeProtese(result.getString(8)); //arrumar
 			//	objPedido.setPrecoProtese(result.getDouble(9)); //arrumar
@@ -194,8 +210,14 @@ public class PedidoDao {
 			statement.setInt(2, obj.getNumCliente());
 			statement.setString(1, obj.getNomeCliente());
 			statement.setString(3, obj.getNomePaciente());
-			statement.setString(4, obj.getDataPedido());
-			statement.setString(5, obj.getDataEntrega());
+			
+//			statement.setString(4, obj.getDataPedido());
+//			statement.setString(5, obj.getDataEntrega());
+			
+
+			statement.setDate(4, DbUtil.getSqlDate(obj.getDataPedido()));
+			statement.setDate(5, DbUtil.getSqlDate( obj.getDataEntrega()));
+			
 			statement.setString(6, obj.getTipoProtese()); //busca da tabela
 			statement.setString(7, obj.getNomeProtese()); //""
 		//	statement.setDouble(8, obj.getPrecoProtese()); //"
@@ -224,8 +246,14 @@ public class PedidoDao {
 			statement.setInt(2, objPedido.getNumCliente());
 			statement.setString(1, objPedido.getNomeCliente());
 			statement.setString(3, objPedido.getNomePaciente());
-			statement.setString(4, objPedido.getDataPedido());
-			statement.setString(5, objPedido.getDataEntrega());
+			
+//			statement.setString(4, objPedido.getDataPedido());
+//			statement.setString(5, objPedido.getDataEntrega());
+			
+
+			statement.setDate(4, DbUtil.getSqlDate(objPedido.getDataPedido()));
+			statement.setDate(5, DbUtil.getSqlDate(objPedido.getDataEntrega()));
+			
 			statement.setString(6, objPedido.getTipoProtese()); //tabela de preço
 			statement.setString(7, objPedido.getNomeProtese()); //" "
 	//		statement.setDouble(8, objPedido.getPrecoProtese()); //" "

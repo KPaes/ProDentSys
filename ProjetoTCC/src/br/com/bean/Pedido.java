@@ -1,11 +1,15 @@
 package br.com.bean;
 
+import java.util.Date;
+
 public class Pedido extends Pessoa{
 	//Atributos
 	private Integer numPed;
 	private String nomePaciente;
-	private String dataPedido;
-	private String dataEntrega;
+//	private String dataPedido;
+//	private String dataEntrega;
+	private Date dataPedido;
+	private Date dataEntrega;
 	private Double totalPedido;
 	private String observacoesPed;
 
@@ -38,26 +42,26 @@ public class Pedido extends Pessoa{
 		this.nomePaciente = nomePaciente;		
 	}
 	
-	public String getDataEntrega() {
+	public Date getDataEntrega() {
 		return dataEntrega;
 	}
 	
-	public void setDataEntrega(String dataEntrega) {
-		int tamanho = 10;
-		if(tamanho == dataEntrega.length()){ //dd/mm/aaaa
+	public void setDataEntrega(Date dataEntrega) {
+//		int tamanho = 10;
+//		if(tamanho == dataEntrega.length()){ //dd/mm/aaaa
 			this.dataEntrega = dataEntrega;
-		}
+//		}
 	}
 	
 	public Integer getNumPed() {
 		return numPed;
 	}
 	
-	public void setDataPedido(String dataPedido) {
-		int tamanho = 10;
-		if(tamanho == dataPedido.length()){ //dd/mm/aaaa
-			this.dataPedido = dataPedido;
-		}
+	public void setDataPedido(Date date) {
+//		int tamanho = 10;
+//		if(tamanho == dataPedido.length()){ //dd/mm/aaaa
+			this.dataPedido = date;
+//		}
 	}
 	
 	
@@ -65,7 +69,7 @@ public class Pedido extends Pessoa{
 		this.numPed = numPed;
 	}
 
-	public String getDataPedido() {
+	public Date getDataPedido() {
 		return dataPedido;
 	}
 	

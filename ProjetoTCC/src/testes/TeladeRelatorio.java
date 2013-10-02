@@ -35,7 +35,6 @@ import br.com.bean.Pedido;
 
 import br.com.dao.RelatorioDao;
 import br.com.exception.DaoException;
-import br.com.telas.CadPedido;
 import br.com.util.MascaraUtil;
 
 
@@ -188,8 +187,8 @@ public class TeladeRelatorio extends JFrame {
 				dados[0] = String.valueOf(obj.getNumPed()) ;
 				dados[1] = obj.getNomeCliente();
 				dados[2] = obj.getNomePaciente();
-				dados[3] = obj.getDataPedido();
-				dados[4] = obj.getDataEntrega();
+			//	dados[3] = obj.getDataPedido();
+			//	dados[4] = obj.getDataEntrega();
 				dados[5] = String.valueOf(obj.getTotalPedido());
 				((DefaultTableModel) table.getModel()).addRow(dados); 
 			} 

@@ -3,24 +3,27 @@ package br.com.telas;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 
+import org.jdesktop.swingx.JXDatePicker;
+
+
 import br.com.exception.DaoException;
+import br.com.util.CalcularData;
+import br.com.util.ValidacaoUtil;
 import br.com.relatorio.PedidoControle;
-import br.com.util.DataUtil;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
-
-import com.toedter.calendar.JDateChooser;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TelaRelatorio extends JFrame {
 
@@ -29,9 +32,9 @@ public class TelaRelatorio extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtMes;
 
-	private JDateChooser datePicker;
+	private JXDatePicker datePicker;
+	private JXDatePicker datePicker2;
 	/**
 	 * Launch the application.
 	 */
@@ -69,19 +72,13 @@ public class TelaRelatorio extends JFrame {
 		
 		JButton btnGerar = new JButton("Gerar");
 		btnGerar.addActionListener(gerarMes);
-		btnGerar.setBounds(244, 95, 89, 23);
+		btnGerar.setBounds(148, 198, 89, 23);
 		contentPane.add(btnGerar);
 		
-		txtMes = new JTextField();
-		txtMes.setToolTipText("Ex: 09");
-		txtMes.setBounds(148, 96, 86, 20);
-		contentPane.add(txtMes);
-		txtMes.setColumns(10);
-		
-		JLabel lblMs = new JLabel("M\u00EAs:");
+		JLabel lblMs = new JLabel("Data de In\u00EDcio:");
 		lblMs.setToolTipText("Coloque o n\u00FAmero do m\u00EAs dos pedidos");
 		lblMs.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblMs.setBounds(105, 98, 43, 14);
+		lblMs.setBounds(59, 98, 89, 14);
 		contentPane.add(lblMs);
 		
 		JLabel lblRelatrio = new JLabel("Relat\u00F3rio de Pedidos");
@@ -89,14 +86,26 @@ public class TelaRelatorio extends JFrame {
 		lblRelatrio.setBounds(151, 11, 197, 14);
 		contentPane.add(lblRelatrio);
 		
-		JDateChooser datePicker = new JDateChooser();
-		datePicker.getDateEditor();		
-
-		//datePicker.getEditor().setToolTipText("Data para gerar o relatório");	
-	//	datePicker.setFormats(new String[] {"dd/MM/yyyy"});
-		datePicker.setBounds(148, 146, 96, 20);
-		contentPane.add(datePicker);
 	
+		datePicker = new JXDatePicker();
+		datePicker.getEditor().setToolTipText("Data prevista de entrega para gerar relatório!");
+		datePicker.getEditor();
+		datePicker.setFormats(new String[] {"dd/MM/yyyy"});
+		datePicker.setBounds(148, 96, 97, 20);
+		contentPane.add(datePicker);
+		
+		datePicker2 = new JXDatePicker();
+		datePicker2.getEditor().setToolTipText("Data prevista de entrega para gerar relatório!");
+		datePicker2.getEditor();
+		datePicker2.setFormats(new String[] {"dd/MM/yyyy"});
+		datePicker2.setBounds(148, 146, 97, 20); //
+		contentPane.add(datePicker2);
+		
+		JLabel lblDataFinal = new JLabel("Data Final:");
+		lblDataFinal.setBounds(86, 149, 62, 14);
+		contentPane.add(lblDataFinal);
+		
+		
 	
 	}
 	
@@ -114,27 +123,45 @@ public class TelaRelatorio extends JFrame {
 	
 	ActionListener gerarMes = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			PedidoControle controle = new PedidoControle();
-			String aux = null;
-            try {
-            //	String mes = txtMes.getText();
-            //	Integer valida = Integer.parseInt(mes);
-            /*	valida se o mês é válido
-             * if(valida>12 || valida<1 || mes.contains("^[a-Z]")){
-            		JOptionPane.showMessageDialog(null, "Mês inválido!");
-            	}else{            		
-            			controle.gerarRelatorioMes(aux);
-            		}*/
+			if(validarFormulario()){
+				PedidoControle controle = new PedidoControle();
+			
+				try {           
             	
-            	//String mes = DataUtil.dateToString(datePicker);
-            	String mes = datePicker.getDateEditor().toString();            	
-            	JOptionPane.showMessageDialog(null, mes);
+					SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             	
-            	controle.gerarRelatorioMes(mes);
-            } catch (DaoException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+					try {
+						Date data1 = datePicker.getDate();
+						Date data2 = datePicker2.getDate();
+						if(CalcularData.TirarDiferenca(data1, data2) < 0){
+							JOptionPane.showMessageDialog(null,"As datas devem ser iguais ou a data final ser superior a data inicial!");
+						}else
+							controle.gerarRelatorioMes(df.parse(datePicker.getEditor().getText()), df.parse(datePicker2.getEditor().getText()));
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} catch (DaoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 	};
+	
+	public boolean validarFormulario(){
+		boolean result = true;
+
+		if(!ValidacaoUtil.textFieldVazio(datePicker)){
+			JOptionPane.showMessageDialog(null, "Campo Data Inicial Vazio!");
+			result = false;
+		}
+		if(!ValidacaoUtil.textFieldVazio(datePicker2)){
+			JOptionPane.showMessageDialog(null, "Campo Data Final Vazio!");
+			result = false;
+		}
+
+	
+		return result;
+	}	
 }
