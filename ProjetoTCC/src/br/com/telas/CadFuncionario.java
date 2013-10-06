@@ -2,56 +2,55 @@ package br.com.telas;
 /**
  * Cadastrar e consultar Funcionários
  */
+import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-
-import java.awt.Color;
-import javax.swing.border.TitledBorder;
-import java.awt.Font;
-import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
-import javax.swing.border.LineBorder;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-
-import java.awt.Button;
-import javax.swing.ListSelectionModel;
 
 import br.com.TableModel.TableCellRenderer;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
-import br.com.util.Moeda;
+import br.com.exception.EntradaUsuarioException;
 import br.com.util.MascaraUtil;
+import br.com.util.Moeda;
 import br.com.util.ValidacaoUtil;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.JFormattedTextField;
 
 
-
-public class CadFuncionario extends JDialog {
+public class CadFuncionario extends JFrame implements KeyListener, ActionListener {
     final JPanel lista = new JPanel();
     final JPanel formulario = new JPanel();
 
@@ -69,10 +68,12 @@ public class CadFuncionario extends JDialog {
 	private JTextField txtDigiteONome;
 	private JTextField textComissao;
 	
-	
+
+	private JLabel lblIndisponivel;
+	private int status_nome_usuario = 1;
 
 	public CadFuncionario() throws DaoException {
-		setModal(true);
+		//setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Cadastro de Funcion\u00E1rios");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CadFuncionario.class.getResource("/br/com/images/logo_transp.png")));
@@ -155,7 +156,19 @@ public class CadFuncionario extends JDialog {
                 label_3.setBounds(12, 176, 70, 18);
                 panel.add(label_3);
                 
-                                  
+                textField_4 = new JTextField();
+                textField_4.setName("Usuário");
+                textField_4.addKeyListener(this);
+                textField_4.addActionListener(this);
+                textField_4.setColumns(10);
+                textField_4.setBounds(92, 174, 190, 20);
+                panel.add(textField_4);
+                
+                lblIndisponivel = new JLabel("Dispon\u00EDvel");
+                lblIndisponivel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        	 	 lblIndisponivel.setVisible(false);
+                lblIndisponivel.setBounds(310, 179, 82, 14);
+                panel.add(lblIndisponivel);                
                                  
                 JLabel label_4 = new JLabel("Profissão:");
                 label_4.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -180,6 +193,17 @@ public class CadFuncionario extends JDialog {
 					  public void actionPerformed(ActionEvent arg0) {					  
 					  String cSenha = new String(passwordField_1.getPassword());				  
 					  if( validarFormulário() ){
+						  
+						  if(status_nome_usuario == 1){
+								JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");
+								try {
+									throw new EntradaUsuarioException(textField_4);
+								} catch (EntradaUsuarioException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						  
 						  FuncionarioDao objDAO = new FuncionarioDao();
 						  
 							Funcionario obj = new Funcionario();
@@ -241,7 +265,6 @@ public class CadFuncionario extends JDialog {
                 panel.add(textField_2);
                 textField_2.setColumns(10);
                 
-               //  textField_3 = new JFormattedTextField(MascaraUtil.setMascara("(##)####-####"));
                 try {
 					textField_3 = new JFormattedTextField(MascaraUtil.setMaskTelefoneInTf(textField_3));
 				} catch (ParseException e1) {
@@ -253,10 +276,8 @@ public class CadFuncionario extends JDialog {
                  panel.add(textField_3);
                  textField_3.setColumns(10);
                  
-                 textField_4 = new JTextField();
-                 textField_4.setBounds(92, 174, 190, 20);
-                 panel.add(textField_4);
-                 textField_4.setColumns(10);
+                 
+                 
                  
                  textField_5 = new JTextField();
                  textField_5.setVisible(false);
@@ -273,7 +294,6 @@ public class CadFuncionario extends JDialog {
                  lblSalrio.setBounds(236, 63, 70, 14);
                  panel.add(lblSalrio);
                  
-              //   textField_1 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
                  textField_1 =  new JTextField();
                  textField_1.setDocument(new Moeda()); 
                  textField_1.setBounds(310, 60, 117, 20);
@@ -296,6 +316,8 @@ public class CadFuncionario extends JDialog {
                  textComissao.setBounds(92, 126, 86, 20);
                  panel.add(textComissao);
                  textComissao.setColumns(10);
+                 
+                 
                  
                  JButton btnVoltar = new JButton("");
                  btnVoltar.setToolTipText("Voltar");
@@ -326,6 +348,7 @@ public class CadFuncionario extends JDialog {
             lista.add(lblFuncionriosCadastrados);
             
 
+            
 
               
               Button Novo = new Button("Adicionar");          
@@ -395,8 +418,7 @@ public class CadFuncionario extends JDialog {
 			}
 		});
               
-              
-              
+
               table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
               table.setModel(new DefaultTableModel(
         		  new Object[][] {
@@ -574,5 +596,83 @@ public class CadFuncionario extends JDialog {
 		}		
 		return result;
 	}	
+	
+	
+	private void verificaNomeUsuario(){
+		
+		Runnable run = new Runnable(){  
+			   public void run(){  
+				   
+					List<String> todos = null;
+					try {
+						todos = new FuncionarioDao().buscarLogin();
+					} catch (DaoException e) {
+						e.printStackTrace();
+					}
+					
+					for (String s : todos) {
+						if (textField_4.getText().equals(s) || s.equals(textField_4.getText())) {
+							lblIndisponivel.setVisible(true);
+							textField_4.setForeground(Color.RED);
+							lblIndisponivel.setText("Indisponível, tente outro.");
+							lblIndisponivel.setForeground(Color.RED);
+							status_nome_usuario = 1;
+						}
+						if(textField_4.getText().equals("")){
+							lblIndisponivel.setVisible(false);
+							status_nome_usuario = 1;
+						}
+						if(!textField_4.getText().equals(s) || !s.equals(textField_4.getText())){
+							lblIndisponivel.setVisible(true);
+							textField_4.setForeground(Color.BLACK);
+							lblIndisponivel.setText("Disponível");
+							lblIndisponivel.setForeground(Color.BLACK);
+							status_nome_usuario = 0;
+						}
+					}
+					
+			   }  
+		};  
+			  
+		Thread t = new Thread(run);  
+		t.start();
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+    public void focusLost(FocusEvent event) {
+		if(event.getSource() == textField_4){
+			verificaNomeUsuario();
+		}
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent event) {
+		if(event.getSource() == textField_4){
+			verificaNomeUsuario();
+		}
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent event) {
+		
+	}
+
+	
+    
+	
 }
 

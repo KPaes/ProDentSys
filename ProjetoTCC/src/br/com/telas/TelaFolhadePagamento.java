@@ -73,6 +73,7 @@ public class TelaFolhadePagamento extends JFrame {
 	private JTextField textField_7;
 
 	public TelaFolhadePagamento() throws DaoException {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaFolhadePagamento.class.getResource("/br/com/images/logo_transp.png")));
 		setTitle("Folha de Pagamento");
 		int width = 800;

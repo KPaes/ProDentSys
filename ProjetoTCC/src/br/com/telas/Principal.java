@@ -13,9 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
-
-import br.com.backup.Backup;
-import br.com.backup.ManageBackup;
+import br.com.backup.TelaBackup;
 import br.com.enviaremail.Interface;
 import br.com.exception.DaoException;
 import br.com.util.SwingUtil;
@@ -38,6 +36,8 @@ import java.awt.Font;
 public class Principal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
+	static JMenu menu_1;
 
 	/**
 	 * Author: Karina Paes
@@ -63,15 +63,7 @@ public class Principal extends JFrame {
 					
 					Login login = new Login();
 					login.setVisible(true);
-					
-					//Rodando Backup
-				/*	ManageBackup.createScriptBackup();  
-			          
-			        Backup backup = new Backup(ManageBackup.getTime("00:03"));//executa o backup de hora em hora  
-			  
-			        backup.createBackup(ManageBackup.getScriptBackup());  
-			  
-			        backup.start();*/
+						
 	}
 	
 	/**
@@ -255,36 +247,33 @@ public class Principal extends JFrame {
 		});
 		mnRelatrio.add(mntmRelatrioDoDia);	
 		
-		JMenu menu_1 = new JMenu("Restrito");
+		JMenu mnBackup = new JMenu("Backup");
+		menuBar.add(mnBackup);
+		
+		JMenuItem mntmGerarBackup = new JMenuItem("Gerar Backup");
+		mntmGerarBackup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaBackup bkp = new TelaBackup();
+				bkp.setVisible(true);
+			}
+		});
+		mnBackup.add(mntmGerarBackup);
+		
+		JMenuItem mntmRestaurarBackup = new JMenuItem("Restaurar Backup");
+		mnBackup.add(mntmRestaurarBackup);
+		
+		menu_1 = new JMenu("Restrito");
 		menu_1.setMnemonic('R');
 		menu_1.setToolTipText("Área restrita!");
 		menuBar.add(menu_1);
+		menu_1.setEnabled(false);
+//		menu_1.setVisible(false);
 		
 		JMenuItem menuItem_1 = new JMenuItem("Folha de Pagamento");
 		menuItem_1.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		menuItem_1.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/secrecy-icon.png")));
 		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_MASK));
-		menuItem_1.setToolTipText("Folha de Pagamento Funcionário");
-		menuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//TelaFolhadePagamento folhaPag;
-				
-				LoginRestrito restrito;
-				
-				//try{
-									
-					//folhaPag = new TelaFolhadePagamento(); //Para tela não ser restrita
-					//folhaPag.setVisible(true);
-					
-					restrito = new LoginRestrito(); //excluir essas linhas para tirar o login do restrito
-					restrito.setVisible(true);
-				
-					//} catch (DaoException e1) {
-					// TODO Auto-generated catch block
-				//	e1.printStackTrace();
-			//	}
-			}
-		});
+		menuItem_1.setToolTipText("Folha de Pagamento Funcionário");		
 		menu_1.add(menuItem_1);
 		
 		JMenu mnSobre = new JMenu("Ajuda");
@@ -331,5 +320,10 @@ public class Principal extends JFrame {
 		});
 		menuBar.add(menuItem_3);
 		
+	}
+	
+	public static void desabilita(){
+		menu_1.setEnabled(true);
+//		menu_1.setVisible(true);
 	}
 }

@@ -52,7 +52,8 @@ public class Carteiro {
 		
      // cria o anexo.
         EmailAttachment attachment = new EmailAttachment();
-        attachment.setPath("../ProjetoTCC/src/br/com/anexos/Tabela.jpg"); //caminho da imagem
+      //  attachment.setPath("../ProjetoTCC/src/br/com/anexos/Tabela.jpg"); //caminho da imagem
+        attachment.setPath(mensagem.getCaminho());
         attachment.setDisposition(EmailAttachment.ATTACHMENT);
         attachment.setDescription("Tabela de preços");
         attachment.setName("Tabela");

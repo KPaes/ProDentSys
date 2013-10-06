@@ -6,8 +6,10 @@ import javax.mail.MessagingException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -19,12 +21,16 @@ import br.com.exception.DaoException;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 public class Interface extends JFrame {
 
+	private JProgressBar progressBar = new JProgressBar();
+	
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -33,6 +39,8 @@ public class Interface extends JFrame {
 	private JTextField textField_4;
 	private static final long serialVersionUID = 1L;
 
+	private String caminho;
+	JFileChooser fc;
 	/**
 	 * Launch the application.
 	 */
@@ -53,14 +61,29 @@ public class Interface extends JFrame {
 	 * Create the frame.
 	 */
 	public Interface() {
+		setResizable(false);
 		setTitle("Enviar Email");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Interface.class.getResource("/br/com/images/logo_transp.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 477, 338);
+		setBounds(100, 100, 456, 354);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		progressBar.setBounds(91, 296, 349, 19);
+
+		contentPane.add(progressBar);
+
+		progressBar.setBorderPainted(false);
+		progressBar.setString("");
+		progressBar.setMinimum(0);
+		progressBar.setMaximum(500000);
+		progressBar.setIndeterminate(false);
+		progressBar.setBackground(Color.white);
+		progressBar.setForeground(new Color(144, 238, 144));
+		progressBar.setStringPainted(true);
+		progressBar.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 12));
 		
 		JLabel lblPara = new JLabel("Para:");
 		lblPara.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -78,12 +101,12 @@ public class Interface extends JFrame {
 		contentPane.add(lblMensagem);
 		
 		textField = new JTextField();
-		textField.setBounds(115, 78, 231, 20);
+		textField.setBounds(115, 78, 310, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(115, 109, 231, 20);
+		textField_1.setBounds(115, 109, 310, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -94,7 +117,7 @@ public class Interface extends JFrame {
 		contentPane.add(lblAssunto);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(115, 140, 231, 20);
+		textField_2.setBounds(115, 140, 310, 20);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -108,15 +131,20 @@ public class Interface extends JFrame {
 				mensagem.setDestinatario(textField_1.getText());
 				mensagem.setAssunto(textField_2.getText());
 				mensagem.setMensagem(textField_3.getText());
-				
+				mensagem.setCaminho(caminho);
 								 
 				Carteiro carteiro = new Carteiro();
-				try {
-					carteiro.enviarMensagem(mensagem);
+				try {									
+					 for (int i = 0; i < 500000; i++){  
+				           System.out.println(i);  
+				           setProgresso(i);
+				        }
+					 
+					carteiro.enviarMensagem(mensagem);						
 					JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
 				} catch (EmailException e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem");
+					JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
 				} catch (MessagingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -124,11 +152,11 @@ public class Interface extends JFrame {
 			}
 		});
 
-		btnEnviar.setBounds(203, 266, 67, 23);
+		btnEnviar.setBounds(358, 266, 67, 23);
 		contentPane.add(btnEnviar);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(115, 171, 231, 84);
+		textField_3.setBounds(115, 171, 310, 90);
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
@@ -142,9 +170,15 @@ public class Interface extends JFrame {
 		btnProcurar.setToolTipText("Procurar o cliente para enviar email");
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer numero = Integer.parseInt(textField_4.getText());
-				atualizaFormulario(numero);
-				//atualizaFormulario(Integer.parseInt(textField_4.getText()));				
+				if(textField_4.getText() == ""){
+					JOptionPane.showMessageDialog(null, "Digite um número!");
+				}
+				
+				else{
+					Integer numero = Integer.parseInt(textField_4.getText());
+					atualizaFormulario(numero);		
+				}
+						
 			}
 
 			private void atualizaFormulario(Integer idCliente) {
@@ -169,7 +203,7 @@ public class Interface extends JFrame {
 				
 			}
 		});
-		btnProcurar.setBounds(239, 44, 46, 23);
+		btnProcurar.setBounds(240, 44, 46, 23);
 		contentPane.add(btnProcurar);
 		
 		textField_4 = new JTextField();
@@ -181,5 +215,24 @@ public class Interface extends JFrame {
 		lblNmero.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNmero.setBounds(10, 48, 73, 14);
 		contentPane.add(lblNmero);
+		
+		fc = new JFileChooser();
+		
+		JButton btnAnexo = new JButton("Anexo");
+		btnAnexo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int returnVal = fc.showOpenDialog(Interface.this);				
+
+	            if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            	caminho = fc.getSelectedFile().getAbsolutePath();
+	            }	
+			}
+		});
+		btnAnexo.setBounds(115, 266, 89, 23);
+		contentPane.add(btnAnexo);
+	}
+	public void setProgresso(int i) {
+		progressBar.setValue(i);
+		progressBar.setString("Enviando...  "+i/5000+"%");		
 	}
 }

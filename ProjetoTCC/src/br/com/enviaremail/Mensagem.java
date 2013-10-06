@@ -6,6 +6,8 @@ public class Mensagem  extends ClienteDent{
 	private String destinatario;
 	private String assunto;
 	private String mensagem;
+	
+	private String caminho;
  
 	public Mensagem() {
 		super();
@@ -40,6 +42,14 @@ public class Mensagem  extends ClienteDent{
  
 	public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
+	}
+
+	public String getCaminho() {
+		return caminho;
+	}
+
+	public void setCaminho(String caminho) {
+		this.caminho = caminho;
 	}
  
 }

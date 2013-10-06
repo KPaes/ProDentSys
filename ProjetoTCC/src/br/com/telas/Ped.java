@@ -45,12 +45,10 @@ import br.com.exception.DaoException;
 
 import br.com.util.ValidacaoUtil;
 
-import javax.swing.JFormattedTextField;
 
 import org.jdesktop.swingx.JXDatePicker;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 
@@ -66,7 +64,7 @@ public class Ped extends JFrame {
 
 		private JTable table;
 		private JTextField textField;
-		private JFormattedTextField textField_2;
+	//	private JFormattedTextField textField_2;
 		private JTextField textTotalPed;
 		private JTextField textField_5;
 		private JTextField textField_6;
@@ -215,9 +213,7 @@ public class Ped extends JFrame {
 						public void actionPerformed(ActionEvent arg0) {
 							if( validarFormulário() ){
 							Pedido obj = new Pedido();
-							//Date obj1 = new Date();
 							
-							Date d  = new Date();
 							SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 							
 								

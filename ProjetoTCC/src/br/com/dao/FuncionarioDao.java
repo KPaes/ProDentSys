@@ -68,10 +68,13 @@ public class FuncionarioDao {
 			"select nomeFunc, profissaoFunc, salarioFunc, comissaoFunc from tbfuncionario where numFunc = ?";
 	
 	private static final String LOGIN_IGUAL = 
-			"select login_funcionario from tbfuncionario where login_funcionario = ?";
+			"select login_funcionario from tbfuncionario";
 	
 	private static final  String PROCURAR_FUNCIONARIO_NOME = 
 			"select numFunc from tbfuncionario where nomeFunc = ?";
+	
+	private static final  String FUNCIONARIO_HABILITAR =
+			"select profissaoFunc from tbfuncionario where login_funcionario = ?";
 	
 	/**
 	 * Através do número digitado pelo usuário, o sistema faz uma busca e retorna o nome do funcionario
@@ -80,29 +83,25 @@ public class FuncionarioDao {
 	 * @throws DaoException
 	 */
 	
-	public boolean login(String string) throws DaoException{		
-		Funcionario objFunc = new Funcionario();
+	public List<String> buscarLogin() throws DaoException{				
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
 		ResultSet result = null;
-		boolean teste = false;
+		List<String> retorno = new ArrayList<String>();
 		try {
 			statement = conn.prepareStatement(LOGIN_IGUAL);
-			statement.setString(1, string);
 			result = statement.executeQuery();
 			while (result.next()) {
-				//JOptionPane.showMessageDialog(null, String.valueOf(result.getInt(1)));			
-				objFunc.setLogin(result.getString(1));								
+				String login = result.getString("login_funcionario");
+				retorno.add(login);		
+//				objFunc.setLogin(result.getString(1));								
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e);
 		} finally {
 			DbUtil.close(conn, statement, result);
 		}
-		teste = true;
-		
-		JOptionPane.showMessageDialog(null,"Já existe funcionário com esse login");
-		return teste;		
+		return retorno;		
 	}
 	
 	
@@ -168,13 +167,13 @@ public class FuncionarioDao {
 		try {			
 			statement = conn.prepareStatement(VALIDAR_LOGIN_SENHA);
 			statement.setString(1, nome);
-			statement.setString(2, senha); //habilitar essa linha quando for acessar o sistema pela 1ª vez  e desabilitar o try e catch abaixo
-//			try {
-//				statement.setString(2, CriptografiaUtil.encripta(senha)); //Encripta a senha para poder comparar com a senha salva no BD
-//			} catch (NoSuchAlgorithmException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+//			statement.setString(2, senha); //habilitar essa linha quando for acessar o sistema pela 1ª vez  e desabilitar o try e catch abaixo
+			try {
+				statement.setString(2, CriptografiaUtil.encripta(senha)); //Encripta a senha para poder comparar com a senha salva no BD
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			result = statement.executeQuery();
 			if (result.next()) {
 				numReg = result.getInt("total");
@@ -389,5 +388,27 @@ public class FuncionarioDao {
 			DbUtil.close(conn, statement, result);
 		}
 		return true;		
+	}
+	
+	public Funcionario habilitarMenu(String nomeFunc) throws DaoException{		
+		Funcionario objFunc = new Funcionario();
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(FUNCIONARIO_HABILITAR);
+			statement.setString(1, nomeFunc);
+			result = statement.executeQuery();
+			if (result.next()) {
+				
+				objFunc.setProfissaoFunc(result.getString(1));
+				
+			}
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return objFunc;		
 	}
 }

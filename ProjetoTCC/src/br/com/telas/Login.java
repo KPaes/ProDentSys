@@ -104,7 +104,13 @@ public class Login extends JDialog {
 						FuncionarioDao loginTeste = new FuncionarioDao();
 						try {
 							if(loginTeste.getAutenticacao(nome, senha)){
-								dispose();
+								String profissao = loginTeste.habilitarMenu(nome).toString();
+								if(profissao == "Administrador" || profissao == "Adm" || profissao == "Diretor" ){
+									Principal.desabilita();
+									dispose();
+								}else{																	
+									dispose();
+								}
 							}else{
 								JOptionPane.showMessageDialog(null,"Falha ao logar");
 								tentativas++;

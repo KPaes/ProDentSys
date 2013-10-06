@@ -2,7 +2,6 @@ package br.com.backup;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
@@ -17,26 +16,121 @@ public class BackupDao {
 			" TO  DISK = 'D:\\TCC\\BACKUP\\backupTCC.bpk' " +
 			" WITH NOFORMAT, INIT";
 	
-	private final String BAKCUP_GERAR_NOVO = 
+	private final String BAKCUP_FULL = 
 			" BACKUP DATABASE PROJETO_TCC_PRODENTSYS " +
 			" TO  DISK = ? " +
-			" WITH NOFORMAT, INIT";
+			" WITH FORMAT, INIT";
+	
+	private final String BAKCUP_DIF = 
+			" BACKUP DATABASE PROJETO_TCC_PRODENTSYS " +
+			" TO  DISK = ? " +
+			" WITH FORMAT, WITH DIFFERENTIAL";
 	
 	
-	private final String BAKCUP_RESTAURAR = 
+	private final String RESTAURAR_FULL = 
 			" RESTORE DATABASE PROJETO_TCC_PRODENTSYS " +
-				" from DISK = 'D:\\TCC\\BACKUPbackupTCC.bpk' " +
+				" from DISK = ? " +
 				" WITH FILE=1, NORECOVERY ";
+	
+	private final String RESTAURAR_DIF = 
+			" RESTORE DATABASE PROJETO_TCC_PRODENTSYS " +
+				" from DISK = ? " +
+				" WITH FILE=2, RECOVERY ";
+	
+	/*
+	 * ALTER DATABASE PROJETO_TCC_PRODENTSYS SET RECOVERY SIMPLE; //pro banco fazer restauração simples
+	 * 
+	*/
 	
 	
 	public boolean gerarBackup(boolean sucesso) throws DaoException{		
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
+		@SuppressWarnings("unused")
 		boolean result = false;
 		try {
 			statement = conn.prepareStatement(BAKCUP_GERAR);			
 			result = statement.execute();						
 			JOptionPane.showMessageDialog(null,  "Backup gerado com sucesso!");	
+			
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement);
+		}	
+		return true;
+	}
+	
+	public boolean gerarBackupNovo(String file) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		@SuppressWarnings("unused")
+		boolean result = false;
+		try {
+			statement = conn.prepareStatement(BAKCUP_FULL);	
+			statement.setString(1, file);			
+			result = statement.execute();							
+			JOptionPane.showMessageDialog(null,  "Backup gerado com sucesso!");	
+			
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement);
+		}	
+		return true;
+	}
+	
+	public boolean gerarBackupDiferencial(String file) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		@SuppressWarnings("unused")
+		boolean result = false;
+		try {
+			statement = conn.prepareStatement(BAKCUP_DIF);	
+			statement.setString(1, file);			
+			result = statement.execute();							
+			JOptionPane.showMessageDialog(null,  "Backup gerado com sucesso!");	
+			
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement);
+		}	
+		return true;
+	}
+	
+	
+	
+	public boolean restoreFull(String file) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		@SuppressWarnings("unused")
+		boolean result = false;
+		try {
+			statement = conn.prepareStatement(RESTAURAR_FULL);	
+			statement.setString(1, file);			
+			result = statement.execute();							
+			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso!");	
+			
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement);
+		}	
+		return true;
+	}
+	
+	public boolean restoreDif(String file) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		//BackupBean obj = new BackupBean();
+		PreparedStatement statement = null;
+		@SuppressWarnings("unused")
+		boolean result = false;
+		try {
+			statement = conn.prepareStatement(RESTAURAR_DIF);	
+			statement.setString(1, file);			
+			result = statement.execute();							
+			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso!");	
 			
 		} catch (SQLException e) {
 			throw new DaoException(e);
