@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -46,6 +47,7 @@ public class ConTabeladePreco extends JFrame {
 	 * 
 	 */
 	private TabeladePrecoDao tabDao = new TabeladePrecoDao();
+	private TabeladePreco objTab = new TabeladePreco();
 	private static final long serialVersionUID = 1L;
 	//private static final Object F_Mascara = null;
 	private JPanel contentPane;
@@ -211,6 +213,8 @@ public class ConTabeladePreco extends JFrame {
 		textField_2.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Adicionar");
+		btnNewButton.setToolTipText("ALt+S");
+		btnNewButton.setMnemonic(KeyEvent.VK_S);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(validarFormulário()){	
@@ -225,12 +229,17 @@ public class ConTabeladePreco extends JFrame {
 							try {
 								
 								if(textField_5.getText().equals("")){
-								textField_5.getText();
+//								textField_5.getText();
 									objDAO.inserirTabeladePreco(obj);
 									
 									JOptionPane.showMessageDialog(rootPane, "Dados salvos com sucesso!");	
 									
-								}else{								
+								}else{	
+									Integer matr = Integer.parseInt(textField_5.getText()); 
+									objTab.setNumProtese(matr);						
+									
+									tabDao.atualizarTabeladePreco(objTab);
+									
 									JOptionPane.showMessageDialog(rootPane, "Dados atualizados com sucesso!");
 								}
 								limpaFormulario();
@@ -277,17 +286,11 @@ public class ConTabeladePreco extends JFrame {
 					Integer mat = Integer.parseInt(matricula);				
 					TabeladePreco objTab = new TabeladePreco();
 					try {
-						objTab = tabDao.consultarTabeladePrecoID(mat);
-						objTab.setNumProtese(mat);
+//						objTab = tabDao.consultarTabeladePrecoID(mat);
+						objTab.setNumProtese(mat);						
 						
-						String aux1;
-						aux1 = textField_2.getText();
-						
-						if(aux1.matches("^[0-9]*$")){
 						tabDao.atualizarTabeladePreco(objTab);
-						}else{
-							JOptionPane.showMessageDialog(null, "Digite apenas número no campo de preço!");
-						}
+						
 					} catch (DaoException e) {
 					// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -308,6 +311,8 @@ public class ConTabeladePreco extends JFrame {
 		contentPane.add(lblUsuriosCadastrados);
 		
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.setToolTipText("Alt+L");
+		btnLimpar.setMnemonic(KeyEvent.VK_L);
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpaFormulario();

@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.menu.Login;
+import br.com.menu.Principal;
+import br.com.menu.PrincipalAdm;
 import br.com.util.CriptografiaUtil;
 
 import javax.swing.JOptionPane;
@@ -82,6 +85,7 @@ public class FuncionarioDao {
 	 * @return
 	 * @throws DaoException
 	 */
+	Login login;
 	
 	public List<String> buscarLogin() throws DaoException{				
 		Connection conn = DbUtil.getConnection();
@@ -166,7 +170,7 @@ public class FuncionarioDao {
 		int numReg = 0;
 		boolean autenticado = false;
 		
-		
+		String profissao;
 		
 //		if(nome == "admin" && senha == "admin"){
 //			try{
@@ -195,6 +199,34 @@ public class FuncionarioDao {
 			result = statement.executeQuery();
 			if (result.next()) {
 				numReg = result.getInt("total");
+				
+				statement = conn.prepareStatement("select profissaoFunc from tbFuncionario where login_funcionario = ?");
+				statement.setString(1, nome);
+				
+				result = statement.executeQuery();
+				
+				result.next();
+				profissao = result.getString(1);
+				
+				if(profissao != "Administrador" || profissao != "Adm" || profissao != "Diretor" ){
+
+//					JOptionPane.showMessageDialog(null, profissao);
+					
+					PrincipalAdm principal = new PrincipalAdm();
+					principal.setVisible(true);				
+					
+					
+				}else{
+//					JOptionPane.showMessageDialog(null, profissao);
+					
+					Principal principal = new Principal();
+					principal.setVisible(true);
+					
+										
+				}
+				
+				
+				
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e);

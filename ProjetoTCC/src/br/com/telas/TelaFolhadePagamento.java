@@ -38,6 +38,7 @@ import br.com.util.ValidacaoUtil;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -163,8 +164,11 @@ public class TelaFolhadePagamento extends JFrame {
                          panel.add(label_5);
                          
                           
-                          JButton button = new JButton("Salvar");
-                          button.setBounds(491, 254, 89, 23);
+                          JButton button = new JButton("");
+                          button.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/salvar.png")));
+                          button.setToolTipText("Salvar Alt+S");
+                          button.setMnemonic(KeyEvent.VK_S);                          
+                          button.setBounds(504, 244, 56, 33);
                           panel.add(button);
                           
                           button.addActionListener(new ActionListener() {					
@@ -218,8 +222,11 @@ public class TelaFolhadePagamento extends JFrame {
 					}
 				});
                           
-                          JButton button_1 = new JButton("Limpar");
-                          button_1.setBounds(392, 254, 89, 23);
+                          JButton button_1 = new JButton("");
+                          button_1.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/limpar.png")));
+                          button_1.setToolTipText("Limpar Alt+L");
+                          button_1.setMnemonic(KeyEvent.VK_L);
+                          button_1.setBounds(438, 244, 56, 33);
                           panel.add(button_1);
                           button_1.addActionListener(new ActionListener() {
 					
@@ -262,7 +269,7 @@ public class TelaFolhadePagamento extends JFrame {
                           dateInicio.getEditor().setToolTipText("Data ínicial para calcular a comissão!");
                           dateInicio.getEditor();
                           dateInicio.setFormats(new String[] {"dd/MM/yyyy"});
-                          dateInicio.setBounds(245, 171, 97, 20);
+                          dateInicio.setBounds(258, 171, 97, 20);
                           panel.add(dateInicio);
                   		
                   		dateFim = new JXDatePicker();
@@ -272,7 +279,9 @@ public class TelaFolhadePagamento extends JFrame {
                   		dateFim.setBounds(392, 171, 97, 20); //
                   		panel.add(dateFim);
                           
-                          JButton btnOk = new JButton("OK");
+                          JButton btnOk = new JButton("");
+                          btnOk.setToolTipText("Procurar funcion\u00E1rio");
+                          btnOk.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/pesquisar.png")));
                           btnOk.addActionListener(new ActionListener() {
                           	public void actionPerformed(ActionEvent e) {
                           		//PESQUISAR NO BANCO DE DADOS O NÚMERO DO FUNCIONÁRIO
@@ -287,7 +296,7 @@ public class TelaFolhadePagamento extends JFrame {
                           		                         		
                           	}
                           });
-                          btnOk.setBounds(217, 44, 89, 23);
+                          btnOk.setBounds(217, 44, 56, 23);
                           panel.add(btnOk);
                           
                           JLabel lblComisso = new JLabel("Comiss\u00E3o:");
@@ -355,11 +364,13 @@ public class TelaFolhadePagamento extends JFrame {
                           panel.add(btnCalcular);
                           
                           JLabel lblIncioDoMs = new JLabel("In\u00EDcio do m\u00EAs:");
-                          lblIncioDoMs.setBounds(175, 174, 80, 14);
+                          lblIncioDoMs.setFont(new Font("Arial Black", Font.PLAIN, 11));
+                          lblIncioDoMs.setBounds(160, 174, 95, 14);
                           panel.add(lblIncioDoMs);
                           
                           JLabel lblAt = new JLabel("at\u00E9");
-                          lblAt.setBounds(352, 174, 37, 14);
+                          lblAt.setFont(new Font("Arial Black", Font.PLAIN, 11));
+                          lblAt.setBounds(365, 173, 28, 14);
                           panel.add(lblAt);
                           
                           JButton btnCalcular_Com = new JButton("Calcular");
@@ -378,7 +389,9 @@ public class TelaFolhadePagamento extends JFrame {
                           panel.add(btnCalcular_Com);
                           
                           
-                          JButton btnVoltar = new JButton("Voltar");
+                          JButton btnVoltar = new JButton("");
+                          btnVoltar.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/voltar.png")));
+                          btnVoltar.setToolTipText("Voltar");
                           btnVoltar.setBounds(21, 340, 89, 23);
                           formulario.add(btnVoltar);
                           formulario.setVisible(false);

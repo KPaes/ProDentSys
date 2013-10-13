@@ -19,7 +19,7 @@ public class CalcularData {
 	}
 	
 	public static Date somarMeses(int qtdMeses){
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MONTH, qtdMeses);
@@ -28,7 +28,7 @@ public class CalcularData {
 	}
 	
 	public static Date somarMeses(int qtdMeses, Date data){
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Calendar c = Calendar.getInstance();
 		c.setTime(data);
@@ -48,6 +48,7 @@ public class CalcularData {
 		return sdf.format(c.getTime());
 	}
 	
+	@SuppressWarnings("unused")
 	public static int TirarDiferenca(Date data1, Date data2){
 		
 		if(data1 == null || data2 == null){

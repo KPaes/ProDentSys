@@ -183,7 +183,8 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                 panel.add(label_5);
                 
                 JButton button = new JButton("");
-                button.setToolTipText("Salvar");
+                button.setToolTipText("Salvar Alt+S");
+                button.setMnemonic(KeyEvent.VK_S);
                 button.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/salvar.png")));
                 button.setBounds(491, 242, 60, 35);
                 panel.add(button);
@@ -237,7 +238,8 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                 
                 JButton button_1 = new JButton("");
                 button_1.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/limpar.png")));
-                button_1.setToolTipText("Limpar");
+                button_1.setToolTipText("Limpar Alt+L");
+                button_1.setMnemonic(KeyEvent.VK_L);
                 button_1.setBounds(435, 242, 46, 35);
                 panel.add(button_1);
                 button_1.addActionListener(new ActionListener() {

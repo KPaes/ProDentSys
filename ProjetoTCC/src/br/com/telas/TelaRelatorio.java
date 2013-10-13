@@ -24,6 +24,7 @@ import java.awt.Toolkit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.ImageIcon;
 
 public class TelaRelatorio extends JFrame {
 
@@ -55,6 +56,7 @@ public class TelaRelatorio extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaRelatorio() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRelatorio.class.getResource("/br/com/images/logo_transp.png")));
 		setTitle("Relat\u00F3rio de Pedidos");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -63,27 +65,23 @@ public class TelaRelatorio extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-				
 		
-		JButton btnGerarDeTodos = new JButton("Gerar de Todos os Meses");
-		btnGerarDeTodos.addActionListener(gerarTodos); 		
-		btnGerarDeTodos.setBounds(148, 48, 182, 23);
-		contentPane.add(btnGerarDeTodos);
-		
-		JButton btnGerar = new JButton("Gerar");
+		JButton btnGerar = new JButton("");
+		btnGerar.setToolTipText("Gerar o relat\u00F3rio");
+		btnGerar.setIcon(new ImageIcon(TelaRelatorio.class.getResource("/br/com/images/gerar.png")));
 		btnGerar.addActionListener(gerarMes);
-		btnGerar.setBounds(148, 198, 89, 23);
+		btnGerar.setBounds(178, 164, 52, 33);
 		contentPane.add(btnGerar);
 		
 		JLabel lblMs = new JLabel("Data de In\u00EDcio:");
 		lblMs.setToolTipText("Coloque o n\u00FAmero do m\u00EAs dos pedidos");
-		lblMs.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblMs.setBounds(59, 98, 89, 14);
+		lblMs.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblMs.setBounds(59, 77, 97, 14);
 		contentPane.add(lblMs);
 		
 		JLabel lblRelatrio = new JLabel("Relat\u00F3rio de Pedidos");
 		lblRelatrio.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblRelatrio.setBounds(151, 11, 197, 14);
+		lblRelatrio.setBounds(142, 21, 197, 14);
 		contentPane.add(lblRelatrio);
 		
 	
@@ -91,18 +89,19 @@ public class TelaRelatorio extends JFrame {
 		datePicker.getEditor().setToolTipText("Data prevista de entrega para gerar relatório!");
 		datePicker.getEditor();
 		datePicker.setFormats(new String[] {"dd/MM/yyyy"});
-		datePicker.setBounds(148, 96, 97, 20);
+		datePicker.setBounds(159, 75, 97, 20);
 		contentPane.add(datePicker);
 		
 		datePicker2 = new JXDatePicker();
 		datePicker2.getEditor().setToolTipText("Data prevista de entrega para gerar relatório!");
 		datePicker2.getEditor();
 		datePicker2.setFormats(new String[] {"dd/MM/yyyy"});
-		datePicker2.setBounds(148, 146, 97, 20); //
+		datePicker2.setBounds(159, 120, 97, 20); //
 		contentPane.add(datePicker2);
 		
 		JLabel lblDataFinal = new JLabel("Data Final:");
-		lblDataFinal.setBounds(86, 149, 62, 14);
+		lblDataFinal.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDataFinal.setBounds(87, 122, 80, 14);
 		contentPane.add(lblDataFinal);
 		
 		

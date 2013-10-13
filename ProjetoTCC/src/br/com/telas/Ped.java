@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -204,7 +205,8 @@ public class Ped extends JFrame {
 	        	        	                  
 	        	        	                   
 	        	        	                  JButton button = new JButton("");
-	                                          button.setToolTipText("Salvar");
+	                                          button.setToolTipText("Salvar Alt+S");
+	                                          button.setMnemonic(KeyEvent.VK_S);
 	                                          button.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/salvar.png")));
 	                                          button.setBounds(491, 370, 89, 23);
 	        	        	                  panel.add(button);
@@ -263,7 +265,8 @@ public class Ped extends JFrame {
 	        	        	                   
 	        	        	                   JButton button_1 = new JButton("");
 	        	        	                   button_1.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/limpar.png")));
-	                                           button_1.setToolTipText("Limpar");
+	                                           button_1.setToolTipText("Limpar Alt+L");
+	                                           button_1.setMnemonic(KeyEvent.VK_L);
 	        	        	                   button_1.setBounds(398, 370, 89, 23);
 	        	        	                   panel.add(button_1);
 	        	        	                   button_1.addActionListener(new ActionListener() {

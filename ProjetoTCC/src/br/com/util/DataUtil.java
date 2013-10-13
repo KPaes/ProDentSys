@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.JOptionPane;
 
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -38,12 +37,5 @@ public class DataUtil {
 	}
 
 
-	private void validarData(JXDatePicker dtData){
-		Date hoje = new Date();
-		Date data = dtData.getDate();
-		if(CalcularData.TirarDiferenca(hoje, data) < 0){
-			JOptionPane.showMessageDialog(null,	"A data deve ser igual ou superior a data de hoje!", "Atenção", JOptionPane.WARNING_MESSAGE);
-			dtData.setDate(new Date());
-		}
-	}
+	
 }

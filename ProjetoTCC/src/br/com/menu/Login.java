@@ -36,7 +36,11 @@ public class Login extends JDialog {
 	private JTextField textField;
 	private JPasswordField passwordField;
 
+	int aux;
+	
 	FuncionarioDao loginTeste = new FuncionarioDao();
+	
+	static Login dialog;
 	
 	/**
 	 * Launch the application.
@@ -53,7 +57,7 @@ public class Login extends JDialog {
 	        
 	        teste.fechaSplash();
 	        
-			Login dialog = new Login();			
+			dialog = new Login();			
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -136,32 +140,24 @@ public class Login extends JDialog {
 							try {
 								try {
 									if(loginTeste.getAutenticacao(nome, senha)){										
-										Funcionario profissao = loginTeste.habilitarMenu(nome);																				
+//										Funcionario profissao = loginTeste.habilitarMenu(nome);																				
 										
 //										JOptionPane.showMessageDialog(null, profissao.getProfissaoFunc());
 										
-										if(profissao.getProfissaoFunc() == "Administrador" || 
-												profissao.getProfissaoFunc() == "Adm" || 
-												profissao.getProfissaoFunc() == "Diretor" ){
-											
-											PrincipalAdm principal = new PrincipalAdm();											
-											
+//										if(aux==2){
+//																					
+//											
 //											Principal principal = new Principal();
-											principal.setVisible(true);
-											
-											dispose();
-										}else{	
-//											if(profissao.getProfissaoFunc() != "Administrador" || 
-//													profissao.getProfissaoFunc() != "Adm" || 
-//													profissao.getProfissaoFunc() != "Diretor" ){
-											
-//												Principal principal = new Principal();
-											PrincipalAdm principal = new PrincipalAdm();
-											principal.setVisible(true);
+//											principal.setVisible(true);
+//											
+//											dispose();
+//									}else{	
+//											PrincipalAdm principal = new PrincipalAdm();
+//											principal.setVisible(true);
 										
-											dispose();
-//										}
-										}
+										dialog.setVisible(false);
+										
+										
 									}
 									
 									else{
@@ -197,6 +193,24 @@ public class Login extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
+	}
+	public void profissaoAdm(){
+//		PrincipalAdm principal = new PrincipalAdm();											
+		aux = 2;
+//		Principal principal = new Principal();
+//		principal.setVisible(true);
+//		
+//		dispose();
+	}
+	public void profissao(){
+//		PrincipalAdm principal = new PrincipalAdm();											
+		
+		aux = 1;
+		
+//		Principal principal = new Principal();
+//		principal.setVisible(true);
+//		
+//		dispose();
 	}
 	
 }

@@ -33,6 +33,7 @@ import br.com.util.ValidacaoUtil;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -60,6 +61,7 @@ public class CadFornecedor extends JDialog {
 	private JTextField textField_8;
 	private JTextField textField_1;
 	private JTextField textField_9;
+	
 
 	public CadFornecedor() throws DaoException {
 		setResizable(false);
@@ -164,7 +166,8 @@ public class CadFornecedor extends JDialog {
                                     
                                      
                                      JButton button = new JButton("");
-                                     button.setToolTipText("Salvar");
+                                     button.setToolTipText("Salvar Alt+S");
+                                     button.setMnemonic(KeyEvent.VK_S);                               
                                      button.setIcon(new ImageIcon(CadFornecedor.class.getResource("/br/com/images/salvar.png")));
                                      button.setBounds(491, 242, 63, 35);
                                      panel.add(button);
@@ -208,9 +211,10 @@ public class CadFornecedor extends JDialog {
 					}
 				});
                                      
-                                     JButton button_1 = new JButton("");
+                                     JButton  button_1 = new JButton("");
                                      button_1.setIcon(new ImageIcon(CadFornecedor.class.getResource("/br/com/images/limpar.png")));
-                                     button_1.setToolTipText("Limpar");
+                                     button_1.setMnemonic(KeyEvent.VK_L);
+                                     button_1.setToolTipText("Limpar Alt+L");                                     
                                      button_1.setBounds(418, 242, 63, 35);
                                      panel.add(button_1);
                                      button_1.addActionListener(new ActionListener() {
@@ -399,12 +403,14 @@ public class CadFornecedor extends JDialog {
                             );
                     table.getColumnModel().getColumn(0).setPreferredWidth(55);
                     table.getColumnModel().getColumn(0).setMinWidth(55);
-                    table.getColumnModel().getColumn(1).setPreferredWidth(200);
-                    table.getColumnModel().getColumn(1).setMinWidth(200);
+                    table.getColumnModel().getColumn(1).setPreferredWidth(220);
+                    table.getColumnModel().getColumn(1).setMinWidth(220);
                     table.getColumnModel().getColumn(2).setPreferredWidth(80);
                     table.getColumnModel().getColumn(2).setMinWidth(80);
-                    table.getColumnModel().getColumn(3).setPreferredWidth(100);
-                    table.getColumnModel().getColumn(3).setMinWidth(100);
+                    table.getColumnModel().getColumn(3).setPreferredWidth(70);
+                    table.getColumnModel().getColumn(3).setMinWidth(70);
+                    table.getColumnModel().getColumn(4).setPreferredWidth(60);
+                    table.getColumnModel().getColumn(4).setMinWidth(60);
                     table.setBounds(39, 175, 530, 232);
                     
                                       atualizaLista(table,"");
@@ -559,6 +565,7 @@ public class CadFornecedor extends JDialog {
 		}
 		
 		return result;
-	}
+	}	
+
 }
 

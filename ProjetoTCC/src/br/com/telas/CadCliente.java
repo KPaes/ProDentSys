@@ -35,6 +35,7 @@ import br.com.util.ValidaEmail;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -186,7 +187,8 @@ public class CadCliente extends JDialog {
                             
                             JButton button = new JButton("");
                             button.setIcon(new ImageIcon(CadCliente.class.getResource("/br/com/images/salvar.png")));
-                            button.setToolTipText("Salvar");
+                            button.setToolTipText("Salvar Alt+S");
+                            button.setMnemonic(KeyEvent.VK_S);
                             button.setBounds(491, 244, 56, 33);
                             panel.add(button);
                             
@@ -278,7 +280,8 @@ public class CadCliente extends JDialog {
 				});
                             
                   JButton button_1 = new JButton("");
-                  button_1.setToolTipText("Limpar");
+                  button_1.setToolTipText("Limpar Alt+L");
+                  button_1.setMnemonic(KeyEvent.VK_L);
                   button_1.setIcon(new ImageIcon(CadCliente.class.getResource("/br/com/images/limpar.png")));
                   button_1.setBounds(425, 244, 56, 33);
                   panel.add(button_1);
