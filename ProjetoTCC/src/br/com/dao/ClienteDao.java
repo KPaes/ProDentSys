@@ -21,8 +21,8 @@ public class ClienteDao {
 	
 	private static final String INSERIR_CLIENTE =
 			"insert into tbcliente(nomeCliente, cpfCliente, telCliente, "+
-			"ruaCliente, numEndCliente, bairroCliente, cidadeCliente, cepCliente, emailCliente) " +
-			"values (?,?,?,?,?,?,?,?,?)";
+			"ruaCliente, numEndCliente, bairroCliente, cidadeCliente, cepCliente, emailCliente, complCliente) " +
+			"values (?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_CLIENTE =
 			"update tbcliente set " +
@@ -34,7 +34,8 @@ public class ClienteDao {
 			"bairroCliente = ?, " +
 			"cidadeCliente = ?, " +
 			"cepCliente = ?, " +
-			"emailCliente = ? " +
+			"emailCliente = ?, " +
+			"complCliente = ? " +
 			"where numCliente = ? ";
 	
 	
@@ -109,6 +110,7 @@ public class ClienteDao {
 				objCliente.setCidadeCliente(result.getString(8));
 				objCliente.setCepCliente(result.getString(9));
 				objCliente.setEmailCliente(result.getString(10));
+				objCliente.setComplCliente(result.getString(11));
 				listaCliente.add(objCliente);
 			}
 		} catch (SQLException e) {
@@ -139,6 +141,7 @@ public class ClienteDao {
 				objCliente.setCidadeCliente(result.getString(8));
 				objCliente.setCepCliente(result.getString(9));
 				objCliente.setEmailCliente(result.getString(10));
+				objCliente.setComplCliente(result.getString(11));
 
 			}
 		} catch (SQLException e) {
@@ -174,6 +177,7 @@ public class ClienteDao {
 				objCliente.setCidadeCliente(result.getString(8));
 				objCliente.setCepCliente(result.getString(9));
 				objCliente.setEmailCliente(result.getString(10));
+				objCliente.setComplCliente(result.getString(11));
 				listaCliente.add(objCliente);
 			}
 		} catch (SQLException e) {
@@ -199,6 +203,7 @@ public class ClienteDao {
 			statement.setString(7, obj.getCidadeCliente());
 			statement.setString(8, obj.getCepCliente());
 			statement.setString(9, obj.getEmailCliente());
+			statement.setString(10, obj.getComplCliente());
 			statement.executeUpdate();
 			
 			statement = conn.prepareStatement("select max(numCliente) from tbcliente");
@@ -235,6 +240,7 @@ public class ClienteDao {
 			statement.setString(8, objCliente.getCepCliente());
 			statement.setString(9, objCliente.getEmailCliente());
 			statement.setInt(10, objCliente.getNumCliente());
+			statement.setString(11, objCliente.getComplCliente());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

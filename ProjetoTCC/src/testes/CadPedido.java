@@ -1,4 +1,4 @@
-package br.com.telas;
+package testes;
 
 import java.awt.Button;
 import java.awt.Color;
@@ -43,7 +43,7 @@ import br.com.util.ValidacaoUtil;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextArea;
 
-import br.com.telas.TabelaCarrinho;
+import br.com.telas.CadFuncionario;
 
 
 public class CadPedido extends JFrame {
@@ -196,8 +196,11 @@ public class CadPedido extends JFrame {
 							Pedido obj = new Pedido();
 						//JTextField textTotal=null;
 						//String pega =	TabelaCarrinho.pegaTotalPedido("", textTotal);
-								obj.setDataPedido(textField_2.getText());
-								obj.setDataEntrega(textField_10.getText());
+							
+							// MUDAR PARA DATE
+//								obj.setDataPedido(textField_2.getText());
+//								obj.setDataEntrega(textField_10.getText());
+								
 							//	obj.setTotalPedido(textTotalPed.getText(TabelaCarrinho.pegaTotalPedido()));
 							//	obj.setTotalPedido(textTotalPed.setText(pega)).toString();
 								obj.setTotalPedido(Double.parseDouble(textTotalPed.getText()));
@@ -545,7 +548,7 @@ public class CadPedido extends JFrame {
 				dados[0] = String.valueOf(obj.getNumPed()) ;
 				dados[1] = obj.getNomeCliente();
 				dados[2] = obj.getNomePaciente();
-				dados[3] = obj.getDataEntrega(); //mais uma coluna para mais informações
+//				dados[3] = obj.getDataEntrega(); //mais uma coluna para mais informações
 				((DefaultTableModel) table.getModel()).addRow(dados); 
 			} 
 			table.setDefaultRenderer(Object.class, new TableCellRenderer());
@@ -572,7 +575,7 @@ public class CadPedido extends JFrame {
 			String pega =	TabelaCarrinho.pegaTotalPedido("", textTotalOutro);
 			textTotalPed.setText(pega);
 			
-			textField_2.setText(objPedido.getDataPedido());
+//			textField_2.setText(objPedido.getDataPedido());
 			//textField_1.setText(objPedido.getTipoProt()); //objTabela
 			//textField_4.setText(objPedido.getPreco()); //valor serviço
 			textField_6.setText(objPedido.getNomeFunc()); //CLASSE PESSOA
@@ -582,7 +585,7 @@ public class CadPedido extends JFrame {
 			textField.setText(objPedido.getCpfCliente());
 			//textField_3.setText(objPedido.getNomeProt()); //objTabela
 			textField_9.setText(objPedido.getNomePaciente());
-			textField_10.setText(objPedido.getDataEntrega());
+//			textField_10.setText(objPedido.getDataEntrega());
 			//falta do observações
 			
 			Integer matr = objPedido.getNumPed();

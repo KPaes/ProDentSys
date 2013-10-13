@@ -23,12 +23,12 @@ public class RelatorioDao {
 					" where dataEntrega between ? and ? ";
 	
 	private static final String FOLHA_DE_PAGAMENTO =
-			"SELECT a.nomeCliente, a.nomePaciente, a.observacoesPed, a.totalPedido," +
-			" b.nomeFunc, b.salarioFunc, b.comissaoFuncTotal, b.bonusFunc," +
+			"SELECT a.nomeCliente, a.nomePaciente, a.observacoesPed, a.totalPedido, a.dataEntrega," +
+			" b.nomeFunc, b.salarioFunc, b.comissaoFuncTotal, b.bonusFunc, b.dataInicio, b.dataFim," +
 			" b.totalFunc FROM tbPedido a " +
 			" inner join tbFolhadePagamento b " +
-			" on a.numFunc = b.numFunc " +
-			" WHERE b.numFunc = ?";
+			" on a.numFunc = b.numFunc and a.dataEntrega between b.dataInicio and b.dataFim " +
+			" WHERE b.numFunc = ? and a.dataEntrega between ? and ?";
 	
 	
 	
@@ -85,7 +85,7 @@ public class RelatorioDao {
 	    }
 	 
 	 /** Relatório do pagamento do funcionário */	
-	 public ResultSet folhaResultSet(Integer func) throws DaoException {		 
+	 public ResultSet folhaResultSet(Integer func, Date date, Date date2) throws DaoException {		 
 			Connection conn = DbUtil.getConnection();
 			PreparedStatement statement = null;			
 	        ResultSet rs = null;		
@@ -93,6 +93,8 @@ public class RelatorioDao {
 	        try {	          
 	        	statement = conn.prepareStatement(FOLHA_DE_PAGAMENTO);
 	        	statement.setInt(1, func);
+	        	statement.setDate(2, DbUtil.getSqlDate( date));
+	        	statement.setDate(3, DbUtil.getSqlDate( date2));
 	        	rs = statement.executeQuery();
 	        } catch (SQLException e) {
 	        	throw new DaoException(e);			

@@ -100,6 +100,7 @@ public class Ped extends JFrame {
        // MouseListener tableMouseListener = null;
 
 		public Ped() throws DaoException {
+			setResizable(false);
 			setIconImage(Toolkit.getDefaultToolkit().getImage(Ped.class.getResource("/br/com/images/logo_transp.png")));
 			setTitle("Cadastro de Pedidos");
 			int width = 800;
@@ -628,7 +629,8 @@ public class Ped extends JFrame {
               	    	                precoProtese+=protesesIn.getPrecoProtese();  
               	    	            }  
 
-              	    	        textValorProt.setText(String.valueOf(precoProtese));  
+              	    	        textValorProt.setText(String.valueOf(precoProtese));
+              	    	        textValorProt.setEditable(false);
               	    	   //     protesesTable.isSelecione = false;
               	    	     /* for(TabeladePreco protesesIn : protesesTable){ 
               	    	        if(protesesIn.isSelecione() == true)  {

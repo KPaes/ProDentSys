@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import br.com.exception.DaoException;
 import br.com.util.DbUtil;
@@ -49,10 +50,10 @@ public class PedidoDao {
 			"select * from tbpedido where nomeCliente like ? order by nomeCliente";	
 	
 	private static final String TOTAL_BUSCAR = 
-			"select SUM(totalPedido) from tbpedido where numFunc = ?";
+			"select SUM(totalPedido) from tbpedido where numFunc = ? and dataEntrega between ? and ?";
 	
 	
-	public Pedido comissaoTotalPedido(int idFunc) throws DaoException{		
+	public Pedido comissaoTotalPedido(int idFunc, Date data1, Date data2) throws DaoException{		
 		Pedido objPed = new Pedido();
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
@@ -60,6 +61,8 @@ public class PedidoDao {
 		try {
 			statement = conn.prepareStatement(TOTAL_BUSCAR);
 			statement.setInt(1, idFunc);
+			statement.setDate(2, DbUtil.getSqlDate( data1));
+        	statement.setDate(3, DbUtil.getSqlDate( data2));
 			result = statement.executeQuery();
 			
 			while (result.next()){				

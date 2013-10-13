@@ -27,7 +27,7 @@ import br.com.dao.TabeladePrecoDao;
 import br.com.enviaremail.Interface;
 import br.com.exception.DaoException;
 
-import br.com.telas.Principal;
+import br.com.menu.Principal;
 import br.com.util.Moeda;
 //import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
@@ -77,6 +77,7 @@ public class ConTabeladePreco extends JFrame {
 	 * Create the frame.
 	 */
 	public ConTabeladePreco() throws DaoException {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ConTabeladePreco.class.getResource("/br/com/images/logo_transp.png")));
 		setTitle("Tabela de Pre\u00E7o");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -213,8 +214,6 @@ public class ConTabeladePreco extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(validarFormulário()){	
-					String aux1;
-					aux1 = textField_2.getText();
 					
 							TabeladePreco obj = new TabeladePreco();
 							

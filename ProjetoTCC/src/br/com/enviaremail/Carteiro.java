@@ -69,17 +69,6 @@ public class Carteiro {
 		multiPartEmail.setSubject(mensagem.getAssunto());
 		multiPartEmail.setMsg(mensagem.getMensagem());
 		
-/*
-		MimeBodyPart attachFilePart = new MimeBodyPart();
-      FileDataSource fds = 
-          new FileDataSource("/br/com/anexos/Tabela.jpg"); //anexo ao email
-      attachFilePart.setDataHandler(new DataHandler(fds));
-      attachFilePart.setFileName(fds.getName());
-
-      Multipart mp = new MimeMultipart();
-      //mp.addBodyPart(textPart);
-      mp.addBodyPart(attachFilePart);
-*/
 	  multiPartEmail.attach(attachment); // adiciona o anexo à mensagem
       multiPartEmail.send();
  

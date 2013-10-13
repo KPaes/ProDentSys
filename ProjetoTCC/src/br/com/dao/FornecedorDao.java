@@ -19,8 +19,8 @@ public class FornecedorDao {
 	
 	private static final String INSERIR_FORNECEDOR =
 			"insert into tbfornecedor(nomeFornec, telFornec, "+
-			"ruaFornec, numEndFornec, bairroFornec, cidadeFornec, cepFornec) " +
-			"values (?,?,?,?,?,?,?)";
+			"ruaFornec, numEndFornec, bairroFornec, cidadeFornec, cepFornec, complFornec) " +
+			"values (?,?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_FORNECEDOR =
 			"update tbfornecedor set " +
@@ -30,7 +30,8 @@ public class FornecedorDao {
 			"numEndFornec = ?, " +
 			"bairroFornec = ?, " +
 			"cidadeFornec = ?, " +
-			"cepFornec = ? " +
+			"cepFornec = ?, " +
+			"complFornec = ? " +
 			"where numFornec = ? ";
 	
 	
@@ -66,6 +67,7 @@ public class FornecedorDao {
 				objFornec.setBairroFornec(result.getString(6));
 				objFornec.setCidadeFornec(result.getString(7));
 				objFornec.setCepFornec(result.getString(8));
+				objFornec.setComplFornec(result.getString(9));
 				listaFornec.add(objFornec);
 			}
 		} catch (SQLException e) {
@@ -94,6 +96,7 @@ public class FornecedorDao {
 				objFornec.setBairroFornec(result.getString(6));
 				objFornec.setCidadeFornec(result.getString(7));
 				objFornec.setCepFornec(result.getString(8));
+				objFornec.setComplFornec(result.getString(9));
 				listaFornec.add(objFornec);
 			}
 		} catch (SQLException e) {
@@ -122,6 +125,7 @@ public class FornecedorDao {
 				objFornec.setBairroFornec(result.getString(6));
 				objFornec.setCidadeFornec(result.getString(7));
 				objFornec.setCepFornec(result.getString(8));
+				objFornec.setComplFornec(result.getString(9));
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e);
@@ -144,6 +148,7 @@ public class FornecedorDao {
 			statement.setString(5, obj.getBairroFornec());
 			statement.setString(6, obj.getCidadeFornec());
 			statement.setString(7, obj.getCepFornec());
+			statement.setString(8, obj.getComplFornec());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -167,7 +172,8 @@ public class FornecedorDao {
 			statement.setString(5, objFornec.getBairroFornec());
 			statement.setString(6, objFornec.getCidadeFornec());
 			statement.setString(7, objFornec.getCepFornec());
-			statement.setInt(8, objFornec.getNumFornec());
+			statement.setString(8, objFornec.getComplFornec());
+			statement.setInt(9, objFornec.getNumFornec());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

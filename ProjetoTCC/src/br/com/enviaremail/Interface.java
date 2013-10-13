@@ -18,6 +18,7 @@ import org.apache.commons.mail.EmailException;
 import br.com.bean.ClienteDent;
 import br.com.dao.ClienteDao;
 import br.com.exception.DaoException;
+import br.com.util.BarraDeProgresso;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,9 @@ import javax.swing.ImageIcon;
 public class Interface extends JFrame {
 
 	private JProgressBar progressBar = new JProgressBar();
+
+	BarraDeProgresso barraDeProgresso = new BarraDeProgresso();
+    Thread threadDaBarra = new Thread(barraDeProgresso);
 	
 	private JPanel contentPane;
 	private JTextField textField;
@@ -39,7 +43,7 @@ public class Interface extends JFrame {
 	private JTextField textField_4;
 	private static final long serialVersionUID = 1L;
 
-	private String caminho;
+	private String caminho = "";
 	JFileChooser fc;
 	/**
 	 * Launch the application.
@@ -71,7 +75,7 @@ public class Interface extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		progressBar.setBounds(91, 296, 349, 19);
+		progressBar.setBounds(91, 300, 349, 19);
 
 		contentPane.add(progressBar);
 
@@ -126,33 +130,57 @@ public class Interface extends JFrame {
 		btnEnviar.setToolTipText("Enviar E-mail");
 		btnEnviar.setIcon(new ImageIcon(Interface.class.getResource("/br/com/images/send.png")));
 		btnEnviar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {								
 				Mensagem mensagem = new Mensagem();
+				
 				mensagem.setDestinatario(textField_1.getText());
 				mensagem.setAssunto(textField_2.getText());
 				mensagem.setMensagem(textField_3.getText());
-				mensagem.setCaminho(caminho);
+				
+				if(caminho.isEmpty() == true){
+					Carteiro_so_mensagem carteiro = new Carteiro_so_mensagem();
+					try {									
+						 for (int i = 0; i < 500000; i++){  
+					           System.out.println(i);  
+					           setProgresso(i);
+					        }
+//					    threadDaBarra.start();					    
+					    
+						carteiro.enviarMensagem(mensagem);						
+						JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
+					} catch (EmailException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
+					} catch (MessagingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else{					
+				
+					mensagem.setCaminho(caminho);
 								 
-				Carteiro carteiro = new Carteiro();
-				try {									
+					Carteiro carteiro = new Carteiro();
+					try {									
 					 for (int i = 0; i < 500000; i++){  
 				           System.out.println(i);  
 				           setProgresso(i);
 				        }
 					 
-					carteiro.enviarMensagem(mensagem);						
-					JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
-				} catch (EmailException e1) {
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
-				} catch (MessagingException e1) {
+					 carteiro.enviarMensagem(mensagem);						
+					 JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
+					} catch (EmailException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
+				} 
+				catch (MessagingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				}
 				}
 			}
 		});
 
-		btnEnviar.setBounds(358, 266, 67, 23);
+		btnEnviar.setBounds(358, 266, 67, 30);
 		contentPane.add(btnEnviar);
 		
 		textField_3 = new JTextField();
@@ -218,7 +246,9 @@ public class Interface extends JFrame {
 		
 		fc = new JFileChooser();
 		
-		JButton btnAnexo = new JButton("Anexo");
+		JButton btnAnexo = new JButton("");
+		btnAnexo.setToolTipText("Anexar um arquivo");
+		btnAnexo.setIcon(new ImageIcon(Interface.class.getResource("/br/com/images/clip.png")));
 		btnAnexo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int returnVal = fc.showOpenDialog(Interface.this);				
@@ -228,7 +258,7 @@ public class Interface extends JFrame {
 	            }	
 			}
 		});
-		btnAnexo.setBounds(115, 266, 89, 23);
+		btnAnexo.setBounds(115, 266, 56, 30);
 		contentPane.add(btnAnexo);
 	}
 	public void setProgresso(int i) {

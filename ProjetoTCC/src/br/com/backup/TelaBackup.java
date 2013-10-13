@@ -1,6 +1,7 @@
 package br.com.backup;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Insets;
 
@@ -9,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
@@ -30,6 +32,9 @@ public class TelaBackup extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
+	
+	private JProgressBar progressBar = new JProgressBar();
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
@@ -64,11 +69,26 @@ public class TelaBackup extends JFrame implements ActionListener {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaBackup.class.getResource("/br/com/images/logo_transp.png")));
 		setTitle("Backup");
-		setBounds(100, 100, 432, 333);
+		setBounds(100, 100, 432, 322);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		progressBar.setBounds(28, 261, 366, 19);
+
+		contentPane.add(progressBar);
+
+		progressBar.setBorderPainted(false);
+		progressBar.setString("");
+		progressBar.setMinimum(0);
+		progressBar.setMaximum(500000);
+		progressBar.setIndeterminate(false);
+		progressBar.setBackground(Color.white);
+		progressBar.setForeground(new Color(144, 238, 144));
+		progressBar.setStringPainted(true);
+		progressBar.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 12));
+	
 		
 		JLabel lblBackup = new JLabel("BACKUP");
 		lblBackup.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -100,7 +120,7 @@ public class TelaBackup extends JFrame implements ActionListener {
         	 //Create the log first, because the action listeners
         //need to refer to it.
         log = new JTextArea(5,20);
-        log.setBounds(28, 159, 366, 117);
+        log.setBounds(29, 150, 365, 100);
         contentPane.add(log);
         log.setMargin(new Insets(5,5,5,5));
         log.setEditable(false);
@@ -120,7 +140,7 @@ public class TelaBackup extends JFrame implements ActionListener {
         
         lblAntesDeRestaurar = new JLabel("Antes de restaurar o diferencial, restaure o completo.");
         lblAntesDeRestaurar.setFont(new Font("Tahoma", Font.ITALIC, 11));
-        lblAntesDeRestaurar.setBounds(38, 126, 304, 14);
+        lblAntesDeRestaurar.setBounds(29, 125, 304, 14);
         contentPane.add(lblAntesDeRestaurar);
     }
 
@@ -136,8 +156,11 @@ public class TelaBackup extends JFrame implements ActionListener {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
             	caminho = fc.getSelectedFile().getAbsolutePath().replace("\\" , "\\\\" );  
             	if(caminho.contains(".bak")){            		
-            		try {
+            		try {            			
             			bkpDao.restoreFull(caminho);
+            			//thread
+            			
+            			
             		} catch (DaoException e1) {
             			// TODO Auto-generated catch block
             			e1.printStackTrace();
@@ -165,6 +188,7 @@ public class TelaBackup extends JFrame implements ActionListener {
             	if(caminho.contains(".bak")){
             		try {
             			bkpDao.restoreDif(caminho);
+            			
             		} catch (DaoException e1) {
             			// TODO Auto-generated catch block
             			e1.printStackTrace();
@@ -283,6 +307,15 @@ public class TelaBackup extends JFrame implements ActionListener {
     
 		
 	}
-    
+    public void setProgresso(int i) {
+		progressBar.setValue(i);
+		progressBar.setString("Enviando...  "+i/5000+"%");		
+	}
+    public void barra(){ //implements Runnable{
+    	for (int i = 0; i < 500000; i++){  
+	           System.out.println(i);  
+	           setProgresso(i);
+	        }
+    }
 }
 

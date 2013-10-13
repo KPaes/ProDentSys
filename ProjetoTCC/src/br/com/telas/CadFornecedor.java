@@ -59,8 +59,11 @@ public class CadFornecedor extends JDialog {
 	private JTextField textField_7;
 	private JTextField textField_8;
 	private JTextField textField_1;
+	private JTextField textField_9;
 
 	public CadFornecedor() throws DaoException {
+		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CadFornecedor.class.getResource("/br/com/images/logo_sys.png")));
 		setTitle("Cadastro de Fornecedores");
 		//setIconImage(Toolkit.getDefaultToolkit().getImage(CadFuncionario.class.getResource("/br/com/images/cadForm.jpg")));
 		int width = 800;
@@ -132,13 +135,13 @@ public class CadFornecedor extends JDialog {
                                     JLabel label_4 = new JLabel("Rua:");
                                     label_4.setHorizontalAlignment(SwingConstants.RIGHT);
                                     label_4.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                                    label_4.setBounds(12, 118, 70, 18);
+                                    label_4.setBounds(12, 89, 70, 18);
                                     panel.add(label_4);
                                     
                                     JLabel label_5 = new JLabel("Nº:");
                                     label_5.setHorizontalAlignment(SwingConstants.RIGHT);
                                     label_5.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                                    label_5.setBounds(356, 118, 50, 18);
+                                    label_5.setBounds(356, 89, 50, 18);
                                     panel.add(label_5);
                                     
                                     JLabel label_6 = new JLabel("Bairro:");
@@ -180,6 +183,7 @@ public class CadFornecedor extends JDialog {
 							obj.setCidadeFornec(textField_8.getText());							
 							obj.setNomeFornec(textField.getText());
 							obj.setCepFornec(textField_3.getText());
+							obj.setComplFornec(textField_9.getText());
 							
 							FornecedorDao objDAO = new FornecedorDao();
 							try {
@@ -219,7 +223,7 @@ public class CadFornecedor extends JDialog {
 				});
                                      
                                      textField = new JTextField();
-                                     textField.setBounds(92, 31, 335, 20);
+                                     textField.setBounds(92, 31, 389, 20);
                                      panel.add(textField);
                                      textField.setColumns(10);
                                      try {
@@ -242,12 +246,12 @@ public class CadFornecedor extends JDialog {
                                      textField_3.setColumns(10);
                                      
                                      textField_4 = new JTextField();
-                                     textField_4.setBounds(92, 118, 254, 20);
+                                     textField_4.setBounds(92, 89, 254, 20);
                                      panel.add(textField_4);
                                      textField_4.setColumns(10);
                                      
                                      textField_6 = new JTextField();
-                                     textField_6.setBounds(416, 118, 70, 20);
+                                     textField_6.setBounds(411, 89, 70, 20);
                                      panel.add(textField_6);
                                      textField_6.setColumns(10);
                                      
@@ -271,6 +275,17 @@ public class CadFornecedor extends JDialog {
                                      lblTodosOsCampos.setFont(new Font("Tahoma", Font.PLAIN, 12));
                                      lblTodosOsCampos.setBounds(122, 257, 206, 14);
                                      panel.add(lblTodosOsCampos);
+                                     
+                                     JLabel lblComplemento = new JLabel("Compl.:");
+                                     lblComplemento.setHorizontalAlignment(SwingConstants.RIGHT);
+                                     lblComplemento.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                                     lblComplemento.setBounds(12, 118, 70, 18);
+                                     panel.add(lblComplemento);
+                                     
+                                     textField_9 = new JTextField();
+                                     textField_9.setBounds(91, 116, 255, 20);
+                                     panel.add(textField_9);
+                                     textField_9.setColumns(10);
                                      
                                      JButton btnVoltar = new JButton("");
                                      btnVoltar.setIcon(new ImageIcon(CadFornecedor.class.getResource("/br/com/images/voltar.png")));
@@ -488,7 +503,8 @@ public class CadFornecedor extends JDialog {
 		textField_8.setText(objFornec.getCidadeFornec());
 		textField.setText(objFornec.getNomeFornec());
 		textField_3.setText(objFornec.getCepFornec());
-
+		textField_9.setText(objFornec.getComplFornec());
+		
 		Integer matr = objFornec.getNumFornec();
 		textField_5.setText(matr.toString());
 		
@@ -506,6 +522,7 @@ public class CadFornecedor extends JDialog {
 		textField_6.setText("");
 		textField_7.setText("");
 		textField_8.setText("");
+		textField_9.setText("");
 				
 	}
 	

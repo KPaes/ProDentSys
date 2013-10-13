@@ -1,5 +1,7 @@
 package br.com.bean;
 
+import java.util.Date;
+
 import br.com.bean.Funcionario;
 
 public class FolhaPagamento extends Funcionario{
@@ -7,6 +9,8 @@ public class FolhaPagamento extends Funcionario{
 	private Double bonusFunc;
 	private Double totalFunc;
 	private Integer codDep;
+	private Date dataInicio;
+	private Date dataFim;
 	
 	public static void main(String args[]){
 			
@@ -50,6 +54,22 @@ public class FolhaPagamento extends Funcionario{
 		this.totalFunc = totalFunc;
 	}
 	
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public Date getDataFim() {
+		return dataFim;
+	}
+
+	public void setDataFim(Date dataFim) {
+		this.dataFim = dataFim;
+	}
+
 	//Métodos
 	public Double folhadePagamento(Double salario){
 		

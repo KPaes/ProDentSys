@@ -67,6 +67,7 @@ public class CadCliente extends JDialog {
 	private JTextField textField_10;
 	
 	private int atualizar;
+	private JTextField textField_11;
 	
 
 	public CadCliente() throws DaoException {
@@ -167,7 +168,7 @@ public class CadCliente extends JDialog {
                            JLabel label_6 = new JLabel("Bairro:");
                            label_6.setHorizontalAlignment(SwingConstants.RIGHT);
                            label_6.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_6.setBounds(0, 176, 70, 18);
+                           label_6.setBounds(266, 176, 70, 18);
                            panel.add(label_6);
                            
                            JLabel label_7 = new JLabel("Cidade:");
@@ -222,6 +223,7 @@ public class CadCliente extends JDialog {
 								obj.setCidadeCliente(textField_6.getText());							
 								obj.setNomeCliente(textField.getText());
 								obj.setCepCliente(textField_7.getText());
+								obj.setComplCliente(textField_11.getText());
 															
 								obj.setCpfCliente(textField_9.getText());				
 								
@@ -315,7 +317,7 @@ public class CadCliente extends JDialog {
                   textField_3.setColumns(10);
                   
                  textField_4 = new JTextField();
-                 textField_4.setBounds(80, 176, 190, 20);
+                 textField_4.setBounds(346, 176, 190, 20);
                  panel.add(textField_4);
                  textField_4.setColumns(10);
                  
@@ -359,6 +361,17 @@ public class CadCliente extends JDialog {
                  lblTodosOsCampos.setFont(new Font("Tahoma", Font.PLAIN, 12));
                  lblTodosOsCampos.setBounds(130, 263, 206, 14);
                  panel.add(lblTodosOsCampos);
+                 
+                 JLabel lblCompl = new JLabel("Compl.:");
+                 lblCompl.setHorizontalAlignment(SwingConstants.RIGHT);
+                 lblCompl.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                 lblCompl.setBounds(0, 176, 70, 18);
+                 panel.add(lblCompl);
+                 
+                 textField_11 = new JTextField();
+                 textField_11.setBounds(80, 176, 190, 20);
+                 panel.add(textField_11);
+                 textField_11.setColumns(10);
                  
                  JButton btnVoltar = new JButton("");
                  btnVoltar.setToolTipText("Voltar");
@@ -468,7 +481,7 @@ public class CadCliente extends JDialog {
         		  new Object[][] {
                    },
                    new String[] {
-                      "Matr\u00EDcula", "Nome", "Telefone", "E-mail", "Editar","Excluir"
+                      "Número", "Nome", "Telefone", "E-mail", "Editar","Excluir"
                    }
                                                                                      	
                )
@@ -578,6 +591,7 @@ public class CadCliente extends JDialog {
 		textField.setText(objCliente.getNomeCliente());
 		textField_3.setText(objCliente.getTelCliente());
 		textField_9.setText(objCliente.getCpfCliente());
+		textField_11.setText(objCliente.getComplCliente());
 		
 		Integer matr = objCliente.getNumCliente();
 		textField_5.setText(matr.toString());
@@ -598,6 +612,7 @@ public class CadCliente extends JDialog {
 		textField_7.setText("");
 		textField_8.setText("");
 		textField_9.setText("");
+		textField_11.setText("");
 		
 	}
 

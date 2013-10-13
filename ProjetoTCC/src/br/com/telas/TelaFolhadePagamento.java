@@ -33,17 +33,23 @@ import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
 
 import br.com.relatorio.FolhaControle;
+import br.com.util.CalcularData;
 import br.com.util.ValidacaoUtil;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+
+import org.jdesktop.swingx.JXDatePicker;
 
 public class TelaFolhadePagamento extends JFrame {
     final JPanel lista = new JPanel();
@@ -64,6 +70,9 @@ public class TelaFolhadePagamento extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_4;
 	private JTextField textField_6;
+	
+	private JXDatePicker dateInicio;
+	private JXDatePicker dateFim;
 	
 	private Double salario, salarioTotal;
 	private Double bonus = 0.0;
@@ -176,6 +185,17 @@ public class TelaFolhadePagamento extends JFrame {
 							obj.setNumFunc(Integer.parseInt(textField.getText()));
 							obj.setProfissaoFunc(textField_1.getText());
 							
+							SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");						
+							
+							try {
+								obj.setDataInicio(df.parse(dateInicio.getEditor().getText()));
+								obj.setDataFim(df.parse(dateFim.getEditor().getText())); 
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} 
+							
+							
 							FolhadePagamentoDao objDAO = new FolhadePagamentoDao();
 							try {							
 								
@@ -223,7 +243,7 @@ public class TelaFolhadePagamento extends JFrame {
                           //textField_3 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
                           textField_3 = new JFormattedTextField();
                         //  textField_3.setDocument(new Moeda());
-                          textField_3.setBounds(80, 171, 80, 20);
+                          textField_3.setBounds(80, 171, 70, 20);
                           panel.add(textField_3);
                           textField_3.setColumns(10);
                           
@@ -236,6 +256,21 @@ public class TelaFolhadePagamento extends JFrame {
                           textField_9.setBounds(80, 89, 335, 20);
                           panel.add(textField_9);
                           textField_9.setColumns(10);
+                          
+                          
+                          dateInicio = new JXDatePicker();
+                          dateInicio.getEditor().setToolTipText("Data ínicial para calcular a comissão!");
+                          dateInicio.getEditor();
+                          dateInicio.setFormats(new String[] {"dd/MM/yyyy"});
+                          dateInicio.setBounds(245, 171, 97, 20);
+                          panel.add(dateInicio);
+                  		
+                  		dateFim = new JXDatePicker();
+                  		dateFim.getEditor().setToolTipText("Data final para calcular a comissão!");
+                  		dateFim.getEditor();
+                  		dateFim.setFormats(new String[] {"dd/MM/yyyy"});
+                  		dateFim.setBounds(392, 171, 97, 20); //
+                  		panel.add(dateFim);
                           
                           JButton btnOk = new JButton("OK");
                           btnOk.addActionListener(new ActionListener() {
@@ -257,12 +292,12 @@ public class TelaFolhadePagamento extends JFrame {
                           
                           JLabel lblComisso = new JLabel("Comiss\u00E3o:");
                           lblComisso.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                          lblComisso.setBounds(170, 173, 80, 14);
+                          lblComisso.setBounds(0, 212, 80, 14);
                           panel.add(lblComisso);
                           
                           JLabel lblBnus = new JLabel("B\u00F4nus:");
                           lblBnus.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                          lblBnus.setBounds(20, 212, 50, 14);
+                          lblBnus.setBounds(185, 212, 50, 14);
                           panel.add(lblBnus);
                           
                           JLabel lblTotal = new JLabel("Total:");
@@ -272,7 +307,7 @@ public class TelaFolhadePagamento extends JFrame {
                           
                           textField_2 = new JTextField();                          
                           textField_2.setToolTipText("Comiss\u00E3o calculada");
-                          textField_2.setBounds(245, 171, 70, 20);
+                          textField_2.setBounds(80, 210, 70, 20);
                        //   textField_2.setDocument(new Moeda());
                           panel.add(textField_2);
                           textField_2.setColumns(10);
@@ -280,18 +315,18 @@ public class TelaFolhadePagamento extends JFrame {
                          // textField_4 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
                           textField_4 = new JTextField();
                     //      textField_4.setDocument(new Moeda()); 
-                          textField_4.setBounds(80, 210, 80, 20);
+                          textField_4.setBounds(245, 210, 80, 20);
                           panel.add(textField_4);
                           textField_4.setColumns(10);
                           
                         //  textField_6 = new JFormattedTextField(MascaraUtil.setMascara("R$####,##"));
                           textField_6 = new JTextField();                          
                      //     textField_6.setDocument(new Moeda()); 
-                          textField_6.setBounds(80, 255, 80, 20);
+                          textField_6.setBounds(80, 255, 70, 20);
                           panel.add(textField_6);
                           textField_6.setColumns(10);
                           
-                          JButton btnCalcular = new JButton("Calcular");
+                          JButton btnCalcular = new JButton("Somar tudo");
                           btnCalcular.addActionListener(new ActionListener() {
                           	public void actionPerformed(ActionEvent e) {
                           		//Calcular quanto o funcionário irá receber
@@ -316,8 +351,31 @@ public class TelaFolhadePagamento extends JFrame {
                           		
                           	}
                           });
-                          btnCalcular.setBounds(188, 209, 89, 23);
+                          btnCalcular.setBounds(343, 209, 89, 23);
                           panel.add(btnCalcular);
+                          
+                          JLabel lblIncioDoMs = new JLabel("In\u00EDcio do m\u00EAs:");
+                          lblIncioDoMs.setBounds(175, 174, 80, 14);
+                          panel.add(lblIncioDoMs);
+                          
+                          JLabel lblAt = new JLabel("at\u00E9");
+                          lblAt.setBounds(352, 174, 37, 14);
+                          panel.add(lblAt);
+                          
+                          JButton btnCalcular_Com = new JButton("Calcular");
+                          btnCalcular_Com.addActionListener(new ActionListener() {
+                          	public void actionPerformed(ActionEvent e) {
+                          		try {
+									calcularComissao();
+								} catch (ParseException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+                          	}
+                          });
+                          btnCalcular_Com.setToolTipText("Calcular comiss\u00E3o");
+                          btnCalcular_Com.setBounds(491, 170, 89, 23);
+                          panel.add(btnCalcular_Com);
                           
                           
                           JButton btnVoltar = new JButton("Voltar");
@@ -386,7 +444,7 @@ public class TelaFolhadePagamento extends JFrame {
 				int coluna = table.getSelectedColumn();
 				String matricula = (String) table.getValueAt(linha,0);
 				Integer mat = Integer.parseInt(matricula); 
-				if(coluna == 6){
+				if(coluna == 7){
 					int opcao;
 					opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o registro de matricula: "+matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
 					   if(opcao == JOptionPane.YES_OPTION){  
@@ -400,7 +458,7 @@ public class TelaFolhadePagamento extends JFrame {
 							JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
 					   }
 				}
-				if (coluna == 4){
+				if (coluna == 5){
 					FolhaPagamento objFolha = new FolhaPagamento();
 
 					try {
@@ -412,15 +470,17 @@ public class TelaFolhadePagamento extends JFrame {
 					}
 				}
 				//Gera a folha pra imprimir
-				if (coluna == 5){
+				if (coluna == 6){
 					FolhaControle controle = new FolhaControle();
 					Funcionario objFunc = new Funcionario();
+					FolhaPagamento objFolha = new FolhaPagamento();
 					
 					String nome = (String) table.getValueAt(linha,1);
                      try {                    	 
                     	 objFunc = funcDao.procurarFuncionarioNome(nome);
+                    	 objFolha = folhaDao.procurarDataPag(mat);
                     	 
-         				controle.gerarRelatorioFolha(objFunc.getNumFunc());
+         				controle.gerarRelatorioFolha(objFunc.getNumFunc(), objFolha.getDataInicio(), objFolha.getDataFim());
          			} catch (DaoException e1) {
          				// TODO Auto-generated catch block
          				e1.printStackTrace();
@@ -437,7 +497,7 @@ public class TelaFolhadePagamento extends JFrame {
         		  new Object[][] {
                                    	},
                                    	new String[] {
-                                   		"Nº", "Nome", "Profissão", "Salário Total", "Editar","Relatório", "Excluir"
+                                   		"Nº", "Nome", "Profissão", "Salário", "Data Pagamento", "Editar","Relatório", "Excluir"
                                    	}
                                    	
                                    )
@@ -451,22 +511,24 @@ public class TelaFolhadePagamento extends JFrame {
                                  	  } 
                                  	  }
                                    );
-                           table.getColumnModel().getColumn(0).setPreferredWidth(50);
-                           table.getColumnModel().getColumn(0).setMinWidth(50);
-                           table.getColumnModel().getColumn(1).setPreferredWidth(200);
-                           table.getColumnModel().getColumn(1).setMinWidth(200);
+                           table.getColumnModel().getColumn(0).setPreferredWidth(35);
+                           table.getColumnModel().getColumn(0).setMinWidth(35);
+                           table.getColumnModel().getColumn(1).setPreferredWidth(170);
+                           table.getColumnModel().getColumn(1).setMinWidth(170);
                            table.getColumnModel().getColumn(2).setPreferredWidth(80);
                            table.getColumnModel().getColumn(2).setMinWidth(80);
-                           table.getColumnModel().getColumn(3).setPreferredWidth(80);
-                           table.getColumnModel().getColumn(3).setMinWidth(80);
+                           table.getColumnModel().getColumn(3).setPreferredWidth(50);
+                           table.getColumnModel().getColumn(3).setMinWidth(50);
                            
-                           table.getColumnModel().getColumn(4).setPreferredWidth(50);
-                           table.getColumnModel().getColumn(4).setMinWidth(50);
-                           table.getColumnModel().getColumn(5).setPreferredWidth(50);
-                           table.getColumnModel().getColumn(5).setMinWidth(50);
-
+                           table.getColumnModel().getColumn(4).setPreferredWidth(100);
+                           table.getColumnModel().getColumn(4).setMinWidth(100);
+                           table.getColumnModel().getColumn(5).setPreferredWidth(40);
+                           table.getColumnModel().getColumn(5).setMinWidth(40);
                            table.getColumnModel().getColumn(6).setPreferredWidth(50);
                            table.getColumnModel().getColumn(6).setMinWidth(50);
+
+                           table.getColumnModel().getColumn(7).setPreferredWidth(40);
+                           table.getColumnModel().getColumn(7).setMinWidth(40);
                            table.setBounds(39, 175, 530, 232);
                            atualizaLista(table,"");
                            
@@ -511,25 +573,26 @@ public class TelaFolhadePagamento extends JFrame {
 		
 		renderer.setValue(editar);
 		renderer.setHorizontalAlignment(JLabel.CENTER);
-		columnModel.getColumn(4).setCellRenderer(renderer);
+		columnModel.getColumn(5).setCellRenderer(renderer);
 		
 		renderer1.setValue(excluir);
 		renderer1.setHorizontalAlignment(JLabel.CENTER);
-		columnModel.getColumn(6).setCellRenderer(renderer1);
+		columnModel.getColumn(7).setCellRenderer(renderer1);
 	
 		renderer2.setValue(relatorio);
 		renderer2.setHorizontalAlignment(JLabel.CENTER);
-		columnModel.getColumn(5).setCellRenderer(renderer2);
+		columnModel.getColumn(6).setCellRenderer(renderer2);
 
         dtm.setRowCount(0); 
 		List<FolhaPagamento> listaFolha  = new ArrayList<FolhaPagamento>();
 		listaFolha = folhaDao.consultarPagamento(nome);
- 		String dados[] = new String[4]; 
+ 		String dados[] = new String[5]; 
 		for (FolhaPagamento obj : listaFolha) {
 			dados[0] = String.valueOf(obj.getCodDep());
 			dados[1] = obj.getNomeFunc();
 			dados[2] = obj.getProfissaoFunc();
 			dados[3] = String.valueOf(obj.getTotalFunc());
+			dados[4] = String.valueOf(obj.getDataInicio()) + " / " + String.valueOf(obj.getDataFim());
 			((DefaultTableModel) table.getModel()).addRow(dados); 
 		} 
 		table.setDefaultRenderer(Object.class, new TableCellRenderer());
@@ -560,6 +623,8 @@ public class TelaFolhadePagamento extends JFrame {
 		textField_4.setText(objFolha.getBonusFunc().toString());
 		textField_6.setText(String.valueOf(objFolha.getTotalFunc()));
 
+		dateInicio.setDate(objFolha.getDataInicio());
+		dateFim.setDate(objFolha.getDataFim());
 		
 		Integer matr = objFolha.getNumFunc();
 		textField_5.setText(matr.toString());
@@ -578,6 +643,8 @@ public class TelaFolhadePagamento extends JFrame {
 		textField_2.setText("");
 		textField_4.setText("");
 		textField_6.setText("");
+		dateInicio.getEditor().setText("");
+		dateFim.getEditor().setText("");
 		
 	}
 	private void chamaFuncionario(int idFunc) {
@@ -602,14 +669,26 @@ public class TelaFolhadePagamento extends JFrame {
 		//Gerar a comissão automaticamente
 		textField_2.setText(String.valueOf(objFunc.getComissaoFunc()));
 		textField_2.setEditable(false);
-
+		
+	}
+	
+	public void calcularComissao() throws ParseException{
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    	
 		try {
-			objPed =	pedDao.comissaoTotalPedido(Integer.parseInt(textField.getText()));
-			total = objPed.getTotalPedido();
-			porCentCom = Double.parseDouble(textField_2.getText());
-			totalCom = (total * porCentCom)/100 ;
-			JOptionPane.showMessageDialog(null,"Comissão calculada!"+ "\nR$ " + totalCom);	
-			textField_2.setText(String.valueOf(totalCom));
+			Date data1 = dateInicio.getDate();
+			Date data2 = dateFim.getDate();
+			if(CalcularData.TirarDiferenca(data1, data2) < 0){
+				JOptionPane.showMessageDialog(null,"As datas devem ser iguais ou a data final ser superior a data inicial!");
+			}else{
+				objPed = pedDao.comissaoTotalPedido(Integer.parseInt(textField.getText()), 
+					df.parse(dateInicio.getEditor().getText()), df.parse(dateFim.getEditor().getText()));
+				total = objPed.getTotalPedido();
+				porCentCom = Double.parseDouble(textField_2.getText());
+				totalCom = (total * porCentCom)/100 ;
+				JOptionPane.showMessageDialog(null,"Comissão calculada!"+ "\nR$ " + totalCom);	
+				textField_2.setText(String.valueOf(totalCom));
+			}
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -617,7 +696,6 @@ public class TelaFolhadePagamento extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public boolean validarFormulário(){
@@ -651,7 +729,15 @@ public class TelaFolhadePagamento extends JFrame {
 			JOptionPane.showMessageDialog(null, "Campo Nº Vazio!");
 			result = false;
 		}
-				
+		if(!ValidacaoUtil.textFieldVazio(dateInicio)){
+			JOptionPane.showMessageDialog(null, "Campo Data Inicial Vazio!");
+			result = false;
+		}
+		if(!ValidacaoUtil.textFieldVazio(dateFim)){
+			JOptionPane.showMessageDialog(null, "Campo Data Final Vazio!");
+			result = false;
+		}
+		
 		return result;
 	}	
 	
@@ -669,7 +755,7 @@ public class TelaFolhadePagamento extends JFrame {
 		if(!ValidacaoUtil.textFieldVazio(textField_4)){
 			JOptionPane.showMessageDialog(null, "Campo Bônus Vazio!");
 			result = false;
-		}		
+		}				
 				
 		return result;
 	}

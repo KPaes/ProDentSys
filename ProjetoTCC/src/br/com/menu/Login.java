@@ -1,8 +1,9 @@
-package br.com.telas;
+package br.com.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,10 +16,17 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
+import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
+import br.com.telas.SplashScreen;
+import br.com.util.SwingUtil;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+
 import javax.swing.ImageIcon;
 
 public class Login extends JDialog {
@@ -28,18 +36,31 @@ public class Login extends JDialog {
 	private JTextField textField;
 	private JPasswordField passwordField;
 
+	FuncionarioDao loginTeste = new FuncionarioDao();
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			Login dialog = new Login();
+			SplashScreen teste = new SplashScreen();
+			teste.initSplash();
+			
+	        for (int i = 0; i < 500000; i++){  
+	           System.out.println(i);  
+	           teste.setProgresso(i);
+	        }	
+	        
+	        teste.fechaSplash();
+	        
+			Login dialog = new Login();			
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Create the dialog.
@@ -55,6 +76,7 @@ public class Login extends JDialog {
 	        int x = (screen.width-width)/2;
 	        int y = (screen.height-height)/3;
 	        setBounds(x,y,343,178);
+	        SwingUtil.lookWindows(this);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -96,45 +118,85 @@ public class Login extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+//						if(textField.getText().toString()=="admin" && passwordField.getPassword().toString()=="admin"){
+////							Principal.habilita();
+//							Principal principal = new Principal();
+//							principal.setVisible(true);
+//							dispose();
+//						}else{
+							
+						
 						if(tentativas >=2){
 							System.exit(0);
 						}
-						String senha = new String(passwordField.getPassword()); 
-						String  nome = textField.getText();
-						FuncionarioDao loginTeste = new FuncionarioDao();
-						try {
-							if(loginTeste.getAutenticacao(nome, senha)){
-								String profissao = loginTeste.habilitarMenu(nome).toString();
-								if(profissao == "Administrador" || profissao == "Adm" || profissao == "Diretor" ){
-									Principal.desabilita();
-									dispose();
-								}else{																	
-									dispose();
+//						else{
+							String senha = new String(passwordField.getPassword()); 
+							String  nome = textField.getText();
+							
+							try {
+								try {
+									if(loginTeste.getAutenticacao(nome, senha)){										
+										Funcionario profissao = loginTeste.habilitarMenu(nome);																				
+										
+//										JOptionPane.showMessageDialog(null, profissao.getProfissaoFunc());
+										
+										if(profissao.getProfissaoFunc() == "Administrador" || 
+												profissao.getProfissaoFunc() == "Adm" || 
+												profissao.getProfissaoFunc() == "Diretor" ){
+											
+											PrincipalAdm principal = new PrincipalAdm();											
+											
+//											Principal principal = new Principal();
+											principal.setVisible(true);
+											
+											dispose();
+										}else{	
+//											if(profissao.getProfissaoFunc() != "Administrador" || 
+//													profissao.getProfissaoFunc() != "Adm" || 
+//													profissao.getProfissaoFunc() != "Diretor" ){
+											
+//												Principal principal = new Principal();
+											PrincipalAdm principal = new PrincipalAdm();
+											principal.setVisible(true);
+										
+											dispose();
+//										}
+										}
+									}
+									
+									else{
+										JOptionPane.showMessageDialog(null,"Falha ao logar");
+										tentativas++;
+									}
+								} catch (HeadlessException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
-							}else{
-								JOptionPane.showMessageDialog(null,"Falha ao logar");
-								tentativas++;
-							}
-						} catch (DaoException e) {
+						}						
+						catch (DaoException e) {
 							e.printStackTrace();
 						}
-					}
+						}
+//						}
+//					}
 				});
+				{
+					JButton btnCancelar = new JButton("Cancelar");
+					btnCancelar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							System.exit(0);
+						}
+					});
+					buttonPane.add(btnCancelar);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
-				{
-					/*JButton btnCancelar = new JButton("Cancelar");
-					btnCancelar.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
-							dispose();
-							//Principal.dispose();
-							setDefaultCloseOperation(Principal.EXIT_ON_CLOSE);
-						}
-					});
-					buttonPane.add(btnCancelar);*/
-				}
 			}
 		}
 	}
+	
 }

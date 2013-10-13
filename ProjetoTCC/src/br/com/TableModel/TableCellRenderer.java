@@ -59,6 +59,17 @@ public class TableCellRenderer extends DefaultTableCellRenderer {
 			table.getColumnModel().getColumn(5).setMaxWidth(60);
 			table.getColumnModel().getColumn(6).setMaxWidth(60);
 		}
+//		if(col==8){
+//			table.getColumnModel().getColumn(0).setMaxWidth(35);
+//			table.getColumnModel().getColumn(1).setMaxWidth(170);
+//			table.getColumnModel().getColumn(2).setMaxWidth(80);
+//			table.getColumnModel().getColumn(3).setMaxWidth(50);
+//			table.getColumnModel().getColumn(4).setMaxWidth(100);
+//			table.getColumnModel().getColumn(5).setMaxWidth(40);
+//			table.getColumnModel().getColumn(6).setMaxWidth(50);
+//			table.getColumnModel().getColumn(7).setMaxWidth(40);
+//						
+//		}
 		
 	}
 

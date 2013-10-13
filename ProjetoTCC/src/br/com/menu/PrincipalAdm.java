@@ -1,4 +1,4 @@
-package br.com.telas;
+package br.com.menu;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -20,6 +20,11 @@ import br.com.util.SwingUtil;
 import br.com.telas.CadFuncionario;
 import br.com.telas.CadCliente;
 import br.com.telas.CadFornecedor;
+import br.com.telas.ConTabeladePreco;
+import br.com.telas.Ped;
+import br.com.telas.SobreSys;
+import br.com.telas.TelaFolhadePagamento;
+import br.com.telas.TelaRelatorio;
 
 
 import java.awt.Color;
@@ -33,10 +38,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Font;
 
-public class Principal extends JFrame {
+public class PrincipalAdm extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
+	static JMenuBar menuBar;
 	static JMenu menu_1;
 
 	/**
@@ -47,32 +53,20 @@ public class Principal extends JFrame {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args)  throws PropertyVetoException, ClassNotFoundException, SQLException{
-								
-					SplashScreen teste = new SplashScreen();
-					teste.initSplash();
+												
 					
-			        for (int i = 0; i < 500000; i++){  
-			           System.out.println(i);  
-			           teste.setProgresso(i);
-			        }				
-					
-			        Principal frame = new Principal();
+			        PrincipalAdm frame = new PrincipalAdm();
 					frame.setVisible(true);
 					
-					teste.fechaSplash();	
-					
-					Login login = new Login();
-					login.setVisible(true);
-						
 	}
 	
 	/**
 	 * Create the frame.
 	 */
-	public Principal() {
+	public PrincipalAdm() {
 		super("ProDentSys");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/br/com/images/logo_transp.png")));
-		setTitle("ProDentSys v1.0");
+		setTitle("ProDentSys v1.0 - Administrador");
         for (int i = 0; i < 500; i++){  
             System.out.println(i);      
         }        
@@ -98,7 +92,8 @@ public class Principal extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/ProDentSys.png")));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel);
-		JMenuBar menuBar = new JMenuBar();
+		
+		menuBar = new JMenuBar();
 		//menuBar.setMnemonic(InputEvent.ALT_MASK);
 		setJMenuBar(menuBar);
 		
@@ -245,36 +240,44 @@ public class Principal extends JFrame {
 				relatorio.setVisible(true);
 			}
 		});
-		mnRelatrio.add(mntmRelatrioDoDia);	
+		mnRelatrio.add(mntmRelatrioDoDia);
 		
-		JMenu mnBackup = new JMenu("Backup");
-		menuBar.add(mnBackup);
+		menu_1 = new JMenu("Restrito");
+		menu_1.setMnemonic('R');
+		menu_1.setToolTipText("Área restrita!");
+		menuBar.add(menu_1);	
+
 		
-		JMenuItem mntmGerarBackup = new JMenuItem("Gerar Backup");
+		JMenuItem menuItem_1 = new JMenuItem("Folha de Pagamento");
+		menuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaFolhadePagamento tela;
+				try {
+					tela = new TelaFolhadePagamento();
+					tela.setVisible(true);
+				} catch (DaoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		menuItem_1.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		menuItem_1.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/secrecy-icon.png")));
+		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_MASK));
+		menuItem_1.setToolTipText("Folha de Pagamento Funcionário");		
+		menu_1.add(menuItem_1);
+		
+		JMenuItem mntmGerarBackup = new JMenuItem("Backup");
+		mntmGerarBackup.setIcon(new ImageIcon(PrincipalAdm.class.getResource("/br/com/images/bkp.png")));
+		mntmGerarBackup.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		menu_1.add(mntmGerarBackup);
 		mntmGerarBackup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaBackup bkp = new TelaBackup();
 				bkp.setVisible(true);
 			}
 		});
-		mnBackup.add(mntmGerarBackup);
-		
-		JMenuItem mntmRestaurarBackup = new JMenuItem("Restaurar Backup");
-		mnBackup.add(mntmRestaurarBackup);
-		
-		menu_1 = new JMenu("Restrito");
-		menu_1.setMnemonic('R');
-		menu_1.setToolTipText("Área restrita!");
-		menuBar.add(menu_1);
-		menu_1.setEnabled(false);
-//		menu_1.setVisible(false);
-		
-		JMenuItem menuItem_1 = new JMenuItem("Folha de Pagamento");
-		menuItem_1.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		menuItem_1.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/secrecy-icon.png")));
-		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_MASK));
-		menuItem_1.setToolTipText("Folha de Pagamento Funcionário");		
-		menu_1.add(menuItem_1);
 		
 		JMenu mnSobre = new JMenu("Ajuda");
 		mnSobre.setMnemonic('A');
@@ -321,9 +324,15 @@ public class Principal extends JFrame {
 		menuBar.add(menuItem_3);
 		
 	}
+//	}
 	
-	public static void desabilita(){
+	public static boolean habilita(){
+		menu_1 = new JMenu("Restrito");
+		menu_1.setMnemonic('R');
+		menu_1.setToolTipText("Área restrita!");
+		menuBar.add(menu_1);
 		menu_1.setEnabled(true);
 //		menu_1.setVisible(true);
+		return true;
 	}
 }

@@ -1,4 +1,4 @@
-package br.com.telas;
+package testes;
 
 import java.awt.Color;  
 import java.awt.Dimension;  
@@ -22,7 +22,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;  
 import javax.swing.JTextField;  
 
-import testes.CadPedido;
 
 
 

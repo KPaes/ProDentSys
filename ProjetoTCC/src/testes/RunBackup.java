@@ -1,4 +1,4 @@
-package br.com.backup;
+package testes;
 
 public class RunBackup {  
 	  

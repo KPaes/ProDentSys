@@ -43,7 +43,6 @@ import br.com.TableModel.TableCellRenderer;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
-import br.com.exception.EntradaUsuarioException;
 import br.com.util.MascaraUtil;
 import br.com.util.Moeda;
 import br.com.util.ValidacaoUtil;
@@ -73,6 +72,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	private int status_nome_usuario = 1;
 
 	public CadFuncionario() throws DaoException {
+		setResizable(false);
 		//setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Cadastro de Funcion\u00E1rios");
@@ -195,13 +195,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 					  if( validarFormulário() ){
 						  
 						  if(status_nome_usuario == 1){
-								JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");
-								try {
-									throw new EntradaUsuarioException(textField_4);
-								} catch (EntradaUsuarioException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+								JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
 							}
 						  
 						  FuncionarioDao objDAO = new FuncionarioDao();
@@ -390,7 +384,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 				Integer mat = Integer.parseInt(matricula); 
 				if(coluna == 4){
 					int opcao;
-					opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o funcionário de matricula: "+ matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
+					opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o funcionário de número: "+ matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
 					   if(opcao == JOptionPane.YES_OPTION){  
 						   try {
 							funcDao.excluirFuncionarios(mat);
@@ -424,7 +418,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
         		  new Object[][] {
                       	},
                       	new String[] {
-                      		"Matr\u00EDcula", "Nome", "Telefone", "Editar","Excluir"
+                      		"Número", "Nome", "Telefone", "Editar","Excluir"
                       	}
                       	
                       )

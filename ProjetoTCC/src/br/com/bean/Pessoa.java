@@ -12,6 +12,7 @@ public class Pessoa extends TabeladePreco { //esse extends pode?
 		private String cpfCliente;
 		private String telCliente;
 		private String emailCliente;
+		private String complCliente;
 	//Fornecedor	
 		private Integer numFornec;
 		private String nomeFornec;
@@ -21,7 +22,7 @@ public class Pessoa extends TabeladePreco { //esse extends pode?
 		private String cidadeFornec;
 		private String cepFornec;
 		private String telFornec;
-
+		private String complFornec;
 	//Funcionário
 		private Integer numFunc;
 		private String nomeFunc;
@@ -95,7 +96,15 @@ public class Pessoa extends TabeladePreco { //esse extends pode?
 		public void setEmailCliente(String emailCliente) {
 			this.emailCliente = emailCliente;
 		}
-	//Getter and Setter Fornecedor
+		
+	public String getComplCliente() {
+			return complCliente;
+		}
+		public void setComplCliente(String complCliente) {
+			this.complCliente = complCliente;
+		}
+		
+		//Getter and Setter Fornecedor
 		public String getNomeFornec() {
 			return nomeFornec;
 		}
@@ -150,6 +159,12 @@ public class Pessoa extends TabeladePreco { //esse extends pode?
 		public Integer getNumFornec() {
 			return numFornec;
 		}
+		public String getComplFornec() {
+			return complFornec;
+		}
+		public void setComplFornec(String complFornec) {
+			this.complFornec = complFornec;
+		}
 		
 	//Getter and Setter Funcionário
 		public String getNomeFunc() {
@@ -162,13 +177,13 @@ public class Pessoa extends TabeladePreco { //esse extends pode?
 			return telFunc;
 		}
 		public void setTelFunc(String telFunc) {
-			this.telFunc = telFunc.trim();
+			this.telFunc = telFunc;
 		}
 		public String getProfissaoFunc() {
 			return profissaoFunc;
 		}
 		public void setProfissaoFunc(String profissaoFunc) {
-			this.profissaoFunc = profissaoFunc.trim();			
+			this.profissaoFunc = profissaoFunc;			
 		}
 		public void setNumFunc(Integer numFunc){
 			this.numFunc = numFunc;

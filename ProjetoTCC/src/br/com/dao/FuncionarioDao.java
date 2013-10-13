@@ -74,7 +74,7 @@ public class FuncionarioDao {
 			"select numFunc from tbfuncionario where nomeFunc = ?";
 	
 	private static final  String FUNCIONARIO_HABILITAR =
-			"select profissaoFunc from tbfuncionario where login_funcionario = ?";
+			"select profissaoFunc from tbFuncionario where login_funcionario = ?";
 	
 	/**
 	 * Através do número digitado pelo usuário, o sistema faz uma busca e retorna o nome do funcionario
@@ -158,13 +158,31 @@ public class FuncionarioDao {
 			return objFunc;	
 	}
 	
-	public boolean getAutenticacao(String nome, String senha) throws DaoException {
+	public boolean getAutenticacao(String nome, String senha) throws DaoException, SQLException {
+		
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		int numReg = 0;
 		boolean autenticado = false;
-		try {			
+		
+		
+		
+//		if(nome == "admin" && senha == "admin"){
+//			try{
+////			if (result.next()) {
+//			numReg = 1 ;
+//			} finally {
+//				DbUtil.close(conn, statement, result);
+//			}
+//			if(numReg != 0){
+//				return autenticado = true;
+//			}else{
+//				return autenticado;			
+//			}
+//		}else{
+//		
+			try {			
 			statement = conn.prepareStatement(VALIDAR_LOGIN_SENHA);
 			statement.setString(1, nome);
 //			statement.setString(2, senha); //habilitar essa linha quando for acessar o sistema pela 1ª vez  e desabilitar o try e catch abaixo
@@ -185,9 +203,11 @@ public class FuncionarioDao {
 		}
 		if(numReg != 0){
 			return autenticado = true;
-		}else{
+		}
+		else{
 			return autenticado;			
 		}
+//		}
 	}		
 
 	
@@ -390,6 +410,7 @@ public class FuncionarioDao {
 		return true;		
 	}
 	
+
 	public Funcionario habilitarMenu(String nomeFunc) throws DaoException{		
 		Funcionario objFunc = new Funcionario();
 		Connection conn = DbUtil.getConnection();
@@ -399,16 +420,15 @@ public class FuncionarioDao {
 			statement = conn.prepareStatement(FUNCIONARIO_HABILITAR);
 			statement.setString(1, nomeFunc);
 			result = statement.executeQuery();
-			if (result.next()) {
+			while (result.next()) {
 				
 				objFunc.setProfissaoFunc(result.getString(1));
-				
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e);
 		} finally {
 			DbUtil.close(conn, statement, result);
 		}
-		return objFunc;		
-	}
+		return objFunc;	
+}
 }

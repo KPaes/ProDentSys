@@ -1,4 +1,4 @@
-package br.com.backup;
+package testes;
 
 import java.io.BufferedWriter;  
 import java.io.File;  
