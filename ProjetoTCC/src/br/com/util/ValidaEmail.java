@@ -16,7 +16,7 @@ public class ValidaEmail {
 	      return true;
 	    }
 	    else{
-	      JOptionPane.showMessageDialog(null, "O E-mail "+ email +" é inválido");
+	      JOptionPane.showMessageDialog(null, "O E-mail "+ email +" é inválido!");
 	      return false;
 	    }  
 	}

@@ -3,16 +3,17 @@ package br.com.menu;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.HeadlessException;
 import java.awt.Toolkit;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -30,11 +31,12 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 
 public class Login extends JDialog {
-	private int tentativas = 0;
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JPasswordField passwordField;
+	private JTextField txtUsuario;
+	private JPasswordField pwfSenha;
+	
+	int tentativas = 0;
 
 	int aux;
 	
@@ -100,14 +102,14 @@ public class Login extends JDialog {
 			contentPanel.add(lblSenha);
 		}
 		
-		textField = new JTextField();
-		textField.setBounds(87, 34, 174, 20);
-		contentPanel.add(textField);
-		textField.setColumns(10);
+		txtUsuario = new JTextField();
+		txtUsuario.setBounds(87, 34, 174, 20);
+		contentPanel.add(txtUsuario);
+		txtUsuario.setColumns(10);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(87, 65, 174, 20);
-		contentPanel.add(passwordField);
+		pwfSenha = new JPasswordField();
+		pwfSenha.setBounds(87, 65, 174, 20);
+		contentPanel.add(pwfSenha);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/br/com/images/java.png")));
@@ -119,66 +121,14 @@ public class Login extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				getRootPane().setDefaultButton(okButton);
 				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-//						if(textField.getText().toString()=="admin" && passwordField.getPassword().toString()=="admin"){
-////							Principal.habilita();
-//							Principal principal = new Principal();
-//							principal.setVisible(true);
-//							dispose();
-//						}else{
-							
+					public void actionPerformed(ActionEvent e) {						
+							autenticarUsuario();
 						
-						if(tentativas >=2){
-							System.exit(0);
-						}
-//						else{
-							String senha = new String(passwordField.getPassword()); 
-							String  nome = textField.getText();
-							
-							try {
-								try {
-									if(loginTeste.getAutenticacao(nome, senha)){										
-//										Funcionario profissao = loginTeste.habilitarMenu(nome);																				
-										
-//										JOptionPane.showMessageDialog(null, profissao.getProfissaoFunc());
-										
-//										if(aux==2){
-//																					
-//											
-//											Principal principal = new Principal();
-//											principal.setVisible(true);
-//											
-//											dispose();
-//									}else{	
-//											PrincipalAdm principal = new PrincipalAdm();
-//											principal.setVisible(true);
-										
-										dialog.setVisible(false);
-										
-										
-									}
-									
-									else{
-										JOptionPane.showMessageDialog(null,"Falha ao logar");
-										tentativas++;
-									}
-								} catch (HeadlessException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (SQLException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-						}						
-						catch (DaoException e) {
-							e.printStackTrace();
-						}
-						}
-//						}
-//					}
+						
+					}
 				});
+				getRootPane().setDefaultButton(okButton);
 				{
 					JButton btnCancelar = new JButton("Cancelar");
 					btnCancelar.addActionListener(new ActionListener() {
@@ -194,23 +144,51 @@ public class Login extends JDialog {
 			}
 		}
 	}
-	public void profissaoAdm(){
-//		PrincipalAdm principal = new PrincipalAdm();											
-		aux = 2;
-//		Principal principal = new Principal();
-//		principal.setVisible(true);
-//		
-//		dispose();
-	}
-	public void profissao(){
-//		PrincipalAdm principal = new PrincipalAdm();											
-		
-		aux = 1;
-		
-//		Principal principal = new Principal();
-//		principal.setVisible(true);
-//		
-//		dispose();
-	}
+
 	
+	private void autenticarUsuario(){
+		
+		String usuario = txtUsuario.getText();
+		String senha = new String(pwfSenha.getPassword());
+		if(usuario.equals("admin") && senha.equals("admin")){
+			Principal tela = new Principal();
+			tela.setVisible(true);
+			dispose();
+		}else{
+			try{			
+			
+			if(tentativas < 3){
+				Funcionario auteticacao = new FuncionarioDao().getAutenticacao(usuario, senha);
+				
+				
+				if(auteticacao != null){
+					String prof = auteticacao.getProfissaoFunc();
+					
+					if(prof.equals("Administrador") || prof.equals("Adm") || prof.equals("Diretor")){
+						new PrincipalAdm();
+					}else{
+						new Principal();
+					}
+					
+					dispose();
+				}else{
+					tentativas++;
+					JOptionPane.showMessageDialog(this, "Acesso negado, tente novamente!",  "Acesso negado", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				
+			}else{
+				JOptionPane.showMessageDialog(this, "Você excedeu o limite de tentativas", "Limite de tentativas", JOptionPane.WARNING_MESSAGE);
+				System.exit(0);
+			}
+			
+			
+			
+		}catch (DaoException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}
 }

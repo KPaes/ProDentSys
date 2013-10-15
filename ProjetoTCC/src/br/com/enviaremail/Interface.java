@@ -19,6 +19,7 @@ import br.com.bean.ClienteDent;
 import br.com.dao.ClienteDao;
 import br.com.exception.DaoException;
 import br.com.util.BarraDeProgresso;
+import br.com.util.ValidaEmail;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -136,10 +137,13 @@ public class Interface extends JFrame {
 				mensagem.setDestinatario(textField_1.getText());
 				mensagem.setAssunto(textField_2.getText());
 				mensagem.setMensagem(textField_3.getText());
+			
+				String email = textField_1.getText(); 
+				if(ValidaEmail.validaEmail(email) == true){
 				
-				if(caminho.isEmpty() == true){
-					Carteiro_so_mensagem carteiro = new Carteiro_so_mensagem();
-					try {									
+					if(caminho.isEmpty() == true){
+						Carteiro_so_mensagem carteiro = new Carteiro_so_mensagem();
+						try {									
 						 for (int i = 0; i < 500000; i++){  
 					           System.out.println(i);  
 					           setProgresso(i);
@@ -155,27 +159,28 @@ public class Interface extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				}else{					
+					}else{					
 				
-					mensagem.setCaminho(caminho);
+						mensagem.setCaminho(caminho);
 								 
-					Carteiro carteiro = new Carteiro();
-					try {									
-					 for (int i = 0; i < 500000; i++){  
-				           System.out.println(i);  
-				           setProgresso(i);
-				        }
-					 
-					 carteiro.enviarMensagem(mensagem);						
-					 JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
-					} catch (EmailException e1) {
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
-				} 
-				catch (MessagingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+						Carteiro carteiro = new Carteiro();
+						try {									
+							for (int i = 0; i < 500000; i++){  
+								System.out.println(i);  
+								setProgresso(i);
+							}
+							
+						carteiro.enviarMensagem(mensagem);						
+						JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
+						} catch (EmailException e1) {
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
+						} 
+						catch (MessagingException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
 				}
 			}
 		});

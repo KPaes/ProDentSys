@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.menu.Login;
-import br.com.menu.Principal;
-import br.com.menu.PrincipalAdm;
 import br.com.util.CriptografiaUtil;
 
 import javax.swing.JOptionPane;
@@ -39,24 +37,6 @@ public class FuncionarioDao {
 			"comissaoFunc = ? " +
 			"where numFunc = ? ";
 	
-	private static final String ATUALIZAR_FUNCIONARIO_FOLHA =
-			"update tbfuncionario set " +
-			"nomeFunc = ?, " +
-			//"telFunc = ?, " +
-			"profissaoFunc = ?, " +
-			"salarioFunc = ?, " +
-			//"login_funcionario = ?, " +
-			//"senha_funcionario = ? " +
-			"where numFunc = ? ";
-	
-	private static final String VALIDAR_LOGIN_SENHA = 
-		"select "+
-			"count(numFunc) as total " +
-		"from "+
-			"tbfuncionario f "+
-		"where "+
-			"f.login_funcionario = ? and " +
-			"f.senha_funcionario = ?";
 	
 	private static final  String CONSULTA_FUNCIONARIOS =
 			"select * from tbfuncionario order by numFunc";
@@ -78,6 +58,10 @@ public class FuncionarioDao {
 	
 	private static final  String FUNCIONARIO_HABILITAR =
 			"select profissaoFunc from tbFuncionario where login_funcionario = ?";
+	
+	private static final String QUERY_AUTENTICAR_USUARIO =
+			"select * from tbFuncionario where login_funcionario = ? and senha_funcionario = ?";
+	
 	
 	/**
 	 * Através do número digitado pelo usuário, o sistema faz uma busca e retorna o nome do funcionario
@@ -162,84 +146,37 @@ public class FuncionarioDao {
 			return objFunc;	
 	}
 	
-	public boolean getAutenticacao(String nome, String senha) throws DaoException, SQLException {
-		
+	public Funcionario getAutenticacao(String usuario, String senha) throws DaoException, SQLException {
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
 		ResultSet result = null;
-		int numReg = 0;
-		boolean autenticado = false;
-		
-		String profissao;
-		
-//		if(nome == "admin" && senha == "admin"){
-//			try{
-////			if (result.next()) {
-//			numReg = 1 ;
-//			} finally {
-//				DbUtil.close(conn, statement, result);
-//			}
-//			if(numReg != 0){
-//				return autenticado = true;
-//			}else{
-//				return autenticado;			
-//			}
-//		}else{
-//		
-			try {			
-			statement = conn.prepareStatement(VALIDAR_LOGIN_SENHA);
-			statement.setString(1, nome);
-//			statement.setString(2, senha); //habilitar essa linha quando for acessar o sistema pela 1ª vez  e desabilitar o try e catch abaixo
+		Funcionario retorno = null;
+		try{
+			statement = conn.prepareStatement(QUERY_AUTENTICAR_USUARIO);
+			statement.setString(1, usuario);
+			//statement.setString(2, senha); //habilitar essa linha quando for acessar o sistema pela 1ª vez  e desabilitar o try e catch abaixo
 			try {
 				statement.setString(2, CriptografiaUtil.encripta(senha)); //Encripta a senha para poder comparar com a senha salva no BD
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 			result = statement.executeQuery();
-			if (result.next()) {
-				numReg = result.getInt("total");
+			if(result.next()){
+				retorno = new Funcionario();
 				
-				statement = conn.prepareStatement("select profissaoFunc from tbFuncionario where login_funcionario = ?");
-				statement.setString(1, nome);
-				
-				result = statement.executeQuery();
-				
-				result.next();
-				profissao = result.getString(1);
-				
-				if(profissao != "Administrador" || profissao != "Adm" || profissao != "Diretor" ){
-
-//					JOptionPane.showMessageDialog(null, profissao);
-					
-					PrincipalAdm principal = new PrincipalAdm();
-					principal.setVisible(true);				
-					
-					
-				}else{
-//					JOptionPane.showMessageDialog(null, profissao);
-					
-					Principal principal = new Principal();
-					principal.setVisible(true);
-					
-										
-				}
-				
-				
-				
+				retorno.setProfissaoFunc(result.getString(4));
+				retorno.setLogin(result.getString(5));
+				retorno.setSenha(result.getString(6));
+				retorno.setNomeFunc(result.getString(2));
 			}
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			throw new DaoException(e);
 		} finally {
 			DbUtil.close(conn, statement, result);
 		}
-		if(numReg != 0){
-			return autenticado = true;
-		}
-		else{
-			return autenticado;			
-		}
-//		}
+		return retorno;
 	}		
 
 	
@@ -402,29 +339,7 @@ public class FuncionarioDao {
 		return true;		
 	}
 	
-	public boolean atualizarFuncionarioFunc(Funcionario objFunc) throws DaoException{		
-		Connection conn = DbUtil.getConnection();
-		PreparedStatement statement = null;
-		ResultSet result = null;
-		try {
-			statement = conn.prepareStatement(ATUALIZAR_FUNCIONARIO_FOLHA);
-			statement.setString(1, objFunc.getNomeFunc());
-			//statement.setString(2, objFunc.getTelFunc());
-			statement.setString(3, objFunc.getProfissaoFunc());
-			statement.setDouble(6, objFunc.getSalarioFunc());
-			//statement.setString(5, objFunc.getLogin());
-			//statement.setString(6, objFunc.getSenha());		
-			statement.setInt(7, objFunc.getNumFunc());
-			statement.executeUpdate();
-
-		} catch (SQLException e) {
-			throw new DaoException(e);
-		} finally {
-			DbUtil.close(conn, statement, result);
-		}
-		return true;		
-	}
-
+	
 	public boolean excluirFuncionarios(int idFuncioanrio) throws DaoException{		
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;

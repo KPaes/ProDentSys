@@ -204,15 +204,9 @@ public class CadCliente extends JDialog {
 							}
 							if( validarFormulário()){	
 								
-							/*	String email = textField_1.getText();
-								if(ValidaCPF.existe(textField_9, false) == true){
-										
-								}else if(ValidaCPF.valida(textField_9) == false)  {	
-									textField_9.setText("");
-								
-								}else{
-								
-								}
+								String email = textField_1.getText();
+								if(ValidaEmail.validaEmail(email) == true){
+																		
 							//|| ValidaEmail.validaEmail(email)==false){*/
 								
 								ClienteDent obj = new ClienteDent();
@@ -245,9 +239,11 @@ public class CadCliente extends JDialog {
 								}
 								}
 							}
-						                         
+						}
+						                
 					else if( validarFormulário() && ValidaCPF.valida(textField_9) == true)  {	
-							
+						String email = textField_1.getText();   
+						if(ValidaEmail.validaEmail(email) == true){
 							ClienteDent obj = new ClienteDent();
 							
 							obj.setTelCliente(textField_3.getText());
@@ -276,7 +272,7 @@ public class CadCliente extends JDialog {
 							}
 							}
 						}
-					
+					}
 				});
                             
                   JButton button_1 = new JButton("");
@@ -660,25 +656,6 @@ public class CadCliente extends JDialog {
 		}
 	
 		return result;
-	}		
-	
-	private void validaCpf(JFormattedTextField ftCpf){
-		if(ValidaCPF.valida(ftCpf) == false || ValidaCPF.existe(ftCpf, false) == true){
-			ftCpf.setText("");
-		}
 	}
-	/*
-	public void focusGained(FocusEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void focusLost(FocusEvent event) {
-		 if(event.getSource() == textField_9){
-			validaCpf(textField_9);			
-			
-		}
-		
-	}*/
 }
 

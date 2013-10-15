@@ -1,4 +1,4 @@
-Create database PROJETO_TCC_PRODENTSYS_NOVO
+Create database PROJETO_TCC_PRODENTSYS
 GO
 
 USE PROJETO_TCC_PRODENTSYS
@@ -19,8 +19,8 @@ numFunc integer identity not null,
 nomeFunc varchar(65) not null,
 telFunc char(15) not null,
 profissaoFunc varchar(30) not null,
-login_funcionario varchar(30) not NULL,
-senha_funcionario nvarchar(max) not NULL,
+login_funcionario varchar(30) NULL,
+senha_funcionario nvarchar(max) NULL,
 primary key(numFunc)
 )
 go
@@ -47,13 +47,11 @@ numEndCliente varchar(4) not null,
 bairroCliente varchar(25) not null,
 cidadeCliente varchar(30) not null,
 cepCliente char(9) not null,
-emailCliente varchar(60) unique constraint chkEmailCli check (emailCliente like '%@%') null
+emailCliente varchar(60) unique constraint chkEmailCli check (emailCliente like '%@%') null,
+complCliente varchar(140) null
 )
 go
 
-alter table tbCliente
-add complCliente varchar(140) null
-go
 
 --Criação de tabela - Pedido ALTERAR PARA VIEW
 create table tbPedido(
@@ -79,7 +77,7 @@ go
 
 alter table tbPedido
 add observacoesPed varchar(max) null
-
+go
 alter table tbPedido
 add cpfCliente char(14) not null 
 
@@ -92,14 +90,12 @@ ruaFornec varchar(40) not null,
 numEndFornec varchar(4) not null,
 bairroFornec varchar(25) not null,
 cidadeFornec varchar(30) not null,
-cepFornec char(9) not null
+cepFornec char(9) not null,
+complFornec varchar(140) null
 primary key(numFornec)
 )
 go
 
-alter table tbFornecedor
-add complFornec varchar(140) null
-go
 
 
 --Criação de tabela - Folha de Pagamento

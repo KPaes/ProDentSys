@@ -59,8 +59,7 @@ public class Principal extends JFrame {
 //			           teste.setProgresso(i);
 //			        }				
 					
-			        Principal frame = new Principal();
-					frame.setVisible(true);
+			        new Principal();
 					
 //					teste.fechaSplash();	
 //					
@@ -295,6 +294,8 @@ public class Principal extends JFrame {
 		});
 		menuBar.add(menuItem_3);
 		
+		
+		setVisible(true);
 	}
 //	}
 	

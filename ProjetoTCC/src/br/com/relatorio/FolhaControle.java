@@ -16,8 +16,9 @@ public class FolhaControle {
 	private RelatorioDao dao;
 	 
     public void gerarRelatorio() throws DaoException {
-        String arquivo = "src/br/com/relatorio/folhapag.jasper";
- 
+//        String arquivo = String.valueOf(getClass().getResourceAsStream("/br/com/relatorio/folhapag.jasper"));
+    	
+    	String arquivo = "src/br/com/relatorio/folhapag.jasper";    	 
         dao = new RelatorioDao();
         JRDataSource jrds = new JRResultSetDataSource(dao.pedidosResultSet());
         gerarRelatorioDesktop(jrds, null, arquivo);
@@ -33,8 +34,9 @@ public class FolhaControle {
     }
     
     public void gerarRelatorioFolha(int func, Date date, Date date2) throws DaoException {
-        String arquivo = "src/br/com/relatorio/folhapag.jasper";
+//        String arquivo = String.valueOf(getClass().getResourceAsStream("/br/com/relatorio/folhapag.jasper"));
  
+        String arquivo = "src/br/com/relatorio/folhapag.jasper";
         dao = new RelatorioDao();
         JRDataSource jrds = new JRResultSetDataSource(dao.folhaResultSet(func, date, date2));
         gerarRelatorioDesktopMes(jrds, null, arquivo);

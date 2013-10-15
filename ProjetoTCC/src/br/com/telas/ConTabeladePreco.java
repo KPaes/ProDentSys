@@ -20,7 +20,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
 
 import br.com.TableModel.TableCellRenderer;
 import br.com.bean.TabeladePreco;
@@ -155,12 +154,13 @@ public class ConTabeladePreco extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				int linha = tabela.getSelectedRow();
 				if(linha != -1 ){
-				/*	String aux = (String) tabela.getValueAt(linha, 3);
-					aux = aux.replace(".","");
-					textField_2.setText(aux);*/
+					String aux = (String) tabela.getValueAt(linha, 3);
+				//	aux = aux.replace(".","");
+					textField_2.setText(aux);
 					textField.setText((String) tabela.getValueAt(linha, 1)); //nome
 					textField_1.setText((String) tabela.getValueAt(linha, 2)); //tipo
-					textField_2.setText((String) tabela.getValueAt(linha, 3)); //preço
+//					textField_2.setText((String) tabela.getValueAt(linha, 3)); //preço
+					textField_5.setText((String) tabela.getValueAt(linha, 0));
 				}
 				
 			}
@@ -229,7 +229,6 @@ public class ConTabeladePreco extends JFrame {
 							try {
 								
 								if(textField_5.getText().equals("")){
-//								textField_5.getText();
 									objDAO.inserirTabeladePreco(obj);
 									
 									JOptionPane.showMessageDialog(rootPane, "Dados salvos com sucesso!");	
@@ -285,17 +284,29 @@ public class ConTabeladePreco extends JFrame {
 					String matricula = (String) tabela.getValueAt(linha,0);
 					Integer mat = Integer.parseInt(matricula);				
 					TabeladePreco objTab = new TabeladePreco();
+					
+					
+					objTab.setNomeProtese(textField.getText());
+					objTab.setTipoProtese(textField_1.getText());
+					objTab.setPrecoProtese(Double.parseDouble(textField_2.getText()));
+					
+					
 					try {
-//						objTab = tabDao.consultarTabeladePrecoID(mat);
-						objTab.setNumProtese(mat);						
-						
+						objTab.setNumProtese(mat);	
 						tabDao.atualizarTabeladePreco(objTab);
 						
 					} catch (DaoException e) {
 					// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					atualizaFormulario(objTab);
+					
+					try {
+						limpaFormulario();
+						atualizaLista(tabela,"");
+					} catch (DaoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}else{
 					JOptionPane.showMessageDialog(rootPane, "Clique primeiro na linha desejada!");
 				}
@@ -368,33 +379,16 @@ public class ConTabeladePreco extends JFrame {
 		btnOk.setBounds(492, 258, 57, 26);
 		contentPane.add(btnOk);
 				
-		}
-	
-	
-	public MaskFormatter Mascara(String Mascara){  
-		  
-	       MaskFormatter F_Mascara = new MaskFormatter();  
-	       try{  
-	           F_Mascara.setMask(Mascara); //Atribui a mascara  
-	           F_Mascara.setPlaceholderCharacter(' '); //Caracter para preenchimento  
-	       }  
-	       catch (Exception excecao) {  
-	       excecao.printStackTrace();  
-	       }  
-	       return F_Mascara;  
-	    }  
+	} 
 	
 	public void atualizaFormulario(TabeladePreco objTab){
 		textField_1.setText(objTab.getTipoProtese());
-		textField_2.setText(objTab.getPrecoProtese().toString());
+		textField_2.setText(String.valueOf(objTab.getPrecoProtese()));
 		
-	/*	String aux = objTab.getPrecoProtese().toString();
-		aux = aux.replace(".","");
-		textField_2.setText(aux);
-		*/
 		textField.setText(objTab.getNomeProtese());
-		Integer matr = objTab.getNumProtese();
-		textField_5.setText(matr.toString());
+		
+//		Integer matr = objTab.getNumProtese();
+//		textField_5.setText(matr.toString());
 	}
 	
 	public void atualizaLista(JTable lista, String nome) throws DaoException{
@@ -421,6 +415,7 @@ public class ConTabeladePreco extends JFrame {
 		textField.setText("");
 		textField_1.setText("");
 		textField_2.setText("");
+		textField_5.setText("");
 	}
 	
 	public boolean validarFormulário(){

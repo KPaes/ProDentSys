@@ -53,11 +53,7 @@ public class PrincipalAdm extends JFrame {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args)  throws PropertyVetoException, ClassNotFoundException, SQLException{
-												
-					
-			        PrincipalAdm frame = new PrincipalAdm();
-					frame.setVisible(true);
-					
+		new PrincipalAdm();
 	}
 	
 	/**
@@ -323,6 +319,8 @@ public class PrincipalAdm extends JFrame {
 		});
 		menuBar.add(menuItem_3);
 		
+		
+		setVisible(true);
 	}
 //	}
 	

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+
 import br.com.exception.DaoException;
 import br.com.util.DbUtil;
 import br.com.bean.TabeladePreco;
