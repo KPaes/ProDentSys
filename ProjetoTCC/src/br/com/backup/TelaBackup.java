@@ -50,6 +50,9 @@ public class TelaBackup extends JFrame implements ActionListener {
     private JButton bkpDiferencial;
     private JButton btnRestoreDif;
     private JLabel lblAntesDeRestaurar;
+    
+    String caminho;
+	BackupDao bkpDao = new BackupDao();
 	
 	/**
 	 * Launch the application.
@@ -151,8 +154,6 @@ public class TelaBackup extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-    	String caminho;
-    	BackupDao bkpDao = new BackupDao();
     	
         //Handle open button action.
         if (e.getSource() == bkpRestore) {
@@ -160,25 +161,18 @@ public class TelaBackup extends JFrame implements ActionListener {
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
             	caminho = fc.getSelectedFile().getAbsolutePath().replace("\\" , "\\\\" );  
-            	if(caminho.contains(".bak")){            		
-            		try {            			
-            			bkpDao.restoreFull(caminho);
-            			//thread
-            			
-            			
-            		} catch (DaoException e1) {
-            			// TODO Auto-generated catch block
-            			e1.printStackTrace();
-            		}
-            	}else{
-            		JOptionPane.showMessageDialog(null, "Por gentileza, selecionar arquivo com extensão .bak!");
-            		}
             	
+            	for (int i = 0; i < 500000; i++){  
+//			           System.out.println(i);  
+			           setProgresso(i);
+			        }
+            	restoreFull();
+         	
                 File file = fc.getSelectedFile();
                 //This is where a real application would open the file.
-                log.append("Opening: " + file.getName() + "." + newline);
+                log.append("Restaurando: " + file.getName() + "." + newline);
             } else {
-                log.append("Open command cancelled by user." + newline);
+                log.append("Restauração cancelada pelo usuário." + newline);
             }
             log.setCaretPosition(log.getDocument().getLength());
 
@@ -190,17 +184,12 @@ public class TelaBackup extends JFrame implements ActionListener {
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
             	caminho = fc.getSelectedFile().getAbsolutePath().replace("\\" , "\\\\" );  
-            	if(caminho.contains(".bak")){
-            		try {
-            			bkpDao.restoreDif(caminho);
-            			
-            		} catch (DaoException e1) {
-            			// TODO Auto-generated catch block
-            			e1.printStackTrace();
-            		}
-            	}else{
-            		JOptionPane.showMessageDialog(null, "Por gentileza, selecionar arquivo com extensão .bak!");
-            		}
+            	
+            	for (int i = 0; i < 500000; i++){  
+			           setProgresso(i);
+			        }
+            	restoreDiferencial();
+            	
             	
                 File file = fc.getSelectedFile();
                 //This is where a real application would open the file.
@@ -215,34 +204,18 @@ public class TelaBackup extends JFrame implements ActionListener {
             int returnVal = fc.showSaveDialog(TelaBackup.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
             	
-            	caminho = fc.getSelectedFile().getAbsolutePath().replace("\\" , "\\\\" );                                
-//                JOptionPane.showMessageDialog(null, caminho); //se tá modificando
+            	caminho = fc.getSelectedFile().getAbsolutePath().replace("\\" , "\\\\" );  
                 
             	if(caminho.contains("C:")){
             		JOptionPane.showMessageDialog(null, "Por gentileza, salvar em outro disco!");
             	}
             	
-            	else{            	
-            	
-            		if(caminho.contains(".bak")){
-            		try {
-						bkpDao.gerarBackupNovo(caminho);
-					} catch (DaoException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-            	
-            		}else{
-            			String file;
-            			file = caminho + ".bak";
-            			try {
-            				bkpDao.gerarBackupNovo(file);
-            			} catch (DaoException e1) {
-            				// TODO Auto-generated catch block
-            				e1.printStackTrace();
-            			}
-            		}
+            	else{
             		
+            		for (int i = 0; i < 500000; i++){  
+  			           setProgresso(i);
+  			        }
+            		backupCompleto();          	           		
                 
             	
                 File file = fc.getSelectedFile();
@@ -269,41 +242,10 @@ public class TelaBackup extends JFrame implements ActionListener {
             	
             	else{    
             		
-            		
-            		
-            		if(caminho.contains(".bak")){
-//            			barra();
-            			Thread t = new Thread(run);  
-                		t.start();
-            		try {
-//            			Thread t = new Thread(run);  
-//                		t.start();
-                		
-//                		threadDaBarra.start();
-                		
-                		
-						bkpDao.gerarBackupDiferencial(caminho);
-					} catch (DaoException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-            	
-            		}else{
-            			String file;
-            			file = caminho + ".bak";
-//            			barra();
-            			Thread t = new Thread(run);  
-                		t.start();
-            			try {
-//            				Thread t = new Thread(run);  
-//                    		t.start();
-//            				barra();
-            				bkpDao.gerarBackupDiferencial(file);
-            			} catch (DaoException e1) {
-            				// TODO Auto-generated catch block
-            				e1.printStackTrace();
-            			}
-            		}            		                
+            		for (int i = 0; i < 500000; i++){  
+ 			           setProgresso(i);
+ 			        }
+            		backupDiferencial();
             	
                 File file = fc.getSelectedFile();
                 file = new File(file+".bak");                 
@@ -337,18 +279,118 @@ public class TelaBackup extends JFrame implements ActionListener {
 	}
     
 //    public void barra(){
-	    Runnable run = new Runnable(){  
-			   public void run(){
-				   for (int i = 0; i < 500000; i++){  
-			           System.out.println(i);  
-			           setProgresso(i);
-			        }
-			   }
-	    };
+//	    Runnable run = new Runnable(){  
+//			   public void run(){
+//				   for (int i = 0; i < 500000; i++){  
+//			           System.out.println(i);  
+//			           setProgresso(i);
+//			        }
+//			   }
+//	    };
 	    
 //	    Thread t = new Thread(run);  
 //		t.start();
 //}
 
+	  public void backupDiferencial(){   
+	   Runnable run = new Runnable(){  
+			   public void run(){   
+	    if(caminho.contains(".bak")){
+		try {
+			bkpDao.gerarBackupDiferencial(caminho);
+		} catch (DaoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
+		}else{
+			String file;
+			file = caminho + ".bak";
+			try {
+				bkpDao.gerarBackupDiferencial(file);
+			} catch (DaoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}            		                
+			   }
+			   
+	    };
+	    
+	    Thread t = new Thread(run);  
+		t.start();
+}
+	  
+	  public void backupCompleto(){
+		    Runnable run = new Runnable(){  
+				   public void run(){
+					   if(caminho.contains(".bak")){
+		            		try {
+								bkpDao.gerarBackupNovo(caminho);
+							} catch (DaoException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+		            	
+		            		}else{
+		            			String file;
+		            			file = caminho + ".bak";
+		            			try {
+		            				bkpDao.gerarBackupNovo(file);
+		            			} catch (DaoException e1) {
+		            				// TODO Auto-generated catch block
+		            				e1.printStackTrace();
+		            			}
+		            		}
+				   }
+		    };
+		    
+		    Thread t = new Thread(run);  
+			t.start();
+	}
+	  
+	  public void restoreFull(){
+		    Runnable run = new Runnable(){  
+				   public void run(){
+					   if(caminho.contains(".bak")){            		
+		            		try {            			
+		            			bkpDao.restoreFull(caminho);
+		            			//thread
+		            			
+		            			
+		            		} catch (DaoException e1) {
+		            			// TODO Auto-generated catch block
+		            			e1.printStackTrace();
+		            		}
+		            	}else{
+		            		JOptionPane.showMessageDialog(null, "Por gentileza, selecionar arquivo com extensão .bak!");
+		            		}
+				   }
+		    };
+		    
+		    Thread t = new Thread(run);  
+			t.start();
+	}
+	  
+	  public void restoreDiferencial(){
+		    Runnable run = new Runnable(){  
+				   public void run(){
+					   if(caminho.contains(".bak")){
+		            		try {
+		            			bkpDao.restoreDif(caminho);
+		            			
+		            		} catch (DaoException e1) {
+		            			// TODO Auto-generated catch block
+		            			e1.printStackTrace();
+		            		}
+		            	}else{
+		            		JOptionPane.showMessageDialog(null, "Por gentileza, selecionar arquivo com extensão .bak!");
+		            		}
+				   }
+		    };
+		    
+		    Thread t = new Thread(run);  
+			t.start();
+	}
 }
 

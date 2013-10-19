@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -63,19 +64,19 @@ public class Ped extends JFrame {
 		
 		int idCliente;
 
+		private JScrollPane scrollPane;
+		private JEditorPane epDescricao;
+		
 		private JTable table;
 		private JTextField textField;
-	//	private JFormattedTextField textField_2;
 		private JTextField textTotalPed;
 		private JTextField textField_5;
 		private JTextField textField_6;
 		private JTextField textField_7;
 		private JTextField textField_8;
 		private JTextField textField_9;
-		//private JFormattedTextField textField_10;
 		private JTextField textField_1;
 		private JTextField textField_cpf;
-	//	private JTextArea textArea;
 		
 		private JXDatePicker dtDataPedido;
 		private JXDatePicker dtDataEntrega;
@@ -96,7 +97,6 @@ public class Ped extends JFrame {
 	    TabeladePreco naoSelecionado;
 	   // private List<Proteses> proteses;        	    
 	    List<TabeladePreco> listaTab  = new ArrayList<TabeladePreco>();
-	    private JTextField textField_3;
 	    
        // MouseListener tableMouseListener = null;
 
@@ -208,7 +208,7 @@ public class Ped extends JFrame {
 	                                          button.setToolTipText("Salvar Alt+S");
 	                                          button.setMnemonic(KeyEvent.VK_S);
 	                                          button.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/salvar.png")));
-	                                          button.setBounds(491, 370, 89, 23);
+	                                          button.setBounds(491, 370, 70, 23);
 	        	        	                  panel.add(button);
 	        	        	                   
 	        	        	                   button.addActionListener(new ActionListener() {					
@@ -238,7 +238,7 @@ public class Ped extends JFrame {
 								obj.setNumCliente(Integer.parseInt(textField_8.getText()));
 								obj.setNomePaciente(textField_9.getText());
 								obj.setCpfCliente(textField_cpf.getText());
-								obj.setObservacoesPed(textField_3.getText());
+								obj.setObservacoesPed(epDescricao.getText());
 								//falta o de observações
 								
 								PedidoDao objDAO = new PedidoDao();
@@ -267,7 +267,7 @@ public class Ped extends JFrame {
 	        	        	                   button_1.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/limpar.png")));
 	                                           button_1.setToolTipText("Limpar Alt+L");
 	                                           button_1.setMnemonic(KeyEvent.VK_L);
-	        	        	                   button_1.setBounds(398, 370, 89, 23);
+	        	        	                   button_1.setBounds(398, 370, 70, 23);
 	        	        	                   panel.add(button_1);
 	        	        	                   button_1.addActionListener(new ActionListener() {
 						
@@ -326,15 +326,6 @@ public class Ped extends JFrame {
 	        	        	                     panel.add(textField_9);	                   
 	        	        	                     textField_9.setColumns(10);
 	        	        	                     
-//	        	        	                     try {
-//													textField_10 = new JFormattedTextField(MascaraUtil.setMaskDateInTf(textField_10));
-//												} catch (ParseException e1) {
-//													// TODO Auto-generated catch block
-//													e1.printStackTrace();
-//												}
-//	        	        	                     textField_10.setColumns(10); //Data
-//	        	        	                     textField_10.setBounds(361, 133, 95, 20);
-//	        	        	                     panel.add(textField_10);
 	        	        	                     
 	        	        	                     dtDataPedido = new JXDatePicker();
 	        	        	                     dtDataPedido.getEditor().setToolTipText("Data do pedido!");
@@ -386,13 +377,13 @@ public class Ped extends JFrame {
 	        	        	                     panel.add(btnOk_1);
 	        	        	                     
 	        	        	                     JLabel lblNomeProttico = new JLabel("Nome Prot\u00E9tico:");
-	        	        	                     lblNomeProttico.setBounds(0, 305, 118, 18);
+	        	        	                     lblNomeProttico.setBounds(274, 269, 118, 18);
 	        	        	                     panel.add(lblNomeProttico);
 	        	        	                     lblNomeProttico.setHorizontalAlignment(SwingConstants.RIGHT);
 	        	        	                     lblNomeProttico.setFont(new Font("Arial Black", Font.PLAIN, 12));
 	        	        	                     
 	        	        	                     textField_6 = new JTextField();
-	        	        	                     textField_6.setBounds(130, 305, 418, 20);
+	        	        	                     textField_6.setBounds(400, 269, 148, 20);
 	        	        	                     panel.add(textField_6);
 	        	        	                     textField_6.setColumns(10);
 	        	        	                     
@@ -410,7 +401,7 @@ public class Ped extends JFrame {
 	        	        	                     
 	        	        	                     JLabel lblObservaes = new JLabel("Observa\u00E7\u00F5es:");
 	        	        	                     lblObservaes.setFont(new Font("Arial Black", Font.PLAIN, 12));
-	        	        	                     lblObservaes.setBounds(31, 344, 108, 14); 
+	        	        	                     lblObservaes.setBounds(32, 321, 108, 14); 
 	        	        	                     panel.add(lblObservaes);
 	        	        	                     textTotalPed.setText(mensagem);
 	        	        	                     
@@ -434,10 +425,14 @@ public class Ped extends JFrame {
 	        	        		                   panel.add(textTipos);
 	        	        		                   textTipos.setColumns(10);
 	        	        		                   
-	        	        		                   textField_3 = new JTextField();
-	        	        		                   textField_3.setBounds(128, 336, 420, 32);
-	        	        		                   panel.add(textField_3);
-	        	        		                   textField_3.setColumns(10);
+	        	        		                   scrollPane = new JScrollPane();
+	        	        		                   scrollPane.setBounds(128, 300, 420, 59);
+	        	        		           			panel.add(scrollPane);
+	        	        		           		
+	        	        		           			epDescricao = new JEditorPane();
+	        	        		           			epDescricao.setToolTipText("Observações sobre o pedido.");
+	        	        		           			epDescricao.setName("Observações");
+	        	        		           			scrollPane.setViewportView(epDescricao);
 	        	        		                   
 	        	        		                   JLabel lblTodosOsCampos = new JLabel("Todos os campos s\u00E3o obrigat\u00F3rios!");
 	        	        		                   lblTodosOsCampos.setForeground(Color.RED);
@@ -682,32 +677,7 @@ public class Ped extends JFrame {
 	        	                
 	        	                tabela.setBounds(39, 175, 530, 232); 	        	               
 	        	                scrollPane.setViewportView(tabela);  
-	        	                
-	        	                
-	        	                //Excluir calcular
-	        	           /*     ActionListener calcularActionListener = new ActionListener() {  	        	    	        	                	      
-    	                	        public void actionPerformed(ActionEvent e) {                                  
-    	                	               
-    	                	                Double precoProtese = 0.0 ;    
-    	                	                List<TabeladePreco> protesesTable = tableModel.getProteses();  
-    	                	                  
-    	                	                //for each  
-    	                	                for(TabeladePreco protesesIn : protesesTable){  
-    	                	                      
-    	                	                    //está selecionado  
-    	                	                    if(protesesIn.isSelecione() == true)  
-    	                	                    precoProtese += protesesIn.getPrecoProtese();  
-    	                	                }  
-    	                	  
-    	                	            textValorProt.setText(String.valueOf(precoProtese));  
-    	                	        }  
-    	                	    }; */
-	        	                
-	        	                
-	        	                                                      /*          JButton btnCalcular = new JButton("Calcular");  
-	        	                                                                carrinho.add(btnCalcular);
-	        	                                                                btnCalcular.addActionListener(calcularActionListener);  	        	                                                             
-	        	                                                                btnCalcular.setBounds(10, 484, 89, 23);*/
+	        	                	        	                
 	        	                                                                
 	        	                                                                      textValorProt = new JTextField();  
 	        	                                                                      carrinho.add(textValorProt);
@@ -868,7 +838,7 @@ public class Ped extends JFrame {
 			dtDataPedido.setDate(objPedido.getDataPedido());
 			dtDataEntrega.setDate(objPedido.getDataEntrega());			
 			
-			textField_3.setText(objPedido.getObservacoesPed());
+			epDescricao.setText(objPedido.getObservacoesPed());
 			textTotalPed.setText(String.valueOf(objPedido.getTotalPedido()));
 			textProteses.setText(objPedido.getNomeProtese());
 			textTipos.setText(objPedido.getTipoProtese());
@@ -893,7 +863,7 @@ public class Ped extends JFrame {
 			textField_cpf.setText("");
 			textProteses.setText("");
 			textTipos.setText("");
-			textField_3.setText("");
+			epDescricao.setText("");
 			
 		}
 		public boolean validarFormulário(){

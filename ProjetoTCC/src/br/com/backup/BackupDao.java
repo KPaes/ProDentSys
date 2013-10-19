@@ -24,7 +24,7 @@ public class BackupDao {
 	private final String BAKCUP_DIF = 
 			" BACKUP DATABASE PROJETO_TCC_PRODENTSYS " +
 			" TO  DISK = ? " +
-			" WITH FORMAT, WITH DIFFERENTIAL";
+			" WITH FORMAT, DIFFERENTIAL";
 	
 	
 	private final String RESTAURAR_FULL = 

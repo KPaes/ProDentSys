@@ -6,10 +6,12 @@ import javax.mail.MessagingException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -36,13 +38,17 @@ public class Interface extends JFrame {
 	BarraDeProgresso barraDeProgresso = new BarraDeProgresso();
     Thread threadDaBarra = new Thread(barraDeProgresso);
 	
+    private JScrollPane scrollPane;
+	private JEditorPane epMensagem;
+    
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textPara;
+	private JTextField textEmail;
+	private JTextField textAssunto;
 	private JTextField textField_4;
 	private static final long serialVersionUID = 1L;
+	
+	Mensagem mensagem = new Mensagem();
 
 	private String caminho = "";
 	JFileChooser fc;
@@ -105,15 +111,15 @@ public class Interface extends JFrame {
 		lblMensagem.setBounds(10, 205, 89, 14);
 		contentPane.add(lblMensagem);
 		
-		textField = new JTextField();
-		textField.setBounds(115, 78, 310, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textPara = new JTextField();
+		textPara.setBounds(115, 78, 310, 20);
+		contentPane.add(textPara);
+		textPara.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(115, 109, 310, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		textEmail = new JTextField();
+		textEmail.setBounds(115, 109, 310, 20);
+		contentPane.add(textEmail);
+		textEmail.setColumns(10);
 		
 		
 		JLabel lblAssunto = new JLabel("Assunto:");
@@ -121,82 +127,46 @@ public class Interface extends JFrame {
 		lblAssunto.setBounds(10, 142, 73, 14);
 		contentPane.add(lblAssunto);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(115, 140, 310, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		textAssunto = new JTextField();
+		textAssunto.setBounds(115, 140, 310, 20);
+		contentPane.add(textAssunto);
+		textAssunto.setColumns(10);
 		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(115, 171, 310, 90);
+		contentPane.add(scrollPane);
+		
+		epMensagem = new JEditorPane();
+		epMensagem.setToolTipText("Mensagem para email");
+		epMensagem.setName("Mensagem");
+		scrollPane.setViewportView(epMensagem);
 
 		JButton btnEnviar = new JButton("");
 		btnEnviar.setToolTipText("Enviar E-mail");
 		btnEnviar.setIcon(new ImageIcon(Interface.class.getResource("/br/com/images/send.png")));
 		btnEnviar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {								
-				Mensagem mensagem = new Mensagem();
-				
-				mensagem.setDestinatario(textField_1.getText());
-				mensagem.setAssunto(textField_2.getText());
-				mensagem.setMensagem(textField_3.getText());
+			public void actionPerformed(ActionEvent e) {	
+				mensagem.setDestinatario(textEmail.getText());
+				mensagem.setAssunto(textAssunto.getText());
+				mensagem.setMensagem(epMensagem.getText());
 			
-				String email = textField_1.getText(); 
+				String email = textEmail.getText(); 
 				if(ValidaEmail.validaEmail(email) == true){
-					barra();
-					if(caminho.isEmpty() == true){
-						Carteiro_so_mensagem carteiro = new Carteiro_so_mensagem();
-						try {									
-//						 for (int i = 0; i < 500000; i++){  
-//					           System.out.println(i);  
-//					           setProgresso(i);
-//					        }
-//					    							
-//						    barra();
-							
-							
-						carteiro.enviarMensagem(mensagem);
+					
+//					if(caminho.isEmpty() == true){									
+						 for (int i = 0; i < 500000; i++){  
+					           System.out.println(i);  
+					           setProgresso(i);
+					        }
+					    			
+							email();
 						
-						JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
-					} catch (EmailException e1) {
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
-					} catch (MessagingException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					}else{					
-				
-						mensagem.setCaminho(caminho);
-								 
-						Carteiro carteiro = new Carteiro();
-						try {									
-//							for (int i = 0; i < 500000; i++){  
-//								System.out.println(i);  
-//								setProgresso(i);
-//							}
-							
-//							barra();
-							
-						carteiro.enviarMensagem(mensagem);						
-						JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
-						} catch (EmailException e1) {
-							e1.printStackTrace();
-							JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
-						} 
-						catch (MessagingException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
 				}
 			}
 		});
 
 		btnEnviar.setBounds(358, 266, 67, 30);
 		contentPane.add(btnEnviar);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(115, 171, 310, 90);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
 		
 		JLabel lblEnviarEmail = new JLabel("ENVIAR EMAIL");
 		lblEnviarEmail.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
@@ -233,8 +203,8 @@ public class Interface extends JFrame {
 					e1.printStackTrace();
 				}	
 				
-				textField.setText(objCliente.getNomeCliente());
-			    textField_1.setText(objCliente.getEmailCliente());
+				textPara.setText(objCliente.getNomeCliente());
+			    textEmail.setText(objCliente.getEmailCliente());
 				
 				idCliente = objCliente.getNumCliente();
 				textField_4.setText(idCliente.toString());
@@ -278,17 +248,48 @@ public class Interface extends JFrame {
 		progressBar.setString("Enviando...  "+i/5000+"%");		
 	}	
 	
-	    public void barra(){
-	    Runnable run = new Runnable(){  
-			   public void run(){
-				   for (int i = 0; i < 500000; i++){  
-			           System.out.println(i);  
-			           setProgresso(i);
-			        }
-			   }
-	    };
 	    
-	    Thread t = new Thread(run);  
-		t.start();
-}
+	    public void email(){
+		    Runnable run = new Runnable(){  
+				   public void run(){
+					   if(caminho.isEmpty() == true){
+							Carteiro_so_mensagem carteiro = new Carteiro_so_mensagem();
+							try {	
+						    			
+								
+								
+							carteiro.enviarMensagem(mensagem);
+							
+							JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
+						} catch (EmailException e1) {
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
+						} catch (MessagingException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						}else{					
+					
+							mensagem.setCaminho(caminho);
+									 
+							Carteiro carteiro = new Carteiro();
+							try {	
+								
+							carteiro.enviarMensagem(mensagem);						
+							JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
+							} catch (EmailException e1) {
+								e1.printStackTrace();
+								JOptionPane.showMessageDialog(null, "Ops! Não foi possível enviar a mensagem.");
+							} 
+							catch (MessagingException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+				   }
+		    };
+		    
+		    Thread t = new Thread(run);  
+			t.start();
+	}
 }
