@@ -1,5 +1,6 @@
 package br.com.menu;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -34,7 +35,10 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.awt.Font;
 
@@ -90,7 +94,6 @@ public class PrincipalAdm extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		menuBar = new JMenuBar();
-		//menuBar.setMnemonic(InputEvent.ALT_MASK);
 		setJMenuBar(menuBar);
 		
 		JMenu mnCadastros = new JMenu("Consultas e Cadastros");
@@ -286,10 +289,13 @@ public class PrincipalAdm extends JFrame {
 			  */
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String file = this.getClass().getResource("/br/com/anexos/ManualCliente.pdf").getFile().replaceAll("%20", " ");  
-	  
-				    java.awt.Desktop desktop = java.awt.Desktop.getDesktop();     
-				    desktop.open(new File(file));
+//					InputStream file = this.getClass().getResourceAsStream("/br/com/anexos/ManualCliente.pdf");
+//					String file = this.getClass().getResource("C:\\Users\\Karina\\Documents\\ManualCliente.pdf").getFile().replaceAll("%20", " ");  
+//					Desktop.getDesktop().open(new File("/br/com/anexos/ManualCliente.pdf"));
+//				    java.awt.Desktop desktop = java.awt.Desktop.getDesktop();     
+//				    desktop.open(new File(file));				    
+				    
+				    openPdf();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -333,4 +339,25 @@ public class PrincipalAdm extends JFrame {
 //		menu_1.setVisible(true);
 		return true;
 	}
+	
+	private void openPdf() throws IOException {  
+        getThePdfAndPutOnC();  
+        Desktop.getDesktop().open(new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf")); // Hardcode mesmo  
+        
+        
+    }
+	
+	public void getThePdfAndPutOnC() throws IOException{  
+        InputStream from = getClass().getResourceAsStream("/br/com/anexos/ManualCliente.pdf"); // Criar pacote e colocar nele o .pdf  
+        File to = new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf"); // Endereço de saída do arquivo .pdf  
+        OutputStream transferByteByByte = new FileOutputStream(to);  
+        byte[] bufferTotal = new byte[1024];  
+        int size = 0;  
+        while ((size = from.read(bufferTotal)) > 0){  
+            transferByteByByte.write(bufferTotal, 0, size);  
+        }  
+        transferByteByByte.close();  
+        from.close();  
+    } 
+	
 }

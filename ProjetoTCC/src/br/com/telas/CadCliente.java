@@ -129,24 +129,24 @@ public class CadCliente extends JDialog {
                  formulario.add(panel);
                  
                                                    
-                           JLabel label_1 = new JLabel("Nome:");
-                           label_1.setHorizontalAlignment(SwingConstants.RIGHT);
-                           label_1.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_1.setBounds(-12, 31, 82, 18);
-                           panel.add(label_1);
+                           JLabel lblnome = new JLabel("*Nome:");
+                           lblnome.setHorizontalAlignment(SwingConstants.RIGHT);
+                           lblnome.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                           lblnome.setBounds(-12, 31, 82, 18);
+                           panel.add(lblnome);
                            
-                           JLabel label_9 = new JLabel("CPF:");
-                           label_9.setHorizontalAlignment(SwingConstants.RIGHT);
-                           label_9.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_9.setBounds(0, 60, 70, 18);
-                           panel.add(label_9);
+                           JLabel lblcpf = new JLabel("*CPF:");
+                           lblcpf.setHorizontalAlignment(SwingConstants.RIGHT);
+                           lblcpf.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                           lblcpf.setBounds(0, 60, 70, 18);
+                           panel.add(lblcpf);
                            
                            
-                           JLabel label_2 = new JLabel("Telefone:");
-                           label_2.setHorizontalAlignment(SwingConstants.RIGHT);
-                           label_2.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_2.setBounds(0, 118, 70, 18);
-                           panel.add(label_2);
+                           JLabel lbltelefone = new JLabel("*Telefone:");
+                           lbltelefone.setHorizontalAlignment(SwingConstants.RIGHT);
+                           lbltelefone.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                           lbltelefone.setBounds(0, 118, 70, 18);
+                           panel.add(lbltelefone);
                            
                            JLabel label_3 = new JLabel("E-mail:");
                            label_3.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -154,35 +154,35 @@ public class CadCliente extends JDialog {
                            label_3.setBounds(0, 89, 70, 18);
                            panel.add(label_3);
                            
-                           JLabel label_4 = new JLabel("Rua:");
-                           label_4.setHorizontalAlignment(SwingConstants.RIGHT);
-                           label_4.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_4.setBounds(0, 147, 70, 18);
-                           panel.add(label_4);
+                           JLabel lblrua = new JLabel("*Rua:");
+                           lblrua.setHorizontalAlignment(SwingConstants.RIGHT);
+                           lblrua.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                           lblrua.setBounds(0, 147, 70, 18);
+                           panel.add(lblrua);
                            
-                           JLabel label_5 = new JLabel("Nº:");
-                           label_5.setHorizontalAlignment(SwingConstants.RIGHT);
-                           label_5.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_5.setBounds(280, 147, 56, 18);
-                           panel.add(label_5);
+                           JLabel lbln = new JLabel("*N\u00BA:");
+                           lbln.setHorizontalAlignment(SwingConstants.RIGHT);
+                           lbln.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                           lbln.setBounds(280, 147, 56, 18);
+                           panel.add(lbln);
                            
-                           JLabel label_6 = new JLabel("Bairro:");
-                           label_6.setHorizontalAlignment(SwingConstants.RIGHT);
-                           label_6.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_6.setBounds(266, 176, 70, 18);
-                           panel.add(label_6);
+                           JLabel lblbairro = new JLabel("*Bairro:");
+                           lblbairro.setHorizontalAlignment(SwingConstants.RIGHT);
+                           lblbairro.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                           lblbairro.setBounds(266, 176, 70, 18);
+                           panel.add(lblbairro);
                            
-                           JLabel label_7 = new JLabel("Cidade:");
-                           label_7.setHorizontalAlignment(SwingConstants.RIGHT);
-                           label_7.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_7.setBounds(0, 205, 70, 18);
-                           panel.add(label_7);
+                           JLabel lblcidade = new JLabel("*Cidade:");
+                           lblcidade.setHorizontalAlignment(SwingConstants.RIGHT);
+                           lblcidade.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                           lblcidade.setBounds(0, 205, 70, 18);
+                           panel.add(lblcidade);
                            
-                           JLabel label_8 = new JLabel("CEP:");
-                           label_8.setHorizontalAlignment(SwingConstants.RIGHT);
-                           label_8.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                           label_8.setBounds(0, 234, 70, 18);
-                           panel.add(label_8);
+                           JLabel lblcep = new JLabel("*CEP:");
+                           lblcep.setHorizontalAlignment(SwingConstants.RIGHT);
+                           lblcep.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                           lblcep.setBounds(0, 234, 70, 18);
+                           panel.add(lblcep);
                            
                             
                             JButton button = new JButton("");
@@ -355,7 +355,7 @@ public class CadCliente extends JDialog {
                  panel.add(textField_9);
                  textField_9.setColumns(10);
                  
-                 JLabel lblTodosOsCampos = new JLabel("Todos os campos s\u00E3o obrigat\u00F3rios!");
+                 JLabel lblTodosOsCampos = new JLabel("*Campos obrigat\u00F3rios!");
                  lblTodosOsCampos.setForeground(new Color(255, 0, 0));
                  lblTodosOsCampos.setFont(new Font("Tahoma", Font.PLAIN, 12));
                  lblTodosOsCampos.setBounds(130, 263, 206, 14);
@@ -622,10 +622,10 @@ public class CadCliente extends JDialog {
 			JOptionPane.showMessageDialog(null, "Campo Nome Vazio!");
 			result = false;
 		}
-		if(!ValidacaoUtil.textFieldVazio(textField_1)){
-			JOptionPane.showMessageDialog(null, "Campo Email Vazio!");
-			result = false;
-		}
+//		if(!ValidacaoUtil.textFieldVazio(textField_1)){
+//			JOptionPane.showMessageDialog(null, "Campo Email Vazio!");
+//			result = false;
+//		}
 		if(!ValidacaoUtil.textFieldVazio(textField_2)){
 			JOptionPane.showMessageDialog(null, "Campo Rua Vazio!");
 			result = false;

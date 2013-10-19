@@ -438,6 +438,12 @@ public class Ped extends JFrame {
 	        	        		                   textField_3.setBounds(128, 336, 420, 32);
 	        	        		                   panel.add(textField_3);
 	        	        		                   textField_3.setColumns(10);
+	        	        		                   
+	        	        		                   JLabel lblTodosOsCampos = new JLabel("Todos os campos s\u00E3o obrigat\u00F3rios!");
+	        	        		                   lblTodosOsCampos.setForeground(Color.RED);
+	        	        		                   lblTodosOsCampos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+	        	        		                   lblTodosOsCampos.setBounds(130, 379, 242, 14);
+	        	        		                   panel.add(lblTodosOsCampos);
 	        	        	                     
 	        	        	                     JButton btnVoltar = new JButton("");
 	        	        	                     btnVoltar.setIcon(new ImageIcon(Ped.class.getResource("/br/com/images/voltar.png")));

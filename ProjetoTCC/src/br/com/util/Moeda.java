@@ -4,7 +4,7 @@ package br.com.util;
 import javax.swing.text.*;  
 /**
  *
- * @author giovani.figueiredo
+ * @author JavaFree
  */
 public class Moeda extends PlainDocument {  
   
@@ -12,7 +12,7 @@ public class Moeda extends PlainDocument {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-public static final int NUMERO_DIGITOS_MAXIMO = 12;  
+	public static final int NUMERO_DIGITOS_MAXIMO = 12;  
   
 @SuppressWarnings("static-access")
 public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {  
@@ -34,6 +34,7 @@ public void insertString(int offs, String str, AttributeSet a) throws BadLocatio
        s.deleteCharAt(0);  
    }  
   
+   
    if(s.length() < 3) {  
      if (s.length() < 1) {   
          s.insert(0,"000");  

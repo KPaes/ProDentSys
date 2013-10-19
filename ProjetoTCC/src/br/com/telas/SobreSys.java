@@ -65,7 +65,7 @@ public class SobreSys extends JDialog {
 			contentPanel.add(lblKbyte);
 		}
 		{
-			JLabel lblVerso = new JLabel("Vers\u00E3o: 1.0");
+			JLabel lblVerso = new JLabel("Vers\u00E3o: 1.5");
 			lblVerso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblVerso.setBounds(20, 84, 78, 14);
 			contentPanel.add(lblVerso);

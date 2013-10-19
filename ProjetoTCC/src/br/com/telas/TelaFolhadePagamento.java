@@ -157,11 +157,11 @@ public class TelaFolhadePagamento extends JFrame {
                          lblProfisso.setBounds(0, 129, 70, 18);
                          panel.add(lblProfisso);
                          
-                         JLabel label_5 = new JLabel("Nº:");
-                         label_5.setHorizontalAlignment(SwingConstants.RIGHT);
-                         label_5.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                         label_5.setBounds(10, 45, 56, 18);
-                         panel.add(label_5);
+                         JLabel lbln = new JLabel("N\u00BA:");
+                         lbln.setHorizontalAlignment(SwingConstants.RIGHT);
+                         lbln.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                         lbln.setBounds(10, 45, 56, 18);
+                         panel.add(lbln);
                          
                           
                           JButton button = new JButton("");
@@ -387,6 +387,12 @@ public class TelaFolhadePagamento extends JFrame {
                           btnCalcular_Com.setToolTipText("Calcular comiss\u00E3o");
                           btnCalcular_Com.setBounds(491, 170, 89, 23);
                           panel.add(btnCalcular_Com);
+                          
+                          JLabel lblTodosOsCampos = new JLabel("Todos os campos s\u00E3o obrigat\u00F3rios!");
+                          lblTodosOsCampos.setForeground(Color.RED);
+                          lblTodosOsCampos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+                          lblTodosOsCampos.setBounds(201, 263, 192, 14);
+                          panel.add(lblTodosOsCampos);
                           
                           
                           JButton btnVoltar = new JButton("");

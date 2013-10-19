@@ -62,6 +62,9 @@ public class FuncionarioDao {
 	private static final String QUERY_AUTENTICAR_USUARIO =
 			"select * from tbFuncionario where login_funcionario = ? and senha_funcionario = ?";
 	
+	private static final  String CONSULTA_SENHA = 
+			"select senha_funcionario from tbfuncionario where numFunc = ?";
+	
 	
 	/**
 	 * Através do número digitado pelo usuário, o sistema faz uma busca e retorna o nome do funcionario
@@ -378,4 +381,30 @@ public class FuncionarioDao {
 		}
 		return objFunc;	
 }
+	
+	public Funcionario procurarFuncionarioSenha(Integer numFunc) throws DaoException{
+		Funcionario objFunc = new Funcionario();
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(CONSULTA_SENHA);
+			statement.setInt(1, numFunc);
+			result = statement.executeQuery();
+			if(result.next()) {
+			
+				objFunc.setSenha(result.getString(1)); 
+				
+			}
+//			else{
+				//JOptionPane.showMessageDialog(null, "Funcionário não encontrado!");
+//			}
+		}
+			catch (SQLException e) {
+				throw new DaoException(e);
+			} finally {
+				DbUtil.close(conn, statement, result);
+			}
+			return objFunc;	
+	}
 }

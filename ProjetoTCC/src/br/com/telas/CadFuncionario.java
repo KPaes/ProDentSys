@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ import br.com.exception.DaoException;
 import br.com.util.MascaraUtil;
 import br.com.util.Moeda;
 import br.com.util.ValidacaoUtil;
-
+import br.com.util.CriptografiaUtil;
 
 
 public class CadFuncionario extends JFrame implements KeyListener, ActionListener {
@@ -69,7 +70,15 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	
 
 	private JLabel lblIndisponivel;
+	private JLabel lblSenhaInvalida;
 	private int status_nome_usuario = 1;
+	@SuppressWarnings("unused")
+	private int status_senha_usuario = 1;
+	private JPasswordField textSenhaOld;
+	private JLabel lblSenhaAntiga;
+	
+	private String senhaOld = "";
+	private String cripta = "";
 
 	public CadFuncionario() throws DaoException {
 		setResizable(false);
@@ -108,7 +117,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
         btnOk.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		try {
-					atualizaLista(table,txtDigiteONome.getText().toString());
+					atualizaLista(table, txtDigiteONome.getText().toString());
 				} catch (DaoException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -131,23 +140,23 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                 formulario.add(panel);
                 
                 passwordField = new JPasswordField();
-                passwordField.setBounds(333, 205, 94, 20);
+                passwordField.setBounds(331, 242, 94, 20);
                 panel.add(passwordField);
                 
                 JLabel lblConfirmarASenha = new JLabel("Confirmar a senha:");
                 lblConfirmarASenha.setHorizontalAlignment(SwingConstants.RIGHT);
                 lblConfirmarASenha.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                lblConfirmarASenha.setBounds(196, 205, 127, 18);
+                lblConfirmarASenha.setBounds(199, 242, 127, 18);
                 panel.add(lblConfirmarASenha);
                 
                 passwordField_1 = new JPasswordField();
-                passwordField_1.setBounds(92, 205, 94, 20);
+                passwordField_1.setBounds(92, 242, 94, 20);
                 panel.add(passwordField_1);
                 
                 JLabel label_2 = new JLabel("Senha:");
                 label_2.setHorizontalAlignment(SwingConstants.RIGHT);
                 label_2.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                label_2.setBounds(12, 205, 70, 18);
+                label_2.setBounds(12, 242, 70, 18);
                 panel.add(label_2);
                 
                 JLabel label_3 = new JLabel("Login:");
@@ -167,20 +176,20 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                 lblIndisponivel = new JLabel("Dispon\u00EDvel");
                 lblIndisponivel.setFont(new Font("Tahoma", Font.ITALIC, 11));
         	 	 lblIndisponivel.setVisible(false);
-                lblIndisponivel.setBounds(310, 179, 82, 14);
+                lblIndisponivel.setBounds(292, 179, 82, 14);
                 panel.add(lblIndisponivel);                
                                  
-                JLabel label_4 = new JLabel("Profissão:");
-                label_4.setHorizontalAlignment(SwingConstants.RIGHT);
-                label_4.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                label_4.setBounds(12, 60, 70, 18);
-                panel.add(label_4);
+                JLabel lblprofisso = new JLabel("*Profiss\u00E3o:");
+                lblprofisso.setHorizontalAlignment(SwingConstants.RIGHT);
+                lblprofisso.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                lblprofisso.setBounds(0, 60, 82, 18);
+                panel.add(lblprofisso);
                 
-                JLabel label_5 = new JLabel("Nome:");
-                label_5.setHorizontalAlignment(SwingConstants.RIGHT);
-                label_5.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                label_5.setBounds(12, 31, 70, 18);
-                panel.add(label_5);
+                JLabel lblnome = new JLabel("*Nome:");
+                lblnome.setHorizontalAlignment(SwingConstants.RIGHT);
+                lblnome.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                lblnome.setBounds(12, 31, 70, 18);
+                panel.add(lblnome);
                 
                 JButton button = new JButton("");
                 button.setToolTipText("Salvar Alt+S");
@@ -191,12 +200,12 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                 
                 button.addActionListener(new ActionListener() {					
 					@Override					
-					  public void actionPerformed(ActionEvent arg0) {					  
+					  public void actionPerformed(ActionEvent arg0){					  
 					  String cSenha = new String(passwordField_1.getPassword());				  
 					  if( validarFormulário() ){
 						  
 						  if(status_nome_usuario == 1){
-								JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
+//								JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
 							}
 						  
 						  FuncionarioDao objDAO = new FuncionarioDao();
@@ -222,12 +231,31 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 								}else{
 									Integer matr = Integer.parseInt(textField_5.getText()); 
 									obj.setNumFunc(matr);
-									objDAO.atualizarFuncionario(obj);
-									JOptionPane.showMessageDialog(formulario, "Dados atualizados com sucesso!");
-								}		
+									//Verifica se a senha antiga confere com a do banco
+									Funcionario auteticacao = new FuncionarioDao().procurarFuncionarioSenha(matr);
+									senhaOld = auteticacao.getSenha();
+									
+//										String cripta;
+											cripta = CriptografiaUtil.encripta(String.copyValueOf(textSenhaOld.getPassword())); 
+											if(cripta.equals(senhaOld)){
+												objDAO.atualizarFuncionario(obj);
+												JOptionPane.showMessageDialog(formulario, "Dados atualizados com sucesso!");
+											}else{
+												JOptionPane.showMessageDialog(null, "Senha antiga não confere", "Alterar Senha", JOptionPane.WARNING_MESSAGE);											
+											}
+//										if(status_senha_usuario == 1){
+//											JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
+//										}else{										
+																		
+									
+								}	
+//								}
 								limpaFormulario();
 								atualizaLista(table,"");
 							} catch (DaoException e) {
+								e.printStackTrace();
+							} catch (NoSuchAlgorithmException e) {
+								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 					  }
@@ -252,12 +280,12 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 				});
                 
                 textField = new JTextField();
-                textField.setBounds(92, 31, 335, 20);
+                textField.setBounds(92, 31, 413, 20);
                 panel.add(textField);
                 textField.setColumns(10);
                 
                 textField_2 = new JTextField();
-                textField_2.setBounds(92, 60, 127, 20);
+                textField_2.setBounds(92, 60, 154, 20);
                 panel.add(textField_2);
                 textField_2.setColumns(10);
                 
@@ -267,7 +295,6 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-               // textField_3.setDocument(new Moeda()); 
                 textField_3.setBounds(92, 91, 127, 20);
                  panel.add(textField_3);
                  textField_3.setColumns(10);
@@ -280,27 +307,27 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                  textField_5.setText("");
                  panel.add(textField_5);
                  
-                 JLabel lblTel = new JLabel("Tel.:");
+                 JLabel lblTel = new JLabel("*Tel.:");
                  lblTel.setFont(new Font("Arial Black", Font.PLAIN, 12));
                  lblTel.setBounds(50, 93, 60, 14);
                  panel.add(lblTel);
                  
-                 JLabel lblSalrio = new JLabel("Sal\u00E1rio:");
+                 JLabel lblSalrio = new JLabel("*Sal\u00E1rio:");
                  lblSalrio.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                 lblSalrio.setBounds(236, 63, 70, 14);
+                 lblSalrio.setBounds(310, 62, 70, 14);
                  panel.add(lblSalrio);
                  
                  textField_1 =  new JTextField();
                  textField_1.setDocument(new Moeda()); 
-                 textField_1.setBounds(310, 60, 117, 20);
+                 textField_1.setBounds(388, 60, 117, 20);
                  panel.add(textField_1);
                  textField_1.setColumns(10);
                  
-                 JLabel label = new JLabel("Todos os campos s\u00E3o obrigat\u00F3rios!");
-                 label.setForeground(Color.RED);
-                 label.setFont(new Font("Tahoma", Font.PLAIN, 12));
-                 label.setBounds(130, 258, 206, 14);
-                 panel.add(label);
+                 JLabel lblcamposObrigatrios = new JLabel("*Campos obrigat\u00F3rios!");
+                 lblcamposObrigatrios.setForeground(Color.RED);
+                 lblcamposObrigatrios.setFont(new Font("Tahoma", Font.PLAIN, 12));
+                 lblcamposObrigatrios.setBounds(307, 128, 206, 14);
+                 panel.add(lblcamposObrigatrios);
                  
                  JLabel lblComisso = new JLabel("Comiss\u00E3o:");
                  lblComisso.setFont(new Font("Arial Black", Font.PLAIN, 12));
@@ -313,6 +340,24 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                  panel.add(textComissao);
                  textComissao.setColumns(10);
                  
+                 textSenhaOld = new JPasswordField();
+                 textSenhaOld.setBounds(120, 211, 162, 20);
+                 textSenhaOld.setVisible(false);
+                 panel.add(textSenhaOld);
+                 textSenhaOld.setColumns(10);
+                 
+                 lblSenhaAntiga = new JLabel("Senha Antiga:");
+                 lblSenhaAntiga.setHorizontalAlignment(SwingConstants.RIGHT);
+                 lblSenhaAntiga.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                 lblSenhaAntiga.setVisible(false);
+                 lblSenhaAntiga.setBounds(0, 213, 110, 18);
+                 panel.add(lblSenhaAntiga);
+                 
+                 lblSenhaInvalida = new JLabel("Certo!");
+                 lblSenhaInvalida.setFont(new Font("Tahoma", Font.ITALIC, 11));
+                 lblSenhaInvalida.setVisible(false);
+                 lblSenhaInvalida.setBounds(292, 217, 82, 14);
+                 panel.add(lblSenhaInvalida); 
                  
                  
                  JButton btnVoltar = new JButton("");
@@ -350,7 +395,9 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
               Button Novo = new Button("Adicionar");          
               Novo.setBounds(10, 530, 70, 22);
               lista.add(Novo);                                    
-              lista.setVisible(true);       
+              lista.setVisible(true);  
+              textSenhaOld.setVisible(false);
+              lblSenhaAntiga.setVisible(false);
               table = new JTable();
               table.addMouseListener(new MouseListener() {
 			
@@ -526,6 +573,10 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 		textField_4.setText(objFunc.getLogin());
 		textField.setText(objFunc.getNomeFunc());
 		
+		lblSenhaAntiga.setVisible(true);
+		textSenhaOld.setVisible(true);
+//		textSenhaOld.setEnabled(true);
+		
 		textComissao.setText(objFunc.getComissaoFunc().toString());
 		
 		String aux = objFunc.getSalarioFunc().toString();
@@ -552,6 +603,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 		passwordField.setText("");
 		passwordField_1.setText("");	
 		textComissao.setText("");
+		textSenhaOld.setText("");
 	}
 	
 	public boolean validarFormulário(){
@@ -573,16 +625,23 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 			JOptionPane.showMessageDialog(null, "Campo Telefone Vazio!");
 			result = false;
 		}
-		if(!ValidacaoUtil.textFieldVazio(textField_4)){
-			JOptionPane.showMessageDialog(null, "Campo Login Vazio!");
-			result = false;
-		}
-		if(!ValidacaoUtil.textFieldVazio(passwordField)){
-			JOptionPane.showMessageDialog(null, "Campo Senha Vazio!");
-			result = false;
-		}
-		if(!ValidacaoUtil.textFieldVazio(passwordField_1)){
-			JOptionPane.showMessageDialog(null, "Campo confirmar senha Vazio!");
+//		if(!ValidacaoUtil.textFieldVazio(textField_4)){
+//			JOptionPane.showMessageDialog(null, "Campo Login Vazio!");
+//			result = false;
+//		}
+//		if(!ValidacaoUtil.textFieldVazio(passwordField)){
+//			JOptionPane.showMessageDialog(null, "Campo Senha Vazio!");
+//			result = false;
+//		}
+//		if(!ValidacaoUtil.textFieldVazio(passwordField_1)){
+//			JOptionPane.showMessageDialog(null, "Campo confirmar senha Vazio!");
+//			result = false;
+//		}
+		if(!ValidacaoUtil.textFieldVazio(textComissao)){
+//			JOptionPane.showMessageDialog(null, "Campo confirmar senha Vazio!");
+			
+			textComissao.setText("0");
+			
 			result = false;
 		}
 		
@@ -634,6 +693,59 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 		t.start();
 		
 	}
+	
+@SuppressWarnings("unused")
+private void verificaSenhaUsuario(){
+//	 final String senhaOld;
+//	 final String cripta = "";
+		Runnable run = new Runnable(){  
+			   public void run(){  
+				   
+					try {
+						Integer matr = Integer.parseInt(textField_5.getText());						
+						
+						Funcionario auteticacao = new FuncionarioDao().procurarFuncionarioSenha(matr);
+						senhaOld = auteticacao.getSenha();
+						
+						try {
+							cripta = CriptografiaUtil.encripta(String.copyValueOf(textSenhaOld.getPassword()));
+			
+					
+						if (cripta.equals(senhaOld) || senhaOld.equals(cripta)) {
+							lblSenhaInvalida.setVisible(true);
+							lblSenhaInvalida.setText("Errado, tente novamente!");
+							lblSenhaInvalida.setForeground(Color.RED);
+							status_senha_usuario = 1;
+						}
+						if(String.copyValueOf(textSenhaOld.getPassword()).equals("")){
+							lblSenhaInvalida.setVisible(false);
+							status_senha_usuario = 1;
+						}
+						if(!cripta.equals(senhaOld) || !senhaOld.equals(cripta)){
+							lblSenhaInvalida.setVisible(true);
+							lblSenhaInvalida.setText("Certo!");
+							lblSenhaInvalida.setForeground(Color.BLACK);
+							status_senha_usuario = 0;
+						}
+					
+						} catch (NoSuchAlgorithmException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					} catch (DaoException e) {
+						e.printStackTrace();
+					}
+						}
+					
+			   
+		};  
+			  
+		Thread t = new Thread(run);  
+		t.start();
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
@@ -648,6 +760,9 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 		if(event.getSource() == textField_4){
 			verificaNomeUsuario();
 		}
+//		if(event.getSource() == textSenhaOld){
+//			verificaSenhaUsuario();
+//		}
 		
 	}
 	@Override
@@ -660,15 +775,14 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 		if(event.getSource() == textField_4){
 			verificaNomeUsuario();
 		}
+//		if(event.getSource() == textSenhaOld){
+//			verificaSenhaUsuario();
+//		}
 		
 	}
 	@Override
 	public void keyReleased(KeyEvent event) {
 		
 	}
-
-	
-    
-	
 }
 

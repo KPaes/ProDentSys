@@ -1,0 +1,6 @@
+Manifest-Version: 1.0 
+Sealed: true 
+Class-Path: Lib/commons-email-1.3.1.jar Lib/commons-collections-3.2.1.jar Lib/activation.jar Lib/ddl.jar Lib/groovy-all-2.0.1 Lib/poi-3.7-20101029.jar  Lib/commons-digester-2.1.jar Lib/commons-net-1.4.1.jar Lib/commons-logging-1.1.jar Lib/mailapi.jar Lib/iReport.jar lib/iText-2.1.7.jar Lib/jasperreports-5.1.0.jar Lib/sqljdbc4.jar lib/smtp.jar 
+Main-Class: Login
+Name: Login.class 
+Java-Bean: True

@@ -99,16 +99,11 @@ public class PedidoDao {
 				objPedido.setNomeCliente(result.getString(2));
 				objPedido.setNomePaciente(result.getString(4));
 				
-//				objPedido.setDataPedido(result.getString(5));
-//				objPedido.setDataEntrega(result.getString(6));
-
 				objPedido.setDataPedido(result.getDate(5));
 				objPedido.setDataEntrega(result.getDate(6));
 				
-				objPedido.setTipoProtese(result.getString(7)); //arrumar
-				objPedido.setNomeProtese(result.getString(8)); //arrumar
-			//	objPedido.setPrecoProtese(result.getDouble(9)); //arrumar
-			//	objPedido.setNumProtese(result.getInt(10)); //arrumar
+				objPedido.setTipoProtese(result.getString(7));
+				objPedido.setNomeProtese(result.getString(8)); 
 				objPedido.setNomeFunc(result.getString(9));
 				objPedido.setNumFunc(result.getInt(10));
 				objPedido.setTotalPedido(result.getDouble(11));

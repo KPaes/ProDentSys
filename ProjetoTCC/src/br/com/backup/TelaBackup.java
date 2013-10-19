@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import testes.FileChooser;
 
 import br.com.exception.DaoException;
+import br.com.util.BarraDeProgresso;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -34,7 +35,11 @@ public class TelaBackup extends JFrame implements ActionListener {
 	 */
 	
 	private JProgressBar progressBar = new JProgressBar();
-	
+
+	BarraDeProgresso barraDeProgresso = new BarraDeProgresso();
+    Thread threadDaBarra = new Thread(barraDeProgresso);
+    
+    
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
@@ -262,9 +267,21 @@ public class TelaBackup extends JFrame implements ActionListener {
             		JOptionPane.showMessageDialog(null, "Por gentileza, salvar em outro disco!");
             	}
             	
-            	else{            	            	
+            	else{    
+            		
+            		
+            		
             		if(caminho.contains(".bak")){
+//            			barra();
+            			Thread t = new Thread(run);  
+                		t.start();
             		try {
+//            			Thread t = new Thread(run);  
+//                		t.start();
+                		
+//                		threadDaBarra.start();
+                		
+                		
 						bkpDao.gerarBackupDiferencial(caminho);
 					} catch (DaoException e1) {
 						// TODO Auto-generated catch block
@@ -274,7 +291,13 @@ public class TelaBackup extends JFrame implements ActionListener {
             		}else{
             			String file;
             			file = caminho + ".bak";
+//            			barra();
+            			Thread t = new Thread(run);  
+                		t.start();
             			try {
+//            				Thread t = new Thread(run);  
+//                    		t.start();
+//            				barra();
             				bkpDao.gerarBackupDiferencial(file);
             			} catch (DaoException e1) {
             				// TODO Auto-generated catch block
@@ -295,6 +318,7 @@ public class TelaBackup extends JFrame implements ActionListener {
         }
     }
 
+
     /** Returns an ImageIcon, or null if the path was invalid. */
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = FileChooser.class.getResource(path);
@@ -311,11 +335,20 @@ public class TelaBackup extends JFrame implements ActionListener {
 		progressBar.setValue(i);
 		progressBar.setString("Enviando...  "+i/5000+"%");		
 	}
-    public void barra(){ //implements Runnable{
-    	for (int i = 0; i < 500000; i++){  
-	           System.out.println(i);  
-	           setProgresso(i);
-	        }
-    }
+    
+//    public void barra(){
+	    Runnable run = new Runnable(){  
+			   public void run(){
+				   for (int i = 0; i < 500000; i++){  
+			           System.out.println(i);  
+			           setProgresso(i);
+			        }
+			   }
+	    };
+	    
+//	    Thread t = new Thread(run);  
+//		t.start();
+//}
+
 }
 

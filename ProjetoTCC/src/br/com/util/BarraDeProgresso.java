@@ -13,21 +13,14 @@ public class BarraDeProgresso implements Runnable{
 			progressBar.setValue(i);
 			progressBar.setString("Enviando...  "+i/5000+"%");		
 		}
-	    public void barra(){ //implements Runnable{
-	    	for (int i = 0; i < 500000; i++){  
-		           System.out.println(i);  
-		           setProgresso(i);
-		        }
-	    }
+	  
 		@Override
 		public void run() {
 			int i;
 			// TODO Auto-generated method stub
-			for ( i = 0; i < 500000; i++){  
-		           System.out.println(i);  
+			for ( i = 0; i < 500000; i++){   
 		           setProgresso(i);
 		        }
-			setProgresso(i);
 			
 		}
 }

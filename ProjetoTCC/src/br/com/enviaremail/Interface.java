@@ -140,17 +140,20 @@ public class Interface extends JFrame {
 			
 				String email = textField_1.getText(); 
 				if(ValidaEmail.validaEmail(email) == true){
-				
+					barra();
 					if(caminho.isEmpty() == true){
 						Carteiro_so_mensagem carteiro = new Carteiro_so_mensagem();
 						try {									
-						 for (int i = 0; i < 500000; i++){  
-					           System.out.println(i);  
-					           setProgresso(i);
-					        }
-//					    threadDaBarra.start();					    
-					    
-						carteiro.enviarMensagem(mensagem);						
+//						 for (int i = 0; i < 500000; i++){  
+//					           System.out.println(i);  
+//					           setProgresso(i);
+//					        }
+//					    							
+//						    barra();
+							
+							
+						carteiro.enviarMensagem(mensagem);
+						
 						JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
 					} catch (EmailException e1) {
 						e1.printStackTrace();
@@ -165,10 +168,12 @@ public class Interface extends JFrame {
 								 
 						Carteiro carteiro = new Carteiro();
 						try {									
-							for (int i = 0; i < 500000; i++){  
-								System.out.println(i);  
-								setProgresso(i);
-							}
+//							for (int i = 0; i < 500000; i++){  
+//								System.out.println(i);  
+//								setProgresso(i);
+//							}
+							
+//							barra();
 							
 						carteiro.enviarMensagem(mensagem);						
 						JOptionPane.showMessageDialog(null, "Enviado com Sucesso!");
@@ -266,8 +271,24 @@ public class Interface extends JFrame {
 		btnAnexo.setBounds(115, 266, 56, 30);
 		contentPane.add(btnAnexo);
 	}
+	
+	
 	public void setProgresso(int i) {
 		progressBar.setValue(i);
 		progressBar.setString("Enviando...  "+i/5000+"%");		
-	}
+	}	
+	
+	    public void barra(){
+	    Runnable run = new Runnable(){  
+			   public void run(){
+				   for (int i = 0; i < 500000; i++){  
+			           System.out.println(i);  
+			           setProgresso(i);
+			        }
+			   }
+	    };
+	    
+	    Thread t = new Thread(run);  
+		t.start();
+}
 }

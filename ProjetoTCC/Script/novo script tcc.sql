@@ -30,8 +30,9 @@ add salarioFunc numeric(12,2) not null
 go
 
 alter table tbFuncionario
-add comissaoFunc numeric(12,2) null
+add comissaoFunc numeric(5,2) null
 go
+
 
 SET ANSI_PADDING OFF
 GO
@@ -70,16 +71,15 @@ constraint FK_numCliente foreign key (numCliente) references tbCliente,
 constraint FK_numFunc foreign key (numFunc) references tbFuncionario
 )
 go
---precoProtese numeric(10,2) null,
---numProtese integer null,
---constraint FK_numProtese foreign key (numProtese) references tbTabeladePrecos
-
 
 alter table tbPedido
 add observacoesPed varchar(max) null
 go
+
 alter table tbPedido
 add cpfCliente char(14) not null 
+go
+
 
 --Criação de tabela - Fornecedor
 create table tbFornecedor(
@@ -114,14 +114,7 @@ constraint PK_codDep primary key (codDep),
 constraint FK_numFuncionario foreign key (numFunc) references tbFuncionario)
 go
 
---DROP TABLE tbFolhadePagamento
 
-
---Deletando uma coluna
---ALTER TABLE (NOME DA TABELA) DROP (NOME DA COLUNA)
-
---Deletando uma tabela
---DROP TABLE tbPedido
 
 
 --Criação de tabela - Tabela de Preoços
@@ -149,3 +142,16 @@ go
 create Index idx_nome_protese on tbTabeladePrecos (nomeProtese asc)
 go
 
+
+--DROP TABLE tbFolhadePagamento
+
+
+--Deletando uma coluna
+--ALTER TABLE (NOME DA TABELA) DROP (NOME DA COLUNA)
+
+--Deletando uma tabela
+--DROP TABLE tbPedido
+
+--precoProtese numeric(10,2) null,
+--numProtese integer null,
+--constraint FK_numProtese foreign key (numProtese) references tbTabeladePrecos
