@@ -348,7 +348,9 @@ public class Ped extends JFrame {
 	        	        	                     btnOk.addActionListener(new ActionListener() {
 	        	        	                     	public void actionPerformed(ActionEvent arg0) {
 	        	        	                     		String aux = textField_8.getText();
-	        	        	                     		if(aux.matches("^[0-9]")){
+	        	        	                     		if(textField_8.getText().equals("")){
+	        	        	            					JOptionPane.showMessageDialog(null, "Digite um número!");
+	        	        	            				}else if(aux.matches("^[0-9]*$")){
 	        	        	                     			//chamar o método para pesquisar atraves do número do cliente	                   		 
 		        	        	                     		chamaCliente(Integer.parseInt(textField_8.getText()));
 	        	                                  		}else{
@@ -364,7 +366,9 @@ public class Ped extends JFrame {
 	        	        	                     btnOk_1.addActionListener(new ActionListener() {
 	        	        	                     	public void actionPerformed(ActionEvent e) {
 	        	        	                     		String aux = textField_7.getText();
-	        	        	                     		if(aux.matches("^[0-9]")){
+	        	        	                     		if(textField_7.getText().equals("")){
+	        	        	            					JOptionPane.showMessageDialog(null, "Digite um número!");
+	        	        	            				}else if(aux.matches("^[0-9]*$")){
 	        	        	                     			//chamar o método para pesquisar atraves do número do funcionário	                   		 
 	        	        	                     			chamaFuncionario(Integer.parseInt(textField_7.getText()));
 	        	                                  		}else{

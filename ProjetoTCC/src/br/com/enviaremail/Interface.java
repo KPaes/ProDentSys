@@ -178,14 +178,21 @@ public class Interface extends JFrame {
 		btnProcurar.setToolTipText("Procurar o cliente para enviar email");
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField_4.getText() == ""){
+				if(textField_4.getText().equals("")){
 					JOptionPane.showMessageDialog(null, "Digite um número!");
-				}
+				}else
 				
-				else{
+				if(textField_4.getText().matches("^[0-9]*$")){
 					Integer numero = Integer.parseInt(textField_4.getText());
-					atualizaFormulario(numero);		
-				}
+					atualizaFormulario(numero);	
+          		}else{
+          			JOptionPane.showMessageDialog(null, "Digite apenas número!");
+          		}
+				
+//				else{
+//					Integer numero = Integer.parseInt(textField_4.getText());
+//					atualizaFormulario(numero);		
+//				}
 						
 			}
 

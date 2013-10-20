@@ -38,6 +38,16 @@ public class FuncionarioDao {
 			"where numFunc = ? ";
 	
 	
+	private static final String ATUALIZAR_FUNCIONARIO_SEM_SENHA =
+			"update tbfuncionario set " +
+			"nomeFunc = ?, " +
+			"telFunc = ?, " +
+			"profissaoFunc = ?, " +
+			"login_funcionario = ?, " +
+			"salarioFunc = ?, " +
+			"comissaoFunc = ? " +
+			"where numFunc = ? ";
+	
 	private static final  String CONSULTA_FUNCIONARIOS =
 			"select * from tbfuncionario order by numFunc";
 	
@@ -258,10 +268,10 @@ public class FuncionarioDao {
 				objFunc.setNomeFunc(result.getString(2));
 				objFunc.setTelFunc(result.getString(3));
 				objFunc.setProfissaoFunc(result.getString(4));
-				objFunc.setSalarioFunc(result.getDouble(7));
-				objFunc.setComissaoFunc(result.getDouble(8));
 				objFunc.setLogin(result.getString(5));
 				objFunc.setSenha(result.getString(6));
+				objFunc.setSalarioFunc(result.getDouble(7));
+				objFunc.setComissaoFunc(result.getDouble(8));
 				listaFunc.add(objFunc);
 			}
 		} catch (SQLException e) {
@@ -329,7 +339,7 @@ public class FuncionarioDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 	
-			statement.setInt(8, objFunc.getNumFunc()); //6
+			statement.setInt(8, objFunc.getNumFunc());
 			statement.setDouble(6, objFunc.getSalarioFunc());
 			statement.setDouble(7, objFunc.getComissaoFunc());
 			statement.executeUpdate();
@@ -342,6 +352,28 @@ public class FuncionarioDao {
 		return true;		
 	}
 	
+	public boolean atualizarFuncionario2(Funcionario objFunc) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(ATUALIZAR_FUNCIONARIO_SEM_SENHA);
+			statement.setString(1, objFunc.getNomeFunc());
+			statement.setString(2, objFunc.getTelFunc());
+			statement.setString(3, objFunc.getProfissaoFunc());
+			statement.setString(4, objFunc.getLogin());		
+			statement.setDouble(5, objFunc.getSalarioFunc());
+			statement.setDouble(6, objFunc.getComissaoFunc());	
+			statement.setInt(7, objFunc.getNumFunc());
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return true;		
+	}
 	
 	public boolean excluirFuncionarios(int idFuncioanrio) throws DaoException{		
 		Connection conn = DbUtil.getConnection();
@@ -396,9 +428,6 @@ public class FuncionarioDao {
 				objFunc.setSenha(result.getString(1)); 
 				
 			}
-//			else{
-				//JOptionPane.showMessageDialog(null, "Funcionário não encontrado!");
-//			}
 		}
 			catch (SQLException e) {
 				throw new DaoException(e);

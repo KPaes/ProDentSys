@@ -228,6 +228,13 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 								if(textField_5.getText().equals("")){									
 									objDAO.inserirFuncionarios(obj, matri);		
 									limpaFormulario();
+								}else
+								if(String.copyValueOf(textSenhaOld.getPassword()).equals("")){	
+									Integer matr = Integer.parseInt(textField_5.getText()); 
+									obj.setNumFunc(matr);
+									objDAO.atualizarFuncionario2(obj);
+									JOptionPane.showMessageDialog(formulario, "Dados atualizados com sucesso!");
+									
 								}else{
 									Integer matr = Integer.parseInt(textField_5.getText()); 
 									obj.setNumFunc(matr);

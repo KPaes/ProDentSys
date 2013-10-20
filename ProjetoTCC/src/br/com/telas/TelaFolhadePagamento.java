@@ -288,7 +288,9 @@ public class TelaFolhadePagamento extends JFrame {
                           		String aux1;
                           		aux1 = textField.getText();                                             		
                           	//	if(aux.contains("^[a-Z]")){ //método para verificar se contém letras
-                          		if(aux1.matches("^[0-9]*$")){
+                          		if(textField.getText().equals("")){
+	            					JOptionPane.showMessageDialog(null, "Digite um número!");
+	            				}else if(aux1.matches("^[0-9]*$")){
                           			chamaFuncionario(Integer.parseInt(textField.getText())); 
                           		}else{
                           			JOptionPane.showMessageDialog(null, "Digite apenas número!");
