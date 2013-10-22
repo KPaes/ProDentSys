@@ -10,11 +10,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,7 @@ import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
 import br.com.util.MascaraUtil;
 import br.com.util.Moeda;
+import br.com.util.Monetario;
 import br.com.util.ValidacaoUtil;
 import br.com.util.CriptografiaUtil;
 
@@ -64,7 +67,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	private JFormattedTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
-	private JTextField textField_1;
+	private JTextField textSalario;
 	private JTextField txtDigiteONome;
 	private JTextField textComissao;
 	
@@ -211,10 +214,12 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 						  FuncionarioDao objDAO = new FuncionarioDao();
 						  
 							Funcionario obj = new Funcionario();
-							obj.setTelFunc(textField_3.getText()); //tirei o hideMascara		
-							obj.setSalarioFunc(Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_1)));
-							//fazer replace da vírgula pro ponto
-						//	obj.setSalarioFunc(Double.parseDouble(textField_1.getText()));
+							obj.setTelFunc(textField_3.getText()); //tirei o hideMascara	
+							
+							obj.setSalarioFunc(Double.parseDouble(MascaraUtil.hideMascaraMoeda(textSalario)));
+//							obj.setSalarioFunc(Double.parseDouble(textSalario.getText()));
+							
+							
 							obj.setComissaoFunc(Double.parseDouble(textComissao.getText()));
 							obj.setLogin(textField_4.getText());	
 														
@@ -324,11 +329,13 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                  lblSalrio.setBounds(310, 62, 70, 14);
                  panel.add(lblSalrio);
                  
-                 textField_1 =  new JTextField();
-                 textField_1.setDocument(new Moeda()); 
-                 textField_1.setBounds(388, 60, 117, 20);
-                 panel.add(textField_1);
-                 textField_1.setColumns(10);
+					textSalario =  new JFormattedTextField(MascaraUtil.setMascara("####,##"));	  //   JFormattedTextField(MascaraUtil.setMaskSalario(textSalario);           
+//                 textSalario =  new JTextField();
+//                 textSalario.setDocument(new Moeda()); 					
+//					textSalario =  new JFormattedTextField(new DecimalFormat("####,##"));			
+                 textSalario.setBounds(388, 60, 117, 20);
+                 panel.add(textSalario);
+                 textSalario.setColumns(10);
                  
                  JLabel lblcamposObrigatrios = new JLabel("*Campos obrigat\u00F3rios!");
                  lblcamposObrigatrios.setForeground(Color.RED);
@@ -588,7 +595,9 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 		
 		String aux = objFunc.getSalarioFunc().toString();
 		aux = aux.replace(".","");
-		textField_1.setText(aux);
+		textSalario.setText(aux);
+		
+//		textSalario.setText(objFunc.getSalarioFunc().toString());
 		
 		passwordField.setText("");
 		passwordField_1.setText("");
@@ -602,7 +611,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	
 	public void limpaFormulario(){
 		textField.setText("");
-		textField_1.setText("");
+		textSalario.setText("");
 		textField_2.setText("");
 		textField_3.setText("");
 		textField_4.setText("");
@@ -620,7 +629,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 			JOptionPane.showMessageDialog(null, "Campo Nome Vazio!");
 			result = false;
 		}
-		if(!ValidacaoUtil.textFieldVazio(textField_1)){
+		if(!ValidacaoUtil.textFieldVazio(textSalario)){
 			JOptionPane.showMessageDialog(null, "Campo Salário Vazio!");
 			result = false;
 		}

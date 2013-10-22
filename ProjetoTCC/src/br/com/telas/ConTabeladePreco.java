@@ -155,7 +155,7 @@ public class ConTabeladePreco extends JFrame {
 				int linha = tabela.getSelectedRow();
 				if(linha != -1 ){
 					String aux = (String) tabela.getValueAt(linha, 3);
-				//	aux = aux.replace(".","");
+//					aux = aux.replace(".","");
 					textField_2.setText(aux);
 					textField.setText((String) tabela.getValueAt(linha, 1)); //nome
 					textField_1.setText((String) tabela.getValueAt(linha, 2)); //tipo

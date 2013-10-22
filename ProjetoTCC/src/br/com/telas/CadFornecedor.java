@@ -240,7 +240,7 @@ public class CadFornecedor extends JDialog {
                                      panel.add(textField_2);
                                      textField_2.setColumns(10);
                                      try {
-										textField_3 = new JFormattedTextField(MascaraUtil.setMaskCepInTable(textField_3));
+										textField_3 = new JFormattedTextField(MascaraUtil.setMaskCepInTf(textField_3));
 									} catch (ParseException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();

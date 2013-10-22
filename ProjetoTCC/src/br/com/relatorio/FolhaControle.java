@@ -51,4 +51,12 @@ public class FolhaControle {
         }
     }
 
+    public void gerarRelatorioFolhaSimples(int func, Date date, Date date2) throws DaoException {
+//      String arquivo = String.valueOf(getClass().getResourceAsStream("/br/com/relatorio/folhapag.jasper"));
+
+      String arquivo = "C:\\Program Files (x86)\\ProDentSys\\folhaSimples.jasper";
+      dao = new RelatorioDao();
+      JRDataSource jrds = new JRResultSetDataSource(dao.folhaResultSimples(func, date, date2));
+      gerarRelatorioDesktopMes(jrds, null, arquivo);
+  }
 }

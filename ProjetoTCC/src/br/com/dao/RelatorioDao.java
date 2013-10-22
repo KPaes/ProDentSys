@@ -31,7 +31,8 @@ public class RelatorioDao {
 			" WHERE b.numFunc = ? and a.dataEntrega between ? and ?";
 	
 	
-	
+	private static final String FOLHA_DE_PAGAMENTO_SIMPLES =
+			"SELECT * FROM tbFolhadePagamento WHERE numFunc = ? and dataInicio = ? and dataFim = ? ";
 	
 	 public ResultSet pedidosResultSet() throws DaoException {		 
 			Connection conn = DbUtil.getConnection();
@@ -92,6 +93,25 @@ public class RelatorioDao {
 			
 	        try {	          
 	        	statement = conn.prepareStatement(FOLHA_DE_PAGAMENTO);
+	        	statement.setInt(1, func);
+	        	statement.setDate(2, DbUtil.getSqlDate( date));
+	        	statement.setDate(3, DbUtil.getSqlDate( date2));
+	        	rs = statement.executeQuery();
+	        } catch (SQLException e) {
+	        	throw new DaoException(e);			
+			}
+	        
+		
+	        return rs;
+	    }
+	 
+	 public ResultSet folhaResultSimples(Integer func, Date date, Date date2) throws DaoException {		 
+			Connection conn = DbUtil.getConnection();
+			PreparedStatement statement = null;			
+	        ResultSet rs = null;		
+			
+	        try {	          
+	        	statement = conn.prepareStatement(FOLHA_DE_PAGAMENTO_SIMPLES);
 	        	statement.setInt(1, func);
 	        	statement.setDate(2, DbUtil.getSqlDate( date));
 	        	statement.setDate(3, DbUtil.getSqlDate( date2));

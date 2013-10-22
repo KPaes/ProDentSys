@@ -1,6 +1,7 @@
 package br.com.util;
 
 
+import javax.swing.JOptionPane;
 import javax.swing.text.*;  
 /**
  *
@@ -37,11 +38,12 @@ public void insertString(int offs, String str, AttributeSet a) throws BadLocatio
    
    if(s.length() < 3) {  
      if (s.length() < 1) {   
-         s.insert(0,"000");  
+         s.insert(0,"0");  // 000
      }else if (s.length() < 2) {  
-         s.insert(0,"00");  
+         s.insert(0,"00");  //00
    }else{  
-    s.insert(0,"0");  
+//    s.insert(0,"0");
+	   JOptionPane.showMessageDialog(null, s);
     }  
    }   
   
@@ -54,6 +56,7 @@ public void insertString(int offs, String str, AttributeSet a) throws BadLocatio
   if(s.length() > 10) {  
     s.insert(s.length()-10, ".");  
   }  
+  
   
   super.insertString(0, s.toString(), a);  
   }  

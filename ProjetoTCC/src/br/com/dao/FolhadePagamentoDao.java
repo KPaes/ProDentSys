@@ -15,6 +15,7 @@ import br.com.exception.DaoException;
 import br.com.util.DbUtil;
 
 import br.com.bean.FolhaPagamento;
+import br.com.bean.Pedido;
 
 
 public class FolhadePagamentoDao {
@@ -54,7 +55,10 @@ public class FolhadePagamentoDao {
 			"select dataInicio, dataFim from tbfolhadepagamento where codDep = ?";	
 	
 
-
+	private static final String QUANTIDADE_PEDIDO =
+			"SELECT COUNT(numPed) FROM tbPedido where numFunc = ?";
+	
+	
 	public List<FolhaPagamento> consultarPagamento(String nome) throws DaoException{		
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
@@ -240,6 +244,31 @@ public class FolhadePagamentoDao {
 				DbUtil.close(conn, statement, result);
 			}
 			return objFolha;	
+	}
+	
+	public int quantidadePedido(Integer numFunc) throws DaoException{
+		int qntd;
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(QUANTIDADE_PEDIDO);
+			statement.setInt(1, numFunc);
+			
+			result = statement.executeQuery();
+			
+			result.next();
+			qntd = result.getInt(1);
+				
+			
+		}
+			catch (SQLException e) {
+				throw new DaoException(e);
+			} finally {
+				DbUtil.close(conn, statement, result);
+			}
+			return qntd;	
+		
 	}
 }
 

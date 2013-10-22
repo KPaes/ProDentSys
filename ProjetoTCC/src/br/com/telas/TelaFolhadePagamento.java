@@ -496,11 +496,16 @@ public class TelaFolhadePagamento extends JFrame {
 					Funcionario objFunc = new Funcionario();
 					FolhaPagamento objFolha = new FolhaPagamento();
 					
+					Integer qntd;
+					
 					String nome = (String) table.getValueAt(linha,1);
                      try {                    	 
                     	 objFunc = funcDao.procurarFuncionarioNome(nome);
                     	 objFolha = folhaDao.procurarDataPag(mat);
-                    	 
+                    	 qntd = folhaDao.quantidadePedido(objFunc.getNumFunc());
+                    	 if(qntd == 0){
+                    		 controle.gerarRelatorioFolhaSimples(objFunc.getNumFunc(), objFolha.getDataInicio(), objFolha.getDataFim());
+                    	 }else
          				controle.gerarRelatorioFolha(objFunc.getNumFunc(), objFolha.getDataInicio(), objFolha.getDataFim());
          			} catch (DaoException e1) {
          				// TODO Auto-generated catch block

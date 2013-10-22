@@ -122,6 +122,20 @@ public class MascaraUtil {
 		return mk.valueToString(telefone);
 	}
 	
+	public static Object setMaskSalario(JFormattedTextField salario) throws java.text.ParseException {
+		MaskFormatter mk = new MaskFormatter("?####,##");
+		mk.setValueContainsLiteralCharacters(false);
+		return mk.valueToString(salario);
+	}
+	
+	public static MaskFormatter setMascara(String mascara){  
+	    MaskFormatter mask = null;  
+	    try{  
+	        mask = new MaskFormatter(mascara);                        
+	        }catch(java.text.ParseException ex){}  
+	    return mask;  
+	}
+	
 	public static  String hideMascaraMoeda(JTextField txt){
 		String aux = null;
 		aux =	txt.getText();
