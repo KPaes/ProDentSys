@@ -37,8 +37,9 @@ public class PedidoControle {
     public void gerarRelatorioMes(Date mes, Date data2) throws DaoException {
 //        String arquivo = String.valueOf(getClass().getResourceAsStream("br/com/relatorio/report.jasper"));
  
-    	String arquivo = "C:\\Program Files (x86)\\ProDentSys\\report.jasper";
-        dao = new RelatorioDao();
+//    	String arquivo = "C:\\Program Files (x86)\\ProDentSys\\report.jasper";
+    	String arquivo = "src/br/com/relatorio/report.jasper";
+    	dao = new RelatorioDao();
         JRDataSource jrds = new JRResultSetDataSource(dao.pedidosResultSet(mes, data2));
         gerarRelatorioDesktopMes(jrds, null, arquivo);
     }
