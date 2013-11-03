@@ -143,6 +143,8 @@ create Index idx_nome_protese on tbTabeladePrecos (nomeProtese asc)
 go
 
 
+---===NÃO EXECUTE AS LINHAS ABAIXO==========
+
 --DROP TABLE tbFolhadePagamento
 
 

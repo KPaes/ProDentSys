@@ -102,7 +102,7 @@ public class BackupDao {
 	
 	
 	public boolean restoreFull(String file) throws DaoException{		
-		Connection conn = DbUtil.getConnection();
+		Connection conn = DbUtil.getConnection2();
 		PreparedStatement statement = null;
 		@SuppressWarnings("unused")
 		boolean result = false;
@@ -110,7 +110,7 @@ public class BackupDao {
 			statement = conn.prepareStatement(RESTAURAR_FULL);	
 			statement.setString(1, file);			
 			result = statement.execute();							
-			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso!");	
+			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso! \nNão faça nada até o banco se estabilizar novamente!");	
 			
 		} catch (SQLException e) {
 			throw new DaoException(e);
@@ -121,7 +121,7 @@ public class BackupDao {
 	}
 	
 	public boolean restoreDif(String file) throws DaoException{		
-		Connection conn = DbUtil.getConnection();
+		Connection conn = DbUtil.getConnection2();
 		//BackupBean obj = new BackupBean();
 		PreparedStatement statement = null;
 		@SuppressWarnings("unused")
@@ -130,7 +130,7 @@ public class BackupDao {
 			statement = conn.prepareStatement(RESTAURAR_DIF);	
 			statement.setString(1, file);			
 			result = statement.execute();							
-			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso!");	
+			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso! \nNão faça nada até o banco se estabilizar novamente!");	
 			
 		} catch (SQLException e) {
 			throw new DaoException(e);

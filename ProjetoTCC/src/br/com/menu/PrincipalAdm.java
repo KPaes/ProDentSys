@@ -341,15 +341,15 @@ public class PrincipalAdm extends JFrame {
 	}
 	
 	private void openPdf() throws IOException {  
-        getThePdfAndPutOnC();  
-        Desktop.getDesktop().open(new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf")); // Hardcode mesmo  
-        
+//        getThePdfAndPutOnC();  
+		Desktop.getDesktop().open(new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf")); // Hardcode mesmo  
+
         
     }
 	
 	public void getThePdfAndPutOnC() throws IOException{  
         InputStream from = getClass().getResourceAsStream("/br/com/anexos/ManualCliente.pdf"); // Criar pacote e colocar nele o .pdf  
-        File to = new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf"); // Endereço de saída do arquivo .pdf  
+        File to = new File("C:\\Users\\Karina\\Desktop\\Setup\\ManualCliente.pdff"); // Endereço de saída do arquivo .pdf  
         OutputStream transferByteByByte = new FileOutputStream(to);  
         byte[] bufferTotal = new byte[1024];  
         int size = 0;  

@@ -744,7 +744,8 @@ public class TelaFolhadePagamento extends JFrame {
 			result = false;
 		}
 		if(!ValidacaoUtil.textFieldVazio(textField_4)){
-			JOptionPane.showMessageDialog(null, "Campo Bônus Vazio!");
+//			JOptionPane.showMessageDialog(null, "Campo Bônus Vazio!");
+			textField_4.setText("0");
 			result = false;
 		}
 		if(!ValidacaoUtil.textFieldVazio(textField_6)){
@@ -780,6 +781,7 @@ public class TelaFolhadePagamento extends JFrame {
 		}
 		if(!ValidacaoUtil.textFieldVazio(textField_4)){
 			JOptionPane.showMessageDialog(null, "Campo Bônus Vazio!");
+//			textField_4.setText("0");
 			result = false;
 		}				
 				

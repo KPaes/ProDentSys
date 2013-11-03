@@ -38,7 +38,7 @@ public void insertString(int offs, String str, AttributeSet a) throws BadLocatio
    
    if(s.length() < 3) {  
      if (s.length() < 1) {   
-         s.insert(0,"0");  // 000
+         s.insert(0,"000");  // 000
      }else if (s.length() < 2) {  
          s.insert(0,"00");  //00
    }else{  

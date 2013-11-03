@@ -293,7 +293,7 @@ public class Principal extends JFrame {
 //	}
 	
 	private void openPdf() throws IOException {  
-        getThePdfAndPutOnC();  
+      //  getThePdfAndPutOnC();  
         Desktop.getDesktop().open(new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf")); // Hardcode mesmo  
     }
 	

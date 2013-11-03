@@ -10,13 +10,11 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,13 +40,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import org.xhtmlrenderer.css.style.Length;
+
 import br.com.TableModel.TableCellRenderer;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
 import br.com.util.MascaraUtil;
-import br.com.util.Moeda;
-import br.com.util.Monetario;
 import br.com.util.ValidacaoUtil;
 import br.com.util.CriptografiaUtil;
 
@@ -179,7 +177,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                 lblIndisponivel = new JLabel("Dispon\u00EDvel");
                 lblIndisponivel.setFont(new Font("Tahoma", Font.ITALIC, 11));
         	 	 lblIndisponivel.setVisible(false);
-                lblIndisponivel.setBounds(292, 179, 82, 14);
+                lblIndisponivel.setBounds(292, 179, 259, 14);
                 panel.add(lblIndisponivel);                
                                  
                 JLabel lblprofisso = new JLabel("*Profiss\u00E3o:");
@@ -206,6 +204,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 					  public void actionPerformed(ActionEvent arg0){					  
 					  String cSenha = new String(passwordField_1.getPassword());				  
 					  if( validarFormulário() ){
+						 
 						  
 						  if(status_nome_usuario == 1){
 //								JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
@@ -629,7 +628,11 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 			JOptionPane.showMessageDialog(null, "Campo Nome Vazio!");
 			result = false;
 		}
-		if(!ValidacaoUtil.textFieldVazio(textSalario)){
+//		if(!ValidacaoUtil.textFieldVazio(textSalario)){
+//			JOptionPane.showMessageDialog(null, "Campo Salário Vazio!");
+//			result = false;
+//		}
+		if(textSalario.equals(".")){
 			JOptionPane.showMessageDialog(null, "Campo Salário Vazio!");
 			result = false;
 		}
@@ -654,7 +657,6 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 //			result = false;
 //		}
 		if(!ValidacaoUtil.textFieldVazio(textComissao)){
-//			JOptionPane.showMessageDialog(null, "Campo confirmar senha Vazio!");
 			
 			textComissao.setText("0");
 			
@@ -664,7 +666,41 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 		if(!ValidacaoUtil.passwordsIguais(passwordField, passwordField_1)){
 			JOptionPane.showMessageDialog(null, "Campos senha e confirmar senha devem ser iguais!");
 			result = false;
-		}		
+		}
+		
+//		 String aux = textComissao.getText();
+//		 String aux1 = textSalario.getText();
+//		  int tamanho;
+//		  //aux1.leght(); verificar o tamanho, se for igual a 2 com . ou , campo vazio
+//		  tamanho = aux.length();
+//		  if(tamanho <= 3){
+//			  if(aux.contains(".")){
+//				 // JOptionPane.showMessageDialog(null, "Digite apenas número no campo Comissão!");
+//	   				result = true;
+//			  }
+//		  }else{
+//		  if(aux.matches("^[0-9]*$")){
+//   			//OK 
+//   			}else{
+//   				JOptionPane.showMessageDialog(null, "Digite apenas número no campo Comissão!");
+//   				result = false;
+//   			}
+//		  }
+		  
+		//  if(aux1.matches("^[0-9]*$")){
+//		  tamanho = aux1.length();
+//		  if(tamanho <= 2){
+// 			//OK 
+//			  if(aux.contains(".") || aux.contains(",")){
+//			  JOptionPane.showMessageDialog(null, "Campo Salário Vazio!");
+//			  result = false;
+//			  }
+// 			}
+//		  else{
+// 				JOptionPane.showMessageDialog(null, "Campo Salário Vazio!");
+// 				result = false;
+// 			}
+		
 		return result;
 	}	
 	

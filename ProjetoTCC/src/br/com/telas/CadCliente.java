@@ -3,16 +3,14 @@ package br.com.telas;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-//import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
-//import javax.swing.border.EtchedBorder;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -47,7 +45,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.JFormattedTextField;
 
-public class CadCliente extends JDialog {
+public class CadCliente extends JFrame {
     final JPanel lista = new JPanel();
     final JPanel formulario = new JPanel();
     final JPanel buttonPanel = new JPanel();
@@ -72,11 +70,12 @@ public class CadCliente extends JDialog {
 	
 
 	public CadCliente() throws DaoException {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CadCliente.class.getResource("/br/com/images/logo_transp.png")));
 		setTitle("Cadastro de Clientes");
 		int width = 800;
         int height =600;
-        setModal(true);
+//        setModal(true);
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screen.width-width)/2;
         int y = (screen.height-height)/3;
