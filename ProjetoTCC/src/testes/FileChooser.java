@@ -81,7 +81,6 @@ public class FileChooser extends JFrame
 
     public void actionPerformed(ActionEvent e) {
 
-    	BackupBean backup = new BackupBean();
     	String caminho;
     	BackupDao bkpDao = new BackupDao();
     	
@@ -175,7 +174,8 @@ public class FileChooser extends JFrame
      * this method should be invoked from the
      * event dispatch thread.
      */
-    private static void createAndShowGUI() {
+    @SuppressWarnings("unused")
+	private static void createAndShowGUI() {
         //Create and set up the window.
 //        JFrame frame = new JFrame("FileChooserDemo");
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

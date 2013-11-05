@@ -15,7 +15,6 @@ import br.com.exception.DaoException;
 import br.com.util.DbUtil;
 
 import br.com.bean.FolhaPagamento;
-import br.com.bean.Pedido;
 
 
 public class FolhadePagamentoDao {

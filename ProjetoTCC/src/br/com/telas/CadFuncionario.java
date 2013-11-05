@@ -40,8 +40,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import org.xhtmlrenderer.css.style.Length;
-
 import br.com.TableModel.TableCellRenderer;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
@@ -233,13 +231,15 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 									objDAO.inserirFuncionarios(obj, matri);		
 									limpaFormulario();
 								}else
-								if(String.copyValueOf(textSenhaOld.getPassword()).equals("")){	
+								if(String.copyValueOf(textSenhaOld.getPassword()).equals("") && String.copyValueOf(passwordField_1.getPassword()).equals("")
+										 && String.copyValueOf(passwordField.getPassword()).equals("")){	
 									Integer matr = Integer.parseInt(textField_5.getText()); 
 									obj.setNumFunc(matr);
 									objDAO.atualizarFuncionario2(obj);
 									JOptionPane.showMessageDialog(formulario, "Dados atualizados com sucesso!");
-									
-								}else{
+									limpaFormulario();
+								}
+								else{
 									Integer matr = Integer.parseInt(textField_5.getText()); 
 									obj.setNumFunc(matr);
 									//Verifica se a senha antiga confere com a do banco
@@ -251,8 +251,9 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 											if(cripta.equals(senhaOld)){
 												objDAO.atualizarFuncionario(obj);
 												JOptionPane.showMessageDialog(formulario, "Dados atualizados com sucesso!");
+												limpaFormulario();
 											}else{
-												JOptionPane.showMessageDialog(null, "Senha antiga não confere", "Alterar Senha", JOptionPane.WARNING_MESSAGE);											
+												JOptionPane.showMessageDialog(null, "Senha antiga não confere!", "Alterar Senha", JOptionPane.WARNING_MESSAGE);											
 											}
 //										if(status_senha_usuario == 1){
 //											JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
@@ -260,8 +261,6 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 																		
 									
 								}	
-//								}
-								limpaFormulario();
 								atualizaLista(table,"");
 							} catch (DaoException e) {
 								e.printStackTrace();
