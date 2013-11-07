@@ -48,7 +48,6 @@ import br.com.util.MascaraUtil;
 import br.com.util.ValidacaoUtil;
 import br.com.util.CriptografiaUtil;
 
-
 public class CadFuncionario extends JFrame implements KeyListener, ActionListener {
     final JPanel lista = new JPanel();
     final JPanel formulario = new JPanel();
@@ -67,7 +66,6 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	private JTextField txtDigiteONome;
 	private JTextField textComissao;
 	
-
 	private JLabel lblIndisponivel;
 	private JLabel lblSenhaInvalida;
 	private int status_nome_usuario = 1;
@@ -205,8 +203,8 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 						 
 						  
 						  if(status_nome_usuario == 1){
-//								JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
-							}
+								JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
+							}else{
 						  
 						  FuncionarioDao objDAO = new FuncionarioDao();
 						  
@@ -255,12 +253,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 											}else{
 												JOptionPane.showMessageDialog(null, "Senha antiga não confere!", "Alterar Senha", JOptionPane.WARNING_MESSAGE);											
 											}
-//										if(status_senha_usuario == 1){
-//											JOptionPane.showMessageDialog(null, "Nome de usuário inválido!");								
-//										}else{										
-																		
-									
-								}	
+								}
 								atualizaLista(table,"");
 							} catch (DaoException e) {
 								e.printStackTrace();
@@ -269,7 +262,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 								e.printStackTrace();
 							}
 					  }
-
+					  }
 						} 
 					 
 				});

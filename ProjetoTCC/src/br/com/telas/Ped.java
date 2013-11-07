@@ -767,6 +767,9 @@ public class Ped extends JFrame {
 	        	                                                                                                    carrinho.add(btnSalvar);
 	        	                                                                                                    btnSalvar.addActionListener(new ActionListener() {
 	        	                                                                                                    	public void actionPerformed(ActionEvent arg0) {
+	        	                                                                                                    		if(textTotal.getText().equals("")){
+	        	                                                                                                    			JOptionPane.showMessageDialog(null, "Por gentileza, clicar no botão Somar!");
+	        	                                                                                                    		}else
 	        	                                                                                                    		pegaTotalPedido("", textTotal);
 	        	                                                                                                    		        		
 	        	                                                                                                    	}

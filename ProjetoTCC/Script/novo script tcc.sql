@@ -49,7 +49,7 @@ bairroCliente varchar(25) not null,
 cidadeCliente varchar(30) not null,
 cepCliente char(9) not null,
 emailCliente varchar(60) unique constraint chkEmailCli check (emailCliente like '%@%') null,
-complCliente varchar(140) null
+complCliente varchar(140)
 )
 go
 

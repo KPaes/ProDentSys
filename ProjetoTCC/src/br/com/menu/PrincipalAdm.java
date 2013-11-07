@@ -212,6 +212,7 @@ public class PrincipalAdm extends JFrame {
 		menuBar.add(mnEnviarEmail);
 		
 		JMenuItem mntmEmailParaCliente = new JMenuItem("E-mail Para Cliente");
+		mntmEmailParaCliente.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 		mntmEmailParaCliente.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		mntmEmailParaCliente.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/email.png")));
 		mntmEmailParaCliente.addActionListener(new ActionListener() {
@@ -268,6 +269,7 @@ public class PrincipalAdm extends JFrame {
 		menu_1.add(menuItem_1);
 		
 		JMenuItem mntmGerarBackup = new JMenuItem("Backup");
+		mntmGerarBackup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
 		mntmGerarBackup.setIcon(new ImageIcon(PrincipalAdm.class.getResource("/br/com/images/bkp.png")));
 		mntmGerarBackup.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		menu_1.add(mntmGerarBackup);
@@ -315,15 +317,31 @@ public class PrincipalAdm extends JFrame {
 		});
 		mnSobre.add(mntmSobre);
 		
-		JMenuItem menuItem_3 = new JMenuItem("");
-		menuItem_3.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/off.png")));
-		menuItem_3.setToolTipText("Sair do sistema!");
-		menuItem_3.addActionListener(new ActionListener() {
+		JMenuItem mntmSair = new JMenuItem("");
+		mntmSair.setMaximumSize(new Dimension(50, 767));
+		mntmSair.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/off.png")));
+		mntmSair.setToolTipText("Sair do sistema!");
+		mntmSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
 		});
-		menuBar.add(menuItem_3);
+		menuBar.add(mntmSair);
+		
+		JMenuItem mntmLogoff = new JMenuItem("");
+		mntmLogoff.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			Logoff login =	new Logoff();
+			login.setVisible(true);
+			dispose();
+			}
+		});
+		mntmLogoff.setMaximumSize(new Dimension(50, 767));
+		mntmLogoff.setHorizontalAlignment(SwingConstants.LEFT);
+		mntmLogoff.setIcon(new ImageIcon(PrincipalAdm.class.getResource("/br/com/images/logoff.png")));
+		mntmLogoff.setToolTipText("Trocar de usuário!");
+		menuBar.add(mntmLogoff);
 		
 		
 		setVisible(true);
@@ -359,5 +377,4 @@ public class PrincipalAdm extends JFrame {
         transferByteByByte.close();  
         from.close();  
     } 
-	
 }

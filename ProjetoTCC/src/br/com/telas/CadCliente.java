@@ -197,10 +197,10 @@ public class CadCliente extends JFrame {
 						if (atualizar != 4){
 							if(ValidaCPF.existe(textField_9, false) == false){
 								textField_9.setText("");
-							}				  
+							} else				  
 							if(ValidaCPF.valida(textField_9) == false){
 								textField_9.setText("");
-							}
+							}else
 							if( validarFormulário()){	
 								
 								String email = textField_1.getText();
@@ -231,8 +231,17 @@ public class CadCliente extends JFrame {
 										limpaFormulario();
 								
 																
-									atualizaLista(table,"");
+//									atualizaLista(table,"");
 									}
+//									else {
+//										Integer matr = Integer.parseInt(textField_5.getText()); 
+//										obj.setNumCliente(matr);
+//										objDAO.atualizarCliente(obj);
+//										JOptionPane.showMessageDialog(formulario, "Dados atualizados com sucesso!");
+//										limpaFormulario();							
+////										atualizaLista(table,"");
+//									}
+									atualizaLista(table,"");
 								} catch (DaoException e) {
 									e.printStackTrace();
 								}
@@ -240,9 +249,22 @@ public class CadCliente extends JFrame {
 							}
 						}
 						                
-					else if( validarFormulário() && ValidaCPF.valida(textField_9) == true)  {	
-						String email = textField_1.getText();   
-						if(ValidaEmail.validaEmail(email) == true){
+					else
+						if(atualizar==4){ 
+//							if(ValidaCPF.existe(textField_9, false) == false){
+//								textField_9.setText("");
+//							} else				  
+							if(ValidaCPF.valida(textField_9) == false){
+								textField_9.setText("");
+							}else
+							if( validarFormulário()){	
+								
+								String email = textField_1.getText();
+								if(ValidaEmail.validaEmail(email) == true){
+//						if(validarFormulário() && ValidaCPF.valida(textField_9) == true)  {	
+//					
+//						String email = textField_1.getText();   
+//						if(ValidaEmail.validaEmail(email) == true){
 							ClienteDent obj = new ClienteDent();
 							
 							obj.setTelCliente(textField_3.getText());
@@ -253,7 +275,7 @@ public class CadCliente extends JFrame {
 							obj.setCidadeCliente(textField_6.getText());							
 							obj.setNomeCliente(textField.getText());
 							obj.setCepCliente(textField_7.getText());
-														
+							obj.setComplCliente(textField_11.getText());
 							obj.setCpfCliente(textField_9.getText());				
 							
 							ClienteDao objDAO = new ClienteDao();
@@ -262,15 +284,17 @@ public class CadCliente extends JFrame {
 									
 									Integer matr = Integer.parseInt(textField_5.getText()); 
 									obj.setNumCliente(matr);
+//									JOptionPane.showMessageDialog(null, obj.getNumCliente());
 									objDAO.atualizarCliente(obj);
 									JOptionPane.showMessageDialog(formulario, "Dados atualizados com sucesso!");
-																
+//									limpaFormulario();							
 								atualizaLista(table,"");
 							} catch (DaoException e) {
 								e.printStackTrace();
 							}
 							}
 						}
+					}
 					}
 				});
                             

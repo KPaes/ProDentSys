@@ -35,7 +35,7 @@ public class BackupDao {
 	private final String RESTAURAR_DIF = 
 			" RESTORE DATABASE PROJETO_TCC_PRODENTSYS " +
 				" from DISK = ? " +
-				" WITH FILE=2, RECOVERY ";
+				" WITH FILE=2, NORECOVERY ";
 	
 	/*
 	 * ALTER DATABASE PROJETO_TCC_PRODENTSYS SET RECOVERY SIMPLE; //pro banco fazer restauração simples
@@ -107,6 +107,7 @@ public class BackupDao {
 		@SuppressWarnings("unused")
 		boolean result = false;
 		try {
+			//statement = conn.prepareStatement("ALTER DATABASE PROJETO_TCC_PRODENTSYS SET RECOVERY SIMPLE");
 			statement = conn.prepareStatement(RESTAURAR_FULL);	
 			statement.setString(1, file);			
 			result = statement.execute();							

@@ -25,7 +25,7 @@ public class ClienteDao {
 			"values (?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_CLIENTE =
-			"update tbcliente set " +
+			"update tbCliente set " +
 			"nomeCliente = ?, " +
 			"cpfCliente = ?, " +
 			"telCliente = ?, " +
@@ -239,8 +239,8 @@ public class ClienteDao {
 			statement.setString(7, objCliente.getCidadeCliente());
 			statement.setString(8, objCliente.getCepCliente());
 			statement.setString(9, objCliente.getEmailCliente());
-			statement.setInt(10, objCliente.getNumCliente());
-			statement.setString(11, objCliente.getComplCliente());
+			statement.setString(10, objCliente.getComplCliente());
+			statement.setInt(11, objCliente.getNumCliente());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

@@ -28,7 +28,7 @@ public class TabeladePrecoDao {
 			"where numProtese = ? ";
 	
 	private static final  String CONSULTA_TABELADEPRECO =
-			"select * from tbtabeladeprecos order by tipoProtese";
+			"select * from tbtabeladeprecos order by tipoProtese ASC, nomeProtese ASC";
 	
 	private static final  String CONSULTA_TABELADEPRECO_ID = 
 			"select * from tbtabeladeprecos where numProtese = ?";

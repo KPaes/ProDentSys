@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
 import br.com.exception.DaoException;
  
 public class DbUtil {
@@ -14,7 +17,7 @@ public class DbUtil {
     private static final String URL_DB2 = "jdbc:sqlserver://localhost:1433;databaseName=PROJETO_TCC_PRODENTSYS_NOVO;";
     private static final String DRIVER_JDBC = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String USER = "sa";
-    private static final String PASS = "1234";
+    private static final String PASS = "12345678";
 
     static {
 		try {
@@ -30,6 +33,7 @@ public class DbUtil {
 			connection.setAutoCommit(true);
 			return connection;
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Aguarde! \nBanco de dados voltará a  funcionar em breve!", "Aguarde", JOptionPane.WARNING_MESSAGE);
 			throw new DaoException(e);
 		}
 	}
