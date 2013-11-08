@@ -107,7 +107,7 @@ public class CadFornecedor extends JDialog {
 				}
           	}
         });
-        btnOk.setBounds(35, 111, 48, 33);
+        btnOk.setBounds(51, 108, 48, 33);
         buttonPanel.add(btnOk);                  
                                  
 
@@ -370,6 +370,7 @@ public class CadFornecedor extends JDialog {
 					try {
 						objFornec = fornecDao.consultarFornecedorID(mat);
 						atualizaFormulario(objFornec);
+						buttonPanel.setVisible(false);
 					} catch (DaoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

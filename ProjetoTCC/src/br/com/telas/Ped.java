@@ -144,7 +144,7 @@ public class Ped extends JFrame {
 	        	}
 	        });
 	        btnOk_2.setToolTipText("Pesquisar pedido");
-	        btnOk_2.setBounds(35, 102, 67, 23);
+	        btnOk_2.setBounds(45, 102, 51, 23);
 	        buttonPanel.add(btnOk_2);
 	        	        
 	        	        	        formulario.setBounds(152, 0, 632, 562);
@@ -532,6 +532,7 @@ public class Ped extends JFrame {
 						try {
 							objPedido = pedidoDao.consultarPedidoID(mat);
 							atualizaFormulario(objPedido);
+							buttonPanel.setVisible(false);
 						} catch (DaoException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

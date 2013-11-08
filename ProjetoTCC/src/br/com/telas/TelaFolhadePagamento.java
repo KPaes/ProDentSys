@@ -485,6 +485,7 @@ public class TelaFolhadePagamento extends JFrame {
 					try {
 						objFolha = folhaDao.consultarPagamentoID(mat);
 						atualizaFormulario(objFolha);
+						buttonPanel.setVisible(false);
 					} catch (DaoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

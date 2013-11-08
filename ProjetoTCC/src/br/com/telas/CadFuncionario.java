@@ -99,12 +99,12 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
         
         JLabel lblPesquisar = new JLabel("Pesquisar:");
         lblPesquisar.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-        lblPesquisar.setBounds(35, 91, 86, 14);
+        lblPesquisar.setBounds(42, 61, 86, 14);
         buttonPanel.add(lblPesquisar);
         
         txtDigiteONome = new JTextField();
         txtDigiteONome.setToolTipText("Digite o nome do funcion\u00E1rio");
-        txtDigiteONome.setBounds(10, 109, 133, 20);
+        txtDigiteONome.setBounds(10, 86, 133, 20);
         buttonPanel.add(txtDigiteONome);
         txtDigiteONome.setColumns(10);
         
@@ -121,61 +121,197 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 				}
           	}
         });
-        btnOk.setBounds(42, 134, 41, 33);
+        btnOk.setBounds(55, 117, 41, 33);
         buttonPanel.add(btnOk);
-            
+                    
+
+                    lista.setBounds(152, 0, 632, 562);
+                    getContentPane().add(lista);
+                    lista.setLayout(null);
+                    
+                    JLabel lblFuncionriosCadastrados = new JLabel("Funcion\u00E1rios Cadastrados");
+                    lblFuncionriosCadastrados.setFont(new Font("Kalinga", Font.BOLD, 16));
+                    lblFuncionriosCadastrados.setHorizontalAlignment(SwingConstants.CENTER);
+                    lblFuncionriosCadastrados.setBackground(Color.WHITE);
+                    lblFuncionriosCadastrados.setBounds(10, 11, 612, 29);
+                    lista.add(lblFuncionriosCadastrados);
+                    
+
+                    
+
+                      
+                      Button Novo = new Button("Adicionar");          
+                      Novo.setBounds(10, 530, 70, 22);
+                      lista.add(Novo);                                    
+                      lista.setVisible(true);  
+                      table = new JTable();
+                      table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int linha = table.getSelectedRow();
+				int coluna = table.getSelectedColumn();
+				String matricula = (String) table.getValueAt(linha,0);
+				Integer mat = Integer.parseInt(matricula); 
+				if(coluna == 4){
+					int opcao;
+					opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o funcionário de número: "+ matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
+					   if(opcao == JOptionPane.YES_OPTION){  
+						   try {
+							funcDao.excluirFuncionarios(mat);
+							atualizaLista(table,"");
+						} catch (DaoException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Dados excluídos com sucesso!");
+					   }
+				}
+				if (coluna == 3){
+					Funcionario objFunc = new Funcionario();
+					status_nome_usuario = 0;					
+					try {
+						objFunc = funcDao.consultarFuncionarioID(mat);
+						txtLogin.setEditable(false);
+						atualizaFormulario(objFunc);
+						buttonPanel.setVisible(false);
+					} catch (DaoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				
+			}
+		});
+                      
+
+                      table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                      table.setModel(new DefaultTableModel(
+        		  new Object[][] {
+                              	},
+                              	new String[] {
+                              		"Número", "Nome", "Telefone", "Editar","Excluir"
+                              	}
+                              	
+                              )
+                              { 
+					private static final long serialVersionUID = 1L;
+
+					@Override 
+                            	  public boolean isCellEditable(int row, int col) 
+                            	  { 
+                            	  return false; 
+                            	  } 
+                            	  }
+                              );
+                      table.getColumnModel().getColumn(0).setPreferredWidth(55);
+                      table.getColumnModel().getColumn(0).setMinWidth(55);
+                      table.getColumnModel().getColumn(1).setPreferredWidth(250);
+                      table.getColumnModel().getColumn(1).setMinWidth(250);
+                      table.getColumnModel().getColumn(2).setPreferredWidth(150);
+                      table.getColumnModel().getColumn(2).setMinWidth(150);
+                      table.setBounds(39, 175, 530, 232);
+                      atualizaLista(table,"");
+                      
+                      
+                      JScrollPane scrollPane = new JScrollPane();
+                      scrollPane.setBounds(0, 51, 622, 473);
+                      lista.add(scrollPane);
+                      
+                                     scrollPane.setViewportView(table);
+                                     
+                                             Novo.addActionListener(new ActionListener() {
+                                             	public void actionPerformed(ActionEvent arg0) {
+                                             		lista.setVisible(false);
+                                             		formulario.setVisible(true);
+                                             		buttonPanel.setVisible(false);
+                                             		limpaFormulario();
+                                             		try {
+                                                       			atualizaLista(table,"");
+                                                       		} catch (DaoException e) {
+                                                       			// TODO Auto-generated catch block
+                                                       			e.printStackTrace();
+                                                       		}
+                                             	}
+                                             });	
+                
 
 
-                formulario.setBounds(152, 0, 632, 562);
-                getContentPane().add(formulario);
-                formulario.setLayout(null);
-                
-                JPanel panel = new JPanel();
-                panel.setBorder(new TitledBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "", TitledBorder.LEADING, TitledBorder.TOP, null, null), "Dados pessoais", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-                panel.setLayout(null);
-                panel.setBounds(21, 35, 590, 288);
-                formulario.add(panel);
-                
-                passwordField = new JPasswordField();
-                passwordField.setBounds(331, 242, 94, 20);
-                panel.add(passwordField);
-                
-                JLabel lblConfirmarASenha = new JLabel("Confirmar a senha:");
-                lblConfirmarASenha.setHorizontalAlignment(SwingConstants.RIGHT);
-                lblConfirmarASenha.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                lblConfirmarASenha.setBounds(199, 242, 127, 18);
-                panel.add(lblConfirmarASenha);
-                
-                passwordField_1 = new JPasswordField();
-                passwordField_1.setBounds(92, 242, 94, 20);
-                panel.add(passwordField_1);
-                
-                JLabel label_2 = new JLabel("Senha:");
-                label_2.setHorizontalAlignment(SwingConstants.RIGHT);
-                label_2.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                label_2.setBounds(12, 242, 70, 18);
-                panel.add(label_2);
-                
-                JLabel label_3 = new JLabel("Login:");
-                label_3.setHorizontalAlignment(SwingConstants.RIGHT);
-                label_3.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                label_3.setBounds(12, 176, 70, 18);
-                panel.add(label_3);
-                
-                txtLogin = new JTextField();
-                txtLogin.setName("Usuário");
-                txtLogin.addKeyListener(this);
-                txtLogin.addActionListener(this);
-                txtLogin.setColumns(10);
-                txtLogin.setBounds(92, 174, 190, 20);
-                panel.add(txtLogin);
-                
-                lblIndisponivel = new JLabel("Dispon\u00EDvel");
-                lblIndisponivel.setFont(new Font("Tahoma", Font.ITALIC, 11));
-        	 	 lblIndisponivel.setVisible(false);
-                lblIndisponivel.setBounds(292, 179, 259, 14);
-                panel.add(lblIndisponivel);                
-                                 
+                    formulario.setBounds(152, 0, 632, 562);
+                    getContentPane().add(formulario);
+                    formulario.setLayout(null);
+                    
+                    JPanel panel = new JPanel();
+                    panel.setBorder(new TitledBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "", TitledBorder.LEADING, TitledBorder.TOP, null, null), "Dados pessoais", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+                    panel.setLayout(null);
+                    panel.setBounds(21, 35, 590, 288);
+                    formulario.add(panel);
+                    
+                    passwordField = new JPasswordField();
+                    passwordField.setBounds(331, 242, 94, 20);
+                    panel.add(passwordField);
+                    
+                    JLabel lblConfirmarASenha = new JLabel("Confirmar a senha:");
+                    lblConfirmarASenha.setHorizontalAlignment(SwingConstants.RIGHT);
+                    lblConfirmarASenha.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                    lblConfirmarASenha.setBounds(199, 242, 127, 18);
+                    panel.add(lblConfirmarASenha);
+                    
+                    passwordField_1 = new JPasswordField();
+                    passwordField_1.setBounds(92, 242, 94, 20);
+                    panel.add(passwordField_1);
+                    
+                    JLabel label_2 = new JLabel("Senha:");
+                    label_2.setHorizontalAlignment(SwingConstants.RIGHT);
+                    label_2.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                    label_2.setBounds(12, 242, 70, 18);
+                    panel.add(label_2);
+                    
+                    JLabel label_3 = new JLabel("Login:");
+                    label_3.setHorizontalAlignment(SwingConstants.RIGHT);
+                    label_3.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                    label_3.setBounds(12, 176, 70, 18);
+                    panel.add(label_3);
+                    
+                    txtLogin = new JTextField();
+                    txtLogin.setName("Usuário");
+                    txtLogin.addKeyListener(this);
+                    txtLogin.addActionListener(this);
+                    txtLogin.setColumns(10);
+                    txtLogin.setBounds(92, 174, 190, 20);
+                    panel.add(txtLogin);
+                    
+                    lblIndisponivel = new JLabel("Dispon\u00EDvel");
+                    lblIndisponivel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+                    lblIndisponivel.setVisible(false);
+                    lblIndisponivel.setBounds(292, 179, 259, 14);
+                    panel.add(lblIndisponivel);                
+                    
                 JLabel lblprofisso = new JLabel("*Profiss\u00E3o:");
                 lblprofisso.setHorizontalAlignment(SwingConstants.RIGHT);
                 lblprofisso.setFont(new Font("Arial Black", Font.PLAIN, 12));
@@ -291,236 +427,100 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                 textField_2.setBounds(92, 60, 154, 20);
                 panel.add(textField_2);
                 textField_2.setColumns(10);
-                
                 try {
 					textField_3 = new JFormattedTextField(MascaraUtil.setMaskTelefoneInTf(textField_3));
-				} catch (ParseException e1) {
+				} catch (ParseException e2) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					e2.printStackTrace();
 				}
                 textField_3.setBounds(92, 91, 127, 20);
-                 panel.add(textField_3);
-                 textField_3.setColumns(10);
-                 
-                 
-                 
-                 
-                 textField_5 = new JTextField();
-                 textField_5.setVisible(false);
-                 textField_5.setText("");
-                 panel.add(textField_5);
-                 
-                 JLabel lblTel = new JLabel("*Tel.:");
-                 lblTel.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                 lblTel.setBounds(50, 93, 60, 14);
-                 panel.add(lblTel);
-                 
-                 JLabel lblSalrio = new JLabel("*Sal\u00E1rio:");
-                 lblSalrio.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                 lblSalrio.setBounds(310, 62, 70, 14);
-                 panel.add(lblSalrio);
-                 
+                panel.add(textField_3);
+                textField_3.setColumns(10);
+                
+                
+                
+                
+                textField_5 = new JTextField();
+                textField_5.setVisible(false);
+                textField_5.setText("");
+                panel.add(textField_5);
+                
+                JLabel lblTel = new JLabel("*Tel.:");
+                lblTel.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                lblTel.setBounds(45, 93, 60, 14);
+                panel.add(lblTel);
+                
+                JLabel lblSalrio = new JLabel("*Sal\u00E1rio:");
+                lblSalrio.setFont(new Font("Arial Black", Font.PLAIN, 12));
+                lblSalrio.setBounds(310, 62, 70, 14);
+                panel.add(lblSalrio);
+                
 					textSalario =  new JFormattedTextField(MascaraUtil.setMascara("####,##"));	  //   JFormattedTextField(MascaraUtil.setMaskSalario(textSalario);           
-//                 textSalario =  new JTextField();
-//                 textSalario.setDocument(new Moeda()); 					
-//					textSalario =  new JFormattedTextField(new DecimalFormat("####,##"));			
-                 textSalario.setBounds(388, 60, 117, 20);
-                 panel.add(textSalario);
-                 textSalario.setColumns(10);
-                 
-                 JLabel lblcamposObrigatrios = new JLabel("*Campos obrigat\u00F3rios!");
-                 lblcamposObrigatrios.setForeground(Color.RED);
-                 lblcamposObrigatrios.setFont(new Font("Tahoma", Font.PLAIN, 12));
-                 lblcamposObrigatrios.setBounds(307, 128, 206, 14);
-                 panel.add(lblcamposObrigatrios);
-                 
-                 JLabel lblComisso = new JLabel("Comiss\u00E3o:");
-                 lblComisso.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                 lblComisso.setBounds(12, 128, 82, 14);
-                 panel.add(lblComisso);
-                 
-                 textComissao = new JTextField();
-                 textComissao.setToolTipText("Em porcentagem");
-                 textComissao.setBounds(92, 126, 86, 20);
-                 panel.add(textComissao);
-                 textComissao.setColumns(10);
-                 
-                 textSenhaOld = new JPasswordField();
-                 textSenhaOld.setBounds(120, 211, 162, 20);
-                 textSenhaOld.setVisible(false);
-                 panel.add(textSenhaOld);
-                 textSenhaOld.setColumns(10);
-                 
-                 lblSenhaAntiga = new JLabel("Senha Antiga:");
-                 lblSenhaAntiga.setHorizontalAlignment(SwingConstants.RIGHT);
-                 lblSenhaAntiga.setFont(new Font("Arial Black", Font.PLAIN, 12));
-                 lblSenhaAntiga.setVisible(false);
-                 lblSenhaAntiga.setBounds(0, 213, 110, 18);
-                 panel.add(lblSenhaAntiga);
-                 
-                 lblSenhaInvalida = new JLabel("Certo!");
-                 lblSenhaInvalida.setFont(new Font("Tahoma", Font.ITALIC, 11));
-                 lblSenhaInvalida.setVisible(false);
-                 lblSenhaInvalida.setBounds(292, 217, 82, 14);
-                 panel.add(lblSenhaInvalida); 
-                 
-                 
-                 JButton btnVoltar = new JButton("");
-                 btnVoltar.setToolTipText("Voltar");
-                 //btnVoltar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_MASK));
-                 btnVoltar.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/voltar.png")));
-                 btnVoltar.setBounds(21, 340, 89, 23);
-                 formulario.add(btnVoltar);
-                 formulario.setVisible(false);
-                 
-                 btnVoltar.addActionListener(new ActionListener() {
-                 	public void actionPerformed(ActionEvent arg0) {
-                 		lista.setVisible(true);
-                 		txtLogin.setEditable(true);
-                 		lblSenhaAntiga.setVisible(false);
-                 		textSenhaOld.setVisible(false);
-                 		formulario.setVisible(false); 
-                 		buttonPanel.setVisible(true);
-                 	}
-                 });    
-            
-
-            lista.setBounds(152, 0, 632, 562);
-            getContentPane().add(lista);
-            lista.setLayout(null);
-            
-            JLabel lblFuncionriosCadastrados = new JLabel("Funcion\u00E1rios Cadastrados");
-            lblFuncionriosCadastrados.setFont(new Font("Kalinga", Font.BOLD, 16));
-            lblFuncionriosCadastrados.setHorizontalAlignment(SwingConstants.CENTER);
-            lblFuncionriosCadastrados.setBackground(Color.WHITE);
-            lblFuncionriosCadastrados.setBounds(10, 11, 612, 29);
-            lista.add(lblFuncionriosCadastrados);
-            
-
-            
-
-              
-              Button Novo = new Button("Adicionar");          
-              Novo.setBounds(10, 530, 70, 22);
-              lista.add(Novo);                                    
-              lista.setVisible(true);  
-              txtLogin.setEditable(true);
-              textSenhaOld.setVisible(false);
-              lblSenhaAntiga.setVisible(false);
-              table = new JTable();
-              table.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int linha = table.getSelectedRow();
-				int coluna = table.getSelectedColumn();
-				String matricula = (String) table.getValueAt(linha,0);
-				Integer mat = Integer.parseInt(matricula); 
-				if(coluna == 4){
-					int opcao;
-					opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o funcionário de número: "+ matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
-					   if(opcao == JOptionPane.YES_OPTION){  
-						   try {
-							funcDao.excluirFuncionarios(mat);
-							atualizaLista(table,"");
-						} catch (DaoException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-							JOptionPane.showMessageDialog(null, "Dados excluídos com sucesso!");
-					   }
-				}
-				if (coluna == 3){
-					Funcionario objFunc = new Funcionario();
-					status_nome_usuario = 0;					
-					try {
-						objFunc = funcDao.consultarFuncionarioID(mat);
-						txtLogin.setEditable(false);
-						atualizaFormulario(objFunc);
-					} catch (DaoException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-				
-			}
-		});
-              
-
-              table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-              table.setModel(new DefaultTableModel(
-        		  new Object[][] {
-                      	},
-                      	new String[] {
-                      		"Número", "Nome", "Telefone", "Editar","Excluir"
-                      	}
-                      	
-                      )
-                      { 
-					private static final long serialVersionUID = 1L;
-
-					@Override 
-                    	  public boolean isCellEditable(int row, int col) 
-                    	  { 
-                    	  return false; 
-                    	  } 
-                    	  }
-                      );
-              table.getColumnModel().getColumn(0).setPreferredWidth(55);
-              table.getColumnModel().getColumn(0).setMinWidth(55);
-              table.getColumnModel().getColumn(1).setPreferredWidth(250);
-              table.getColumnModel().getColumn(1).setMinWidth(250);
-              table.getColumnModel().getColumn(2).setPreferredWidth(150);
-              table.getColumnModel().getColumn(2).setMinWidth(150);
-              table.setBounds(39, 175, 530, 232);
-              atualizaLista(table,"");
-              
-              
-              JScrollPane scrollPane = new JScrollPane();
-              scrollPane.setBounds(0, 51, 622, 473);
-              lista.add(scrollPane);
-              
-                             scrollPane.setViewportView(table);
-                             
-                                     Novo.addActionListener(new ActionListener() {
-                                     	public void actionPerformed(ActionEvent arg0) {
-                                     		lista.setVisible(false);
-                                     		formulario.setVisible(true);
-                                     		buttonPanel.setVisible(false);
-                                     		limpaFormulario();
-                                     		try {
-                                               			atualizaLista(table,"");
-                                               		} catch (DaoException e) {
-                                               			// TODO Auto-generated catch block
-                                               			e.printStackTrace();
-                                               		}
-                                     	}
-                                     });	
+					//                 textSalario =  new JTextField();
+					//                 textSalario.setDocument(new Moeda()); 					
+					//					textSalario =  new JFormattedTextField(new DecimalFormat("####,##"));			
+					                 textSalario.setBounds(388, 60, 117, 20);
+					                 panel.add(textSalario);
+					                 textSalario.setColumns(10);
+					                 
+					                 JLabel lblcamposObrigatrios = new JLabel("*Campos obrigat\u00F3rios!");
+					                 lblcamposObrigatrios.setForeground(Color.RED);
+					                 lblcamposObrigatrios.setFont(new Font("Tahoma", Font.PLAIN, 12));
+					                 lblcamposObrigatrios.setBounds(307, 128, 206, 14);
+					                 panel.add(lblcamposObrigatrios);
+					                 
+					                 JLabel lblComisso = new JLabel("Comiss\u00E3o:");
+					                 lblComisso.setFont(new Font("Arial Black", Font.PLAIN, 12));
+					                 lblComisso.setBounds(12, 128, 82, 14);
+					                 panel.add(lblComisso);
+					                 
+					                 textComissao = new JTextField();
+					                 textComissao.setToolTipText("Em porcentagem");
+					                 textComissao.setBounds(92, 126, 86, 20);
+					                 panel.add(textComissao);
+					                 textComissao.setColumns(10);
+					                 
+					                 textSenhaOld = new JPasswordField();
+					                 textSenhaOld.setBounds(102, 211, 180, 20);
+					                 textSenhaOld.setVisible(false);
+					                 panel.add(textSenhaOld);
+					                 textSenhaOld.setColumns(10);
+					                 
+					                 lblSenhaAntiga = new JLabel("Senha Antiga:");
+					                 lblSenhaAntiga.setHorizontalAlignment(SwingConstants.RIGHT);
+					                 lblSenhaAntiga.setFont(new Font("Arial Black", Font.PLAIN, 12));
+					                 lblSenhaAntiga.setVisible(false);
+					                 lblSenhaAntiga.setBounds(-11, 213, 105, 18);
+					                 panel.add(lblSenhaAntiga);
+					                 
+					                 lblSenhaInvalida = new JLabel("Certo!");
+					                 lblSenhaInvalida.setFont(new Font("Tahoma", Font.ITALIC, 11));
+					                 lblSenhaInvalida.setVisible(false);
+					                 lblSenhaInvalida.setBounds(292, 217, 82, 14);
+					                 panel.add(lblSenhaInvalida); 
+					                 
+					                 
+					                 JButton btnVoltar = new JButton("");
+					                 btnVoltar.setToolTipText("Voltar");
+					                 //btnVoltar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_MASK));
+					                 btnVoltar.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/voltar.png")));
+					                 btnVoltar.setBounds(21, 340, 89, 23);
+					                 formulario.add(btnVoltar);
+					                 formulario.setVisible(false);
+					                 
+					                 btnVoltar.addActionListener(new ActionListener() {
+					                 	public void actionPerformed(ActionEvent arg0) {
+					                 		lista.setVisible(true);
+					                 		txtLogin.setEditable(true);
+					                 		lblSenhaAntiga.setVisible(false);
+					                 		textSenhaOld.setVisible(false);
+					                 		formulario.setVisible(false); 
+					                 		buttonPanel.setVisible(true);
+					                 	}
+					                 });    
+					                 txtLogin.setEditable(true);
+					                 textSenhaOld.setVisible(false);
+					                 lblSenhaAntiga.setVisible(false);
         
 	}
 	

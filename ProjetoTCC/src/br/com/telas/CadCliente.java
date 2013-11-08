@@ -112,7 +112,7 @@ public class CadCliente extends JFrame {
 				}
         	}
         });
-        btnOk.setBounds(40, 116, 45, 33);
+        btnOk.setBounds(51, 116, 45, 33);
         buttonPanel.add(btnOk);
                    
                 
@@ -486,6 +486,7 @@ public class CadCliente extends JFrame {
 					try {
 						objCliente = clienteDao.consultarClienteID(mat);
 						atualizaFormulario(objCliente);
+						buttonPanel.setVisible(false);
 					} catch (DaoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

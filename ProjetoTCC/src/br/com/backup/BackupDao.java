@@ -37,12 +37,15 @@ public class BackupDao {
 				" WITH FILE=2, NOUNLOAD,  REPLACE,  STATS = 5 ";
 	
 	
+	@SuppressWarnings("unused")
 	private final String USE_MASTER = 
 			"USE master";  
 	  
+	@SuppressWarnings("unused")
 	private final String ALTER_SINGLE =
 	"ALTER DATABASE PROJETO_TCC_PRODENTSYS SET SINGLE_USER WITH ROLLBACK IMMEDIATE  ";
 	
+	@SuppressWarnings("unused")
 	private final String ALTER_MULTI =
 			"ALTER DATABASE PROJETO_TCC_PRODENTSYS SET MULTI_USER ";
 	
