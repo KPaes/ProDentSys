@@ -60,7 +60,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	private JTextField textField;
 	private JTextField textField_2;
 	private JFormattedTextField textField_3;
-	private JTextField textField_4;
+	private JTextField txtLogin;
 	private JTextField textField_5;
 	private JTextField textSalario;
 	private JTextField txtDigiteONome;
@@ -162,13 +162,13 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                 label_3.setBounds(12, 176, 70, 18);
                 panel.add(label_3);
                 
-                textField_4 = new JTextField();
-                textField_4.setName("Usuário");
-                textField_4.addKeyListener(this);
-                textField_4.addActionListener(this);
-                textField_4.setColumns(10);
-                textField_4.setBounds(92, 174, 190, 20);
-                panel.add(textField_4);
+                txtLogin = new JTextField();
+                txtLogin.setName("Usuário");
+                txtLogin.addKeyListener(this);
+                txtLogin.addActionListener(this);
+                txtLogin.setColumns(10);
+                txtLogin.setBounds(92, 174, 190, 20);
+                panel.add(txtLogin);
                 
                 lblIndisponivel = new JLabel("Dispon\u00EDvel");
                 lblIndisponivel.setFont(new Font("Tahoma", Font.ITALIC, 11));
@@ -216,7 +216,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 							
 							
 							obj.setComissaoFunc(Double.parseDouble(textComissao.getText()));
-							obj.setLogin(textField_4.getText());	
+							obj.setLogin(txtLogin.getText());	
 														
 							obj.setNomeFunc(textField.getText());
 							obj.setProfissaoFunc(textField_2.getText());
@@ -376,6 +376,9 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
                  btnVoltar.addActionListener(new ActionListener() {
                  	public void actionPerformed(ActionEvent arg0) {
                  		lista.setVisible(true);
+                 		txtLogin.setEditable(true);
+                 		lblSenhaAntiga.setVisible(false);
+                 		textSenhaOld.setVisible(false);
                  		formulario.setVisible(false); 
                  		buttonPanel.setVisible(true);
                  	}
@@ -401,6 +404,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
               Novo.setBounds(10, 530, 70, 22);
               lista.add(Novo);                                    
               lista.setVisible(true);  
+              txtLogin.setEditable(true);
               textSenhaOld.setVisible(false);
               lblSenhaAntiga.setVisible(false);
               table = new JTable();
@@ -452,9 +456,10 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 				}
 				if (coluna == 3){
 					Funcionario objFunc = new Funcionario();
-
+					status_nome_usuario = 0;					
 					try {
 						objFunc = funcDao.consultarFuncionarioID(mat);
+						txtLogin.setEditable(false);
 						atualizaFormulario(objFunc);
 					} catch (DaoException e) {
 						// TODO Auto-generated catch block
@@ -575,7 +580,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	public void atualizaFormulario(Funcionario objFunc){
 		textField_3.setText(objFunc.getTelFunc());
 		textField_2.setText(objFunc.getProfissaoFunc());
-		textField_4.setText(objFunc.getLogin());
+		txtLogin.setText(objFunc.getLogin());
 		textField.setText(objFunc.getNomeFunc());
 		
 		lblSenhaAntiga.setVisible(true);
@@ -605,7 +610,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 		textSalario.setText("");
 		textField_2.setText("");
 		textField_3.setText("");
-		textField_4.setText("");
+		txtLogin.setText("");
 		textField_5.setText("");
 		passwordField.setText("");
 		passwordField_1.setText("");	
@@ -710,20 +715,20 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 					}
 					
 					for (String s : todos) {
-						if (textField_4.getText().equals(s) || s.equals(textField_4.getText())) {
+						if (txtLogin.getText().equals(s) || s.equals(txtLogin.getText())) {
 							lblIndisponivel.setVisible(true);
-							textField_4.setForeground(Color.RED);
+							txtLogin.setForeground(Color.RED);
 							lblIndisponivel.setText("Indisponível, tente outro.");
 							lblIndisponivel.setForeground(Color.RED);
 							status_nome_usuario = 1;
 						}
-						if(textField_4.getText().equals("")){
+						if(txtLogin.getText().equals("")){
 							lblIndisponivel.setVisible(false);
 							status_nome_usuario = 1;
 						}
-						if(!textField_4.getText().equals(s) || !s.equals(textField_4.getText())){
+						if(!txtLogin.getText().equals(s) || !s.equals(txtLogin.getText())){
 							lblIndisponivel.setVisible(true);
-							textField_4.setForeground(Color.BLACK);
+							txtLogin.setForeground(Color.BLACK);
 							lblIndisponivel.setText("Disponível");
 							lblIndisponivel.setForeground(Color.BLACK);
 							status_nome_usuario = 0;
@@ -801,7 +806,7 @@ private void verificaSenhaUsuario(){
 		
 	}
     public void focusLost(FocusEvent event) {
-		if(event.getSource() == textField_4){
+		if(event.getSource() == txtLogin){
 			verificaNomeUsuario();
 		}
 //		if(event.getSource() == textSenhaOld){
@@ -816,7 +821,7 @@ private void verificaSenhaUsuario(){
 	}
 	@Override
 	public void keyPressed(KeyEvent event) {
-		if(event.getSource() == textField_4){
+		if(event.getSource() == txtLogin){
 			verificaNomeUsuario();
 		}
 //		if(event.getSource() == textSenhaOld){

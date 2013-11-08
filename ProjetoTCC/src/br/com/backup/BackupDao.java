@@ -24,23 +24,27 @@ public class BackupDao {
 	private final String BAKCUP_DIF = 
 			" BACKUP DATABASE PROJETO_TCC_PRODENTSYS " +
 			" TO  DISK = ? " +
-			" WITH FORMAT, DIFFERENTIAL";
-	
+			" WITH FORMAT, DIFFERENTIAL";	
 	
 	private final String RESTAURAR_FULL = 
 			" RESTORE DATABASE PROJETO_TCC_PRODENTSYS " +
 				" from DISK = ? " +
-				" WITH FILE=1, NORECOVERY ";
+				" WITH FILE=1, NOUNLOAD,  REPLACE,  STATS = 5 ";
 	
 	private final String RESTAURAR_DIF = 
 			" RESTORE DATABASE PROJETO_TCC_PRODENTSYS " +
 				" from DISK = ? " +
-				" WITH FILE=2, NORECOVERY ";
+				" WITH FILE=2, NOUNLOAD,  REPLACE,  STATS = 5 ";
 	
-	/*
-	 * ALTER DATABASE PROJETO_TCC_PRODENTSYS SET RECOVERY SIMPLE; //pro banco fazer restauração simples
-	 * 
-	*/
+	
+	private final String USE_MASTER = 
+			"USE master";  
+	  
+	private final String ALTER_SINGLE =
+	"ALTER DATABASE PROJETO_TCC_PRODENTSYS SET SINGLE_USER WITH ROLLBACK IMMEDIATE  ";
+	
+	private final String ALTER_MULTI =
+			"ALTER DATABASE PROJETO_TCC_PRODENTSYS SET MULTI_USER ";
 	
 	
 	public boolean gerarBackup(boolean sucesso) throws DaoException{		
@@ -107,11 +111,19 @@ public class BackupDao {
 		@SuppressWarnings("unused")
 		boolean result = false;
 		try {
-			//statement = conn.prepareStatement("ALTER DATABASE PROJETO_TCC_PRODENTSYS SET RECOVERY SIMPLE");
+			statement = conn.prepareStatement("USE master");
+			statement.execute();	
+			
+			statement = conn.prepareStatement("ALTER DATABASE PROJETO_TCC_PRODENTSYS SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
+			statement.execute();				
+			
 			statement = conn.prepareStatement(RESTAURAR_FULL);	
 			statement.setString(1, file);			
 			result = statement.execute();							
-			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso! \nNão faça nada até o banco se estabilizar novamente!");	
+			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso!");	
+			
+			statement = conn.prepareStatement("ALTER DATABASE PROJETO_TCC_PRODENTSYS SET MULTI_USER");
+			statement.execute();	
 			
 		} catch (SQLException e) {
 			throw new DaoException(e);
@@ -128,11 +140,20 @@ public class BackupDao {
 		@SuppressWarnings("unused")
 		boolean result = false;
 		try {
+			statement = conn.prepareStatement("USE master");
+			statement.execute();	
+			
+			statement = conn.prepareStatement("ALTER DATABASE PROJETO_TCC_PRODENTSYS SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
+			statement.execute();			
+			
 			statement = conn.prepareStatement(RESTAURAR_DIF);	
 			statement.setString(1, file);			
 			result = statement.execute();							
-			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso! \nNão faça nada até o banco se estabilizar novamente!");	
+			JOptionPane.showMessageDialog(null,  "Backup restaurado com sucesso!");	
 			
+			statement = conn.prepareStatement("ALTER DATABASE PROJETO_TCC_PRODENTSYS SET MULTI_USER");
+			statement.execute();	
+				
 		} catch (SQLException e) {
 			throw new DaoException(e);
 		} finally {

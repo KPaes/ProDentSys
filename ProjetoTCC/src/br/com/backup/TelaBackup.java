@@ -146,9 +146,9 @@ public class TelaBackup extends JFrame implements ActionListener {
         btnRestoreDif.setBounds(28, 73, 143, 23);
         contentPane.add(btnRestoreDif);
         
-        lblAntesDeRestaurar = new JLabel("Antes de restaurar o diferencial, restaure o completo.");
+        lblAntesDeRestaurar = new JLabel("Antes de restaurar os diferenciais, restaure o completo pelo menos uma vez.");
         lblAntesDeRestaurar.setFont(new Font("Tahoma", Font.ITALIC, 11));
-        lblAntesDeRestaurar.setBounds(29, 125, 304, 14);
+        lblAntesDeRestaurar.setBounds(28, 125, 384, 14);
         contentPane.add(lblAntesDeRestaurar);
     }
 
