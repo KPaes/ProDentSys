@@ -85,7 +85,7 @@ public class CalcularData {
 	     int result_days = 0;  
 	  
 	     // Para cada mes e ano, vai de mes em mes pegar o ultimo dia para import acumulando  
-	     // no total de dias. Ja leva em consideracao ano bissesto  
+	     // no total de dias. Ja leva em consideracao ano bissexto  
 	     while( curTime.get(GregorianCalendar.YEAR) < baseTime.get(GregorianCalendar.YEAR) ||  
 	            curTime.get(GregorianCalendar.MONTH) < baseTime.get(GregorianCalendar.MONTH)  )  
 	     {  
@@ -96,11 +96,11 @@ public class CalcularData {
 	           
 	     }  
 	       
-	     // Marca que ï¿½ um saldo negativo ou positivo  
+	     // Marca que é um saldo negativo ou positivo  
 	     result_months = result_months*dif_multiplier;  
 	       
 	       
-	     // Retirna a diferenca de dias do total dos meses  
+	     // Retorna a diferenca de dias do total dos meses  
 	     result_days += (dataFim.get(GregorianCalendar.DAY_OF_MONTH) - dataInicio.get(GregorianCalendar.DAY_OF_MONTH));  
 	       
 	     return result_years+result_months+result_days;
@@ -116,7 +116,7 @@ public class CalcularData {
 		// Cria um objeto calendar com a data atual
 		Calendar today = Calendar.getInstance();
 
-		// Obtï¿½m a idade baseado no ano
+		// Obtém a idade baseado no ano
 		int age = today.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
 
 		dateOfBirth.add(Calendar.YEAR, age);

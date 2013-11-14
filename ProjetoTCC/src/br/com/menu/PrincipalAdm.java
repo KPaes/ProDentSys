@@ -280,6 +280,7 @@ public class PrincipalAdm extends JFrame {
 		menu_1.add(mntmGerarBackup);
 		
 		JMenu mnInativos = new JMenu("Inativos");
+		mnInativos.setMnemonic('v');
 		mnInativos.setIcon(new ImageIcon(PrincipalAdm.class.getResource("/br/com/images/inative.png")));
 		mnInativos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		menu_1.add(mnInativos);
@@ -333,6 +334,7 @@ public class PrincipalAdm extends JFrame {
 		mnInativos.add(mntmFornecedoresInativos);
 		
 		JMenuItem mntmPedidosInativos = new JMenuItem("Pedidos Inativos");
+		mntmPedidosInativos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mntmPedidosInativos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -348,6 +350,7 @@ public class PrincipalAdm extends JFrame {
 		mnInativos.add(mntmPedidosInativos);
 		
 		JMenuItem mntmTabelaDePreo = new JMenuItem("Pr\u00F3teses Inativas");
+		mntmTabelaDePreo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mntmTabelaDePreo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {

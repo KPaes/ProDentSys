@@ -57,6 +57,8 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import javax.swing.JMenuItem;
+import org.joda.time.MonthDay;
+import org.joda.time.Months;
 
 public class TelaFolhadePagamento extends JFrame implements KeyListener {
     final JPanel lista = new JPanel();
@@ -348,19 +350,25 @@ public class TelaFolhadePagamento extends JFrame implements KeyListener {
                           	//	bonus = 0.0;
                           		//textField 3(salario) e 4 (bonus) 2 (comissão)
                           		if(validarFormulárioCalculo()){
-                          				
+                          			
+                        			MonthDay inicio = new MonthDay(dateInicio.getDate());
+                              		MonthDay fim = new MonthDay(dateFim.getDate());
+                              		int mes = Months.monthsBetween(inicio, fim).getMonths();
+
+                              		
                           		//		String aux = textField_4.getText().replace(",", ".").trim();
                           			//	bonus = Double.parseDouble(aux);
                           			bonus = Double.parseDouble(textField_4.getText());
                           				
-                                  	//	salario = Double.parseDouble(MascaraUtil.hideMascaraMoeda(textField_3));
-                                  		salario = Double.parseDouble(textField_3.getText());  
+                                  		salario = Double.parseDouble(textField_3.getText()) * mes;  
                                   		totalCom = Double.parseDouble(textField_2.getText());
                                   		
                                   		salarioTotal = totalCom + bonus + salario;
                                   		
                                   		textField_6.setText(String.valueOf(salarioTotal));
                                   		textField_6.setEditable(false);
+                          		
+                                  		
                           		}                          	
                           		
                           		
