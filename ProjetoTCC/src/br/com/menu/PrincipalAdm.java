@@ -280,6 +280,7 @@ public class PrincipalAdm extends JFrame {
 		menu_1.add(mntmGerarBackup);
 		
 		JMenu mnInativos = new JMenu("Inativos");
+		mnInativos.setIcon(new ImageIcon(PrincipalAdm.class.getResource("/br/com/images/inative.png")));
 		mnInativos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		menu_1.add(mnInativos);
 		
