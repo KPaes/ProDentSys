@@ -40,6 +40,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import org.jdesktop.swingx.JXSearchField;
+
 import br.com.TableModel.TableCellRenderer;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
@@ -63,7 +65,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	private JTextField txtLogin;
 	private JTextField textField_5;
 	private JTextField textSalario;
-	private JTextField txtDigiteONome;
+	private JXSearchField txtPesq;
 	private JTextField textComissao;
 	
 	private JLabel lblIndisponivel;
@@ -79,7 +81,6 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 
 	public CadFuncionario() throws DaoException {
 		setResizable(false);
-		//setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Cadastro de Funcion\u00E1rios");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CadFuncionario.class.getResource("/br/com/images/logo_transp.png")));
@@ -102,27 +103,13 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
         lblPesquisar.setBounds(42, 61, 86, 14);
         buttonPanel.add(lblPesquisar);
         
-        txtDigiteONome = new JTextField();
-        txtDigiteONome.setToolTipText("Digite o nome do funcion\u00E1rio");
-        txtDigiteONome.setBounds(10, 86, 133, 20);
-        buttonPanel.add(txtDigiteONome);
-        txtDigiteONome.setColumns(10);
-        
-        JButton btnOk = new JButton("");
-        btnOk.setIcon(new ImageIcon(CadFuncionario.class.getResource("/br/com/images/pesquisar.png")));
-        btnOk.setToolTipText("Pesquisar funcion\u00E1rio");
-        btnOk.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		try {
-					atualizaLista(table, txtDigiteONome.getText().toString());
-				} catch (DaoException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-          	}
-        });
-        btnOk.setBounds(55, 117, 41, 33);
-        buttonPanel.add(btnOk);
+        txtPesq = new JXSearchField();
+        txtPesq.addKeyListener(this);
+        txtPesq.setPrompt("Nome do funcion\u00E1rio");
+        txtPesq.setToolTipText("Digite o nome do funcion\u00E1rio");
+        txtPesq.setBounds(0, 86, 150, 20);
+        buttonPanel.add(txtPesq);
+        txtPesq.setColumns(10);
                     
 
                     lista.setBounds(152, 0, 632, 562);
@@ -641,18 +628,6 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 			JOptionPane.showMessageDialog(null, "Campo Telefone Vazio!");
 			result = false;
 		}
-//		if(!ValidacaoUtil.textFieldVazio(textField_4)){
-//			JOptionPane.showMessageDialog(null, "Campo Login Vazio!");
-//			result = false;
-//		}
-//		if(!ValidacaoUtil.textFieldVazio(passwordField)){
-//			JOptionPane.showMessageDialog(null, "Campo Senha Vazio!");
-//			result = false;
-//		}
-//		if(!ValidacaoUtil.textFieldVazio(passwordField_1)){
-//			JOptionPane.showMessageDialog(null, "Campo confirmar senha Vazio!");
-//			result = false;
-//		}
 		if(!ValidacaoUtil.textFieldVazio(textComissao)){
 			
 			textComissao.setText("0");
@@ -824,14 +799,20 @@ private void verificaSenhaUsuario(){
 		if(event.getSource() == txtLogin){
 			verificaNomeUsuario();
 		}
-//		if(event.getSource() == textSenhaOld){
-//			verificaSenhaUsuario();
-//		}
+		if(event.getSource() == txtPesq){
+		try {
+			atualizaLista(table,txtPesq.getText().toString());
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 		
 	}
 	@Override
 	public void keyReleased(KeyEvent event) {
 		
 	}
+	
 }
 

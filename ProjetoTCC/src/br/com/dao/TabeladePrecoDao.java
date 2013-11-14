@@ -14,11 +14,19 @@ import br.com.bean.TabeladePreco;
 
 public class TabeladePrecoDao {
 	private static final String EXCLUIR_TABELADEPRECO =
-			"delete from tbtabeladeprecos where numProtese = ?";
+//			"delete from tbtabeladeprecos where numProtese = ?";
+			"update tbtabeladeprecos set " +
+			"situacaoProtese = ? " +
+			"where numProtese = ? ";
+
+	private static final String ATIVAR_TABELADEPRECO = 
+			"update tbtabeladeprecos set " +
+			"situacaoProtese = ? " +
+			"where numProtese = ? ";
 	
 	private static final String INSERIR_TABELADEPRECO =
-			"insert into tbtabeladeprecos(tipoProtese, nomeProtese, precoProtese) "+
-			"values (?,?,?)";
+			"insert into tbtabeladeprecos(tipoProtese, nomeProtese, precoProtese, situacaoProtese) "+
+			"values (?,?,?,?)";
 	
 	private static final String ATUALIZAR_TABELADEPRECO =
 			"update tbtabeladeprecos set " +
@@ -28,14 +36,19 @@ public class TabeladePrecoDao {
 			"where numProtese = ? ";
 	
 	private static final  String CONSULTA_TABELADEPRECO =
-			"select * from tbtabeladeprecos order by tipoProtese ASC, nomeProtese ASC";
+			"select * from tbtabeladeprecos where situacaoProtese = 'A' order by tipoProtese ASC, nomeProtese ASC";
+	
+	private static final  String CONSULTA_TABELADEPRECO_INATIVO =
+			"select * from tbtabeladeprecos where situacaoProtese = 'I' order by tipoProtese ASC, nomeProtese ASC";
 	
 	private static final  String CONSULTA_TABELADEPRECO_ID = 
 			"select * from tbtabeladeprecos where numProtese = ?";
 	
 	private static final  String CONSULTA_TABELADEPRECO_NOME =
-			"select * from tbtabeladeprecos where nomeProtese like ? order by nomeProtese";
+			"select * from tbtabeladeprecos where situacaoProtese = 'A' and nomeProtese like ? order by nomeProtese";
 	
+	private static final  String CONSULTA_TABELADEPRECO_NOME_INATIVO =
+			"select * from tbtabeladeprecos where situacaoProtese = 'I' and nomeProtese like ? order by nomeProtese";
 	
 	public List<TabeladePreco> consultarProteses(String nome) throws DaoException{		
 		Connection conn = DbUtil.getConnection();
@@ -47,6 +60,35 @@ public class TabeladePrecoDao {
 				statement = conn.prepareStatement(CONSULTA_TABELADEPRECO);
 			}else{
 				statement = conn.prepareStatement(CONSULTA_TABELADEPRECO_NOME);
+				statement.setString(1, "%"+nome+"%");
+			}
+			result = statement.executeQuery();
+			while (result.next()) {
+				TabeladePreco objTab = new TabeladePreco();
+				objTab.setNumProtese(result.getInt(4));
+				objTab.setNomeProtese(result.getString(2));
+				objTab.setTipoProtese(result.getString(1));
+				objTab.setPrecoProtese(result.getDouble(3));
+				listaTab.add(objTab);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return listaTab;		
+	}	
+	
+	public List<TabeladePreco> consultarProtesesInativas(String nome) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		List<TabeladePreco> listaTab = new ArrayList<TabeladePreco>();
+		try {
+			if(nome.equals("")){
+				statement = conn.prepareStatement(CONSULTA_TABELADEPRECO_INATIVO);
+			}else{
+				statement = conn.prepareStatement(CONSULTA_TABELADEPRECO_NOME_INATIVO);
 				statement.setString(1, "%"+nome+"%");
 			}
 			result = statement.executeQuery();
@@ -159,7 +201,27 @@ public class TabeladePrecoDao {
 		ResultSet result = null;
 		try {
 			statement = conn.prepareStatement(EXCLUIR_TABELADEPRECO);
-			statement.setInt(1, idProtese);
+			statement.setString(1, "I");
+			statement.setInt(2, idProtese);
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return true;
+
+	}
+	
+	public boolean ativarTabeladePreco(int idProtese) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(ATIVAR_TABELADEPRECO);
+			statement.setString(1, "A");
+			statement.setInt(2, idProtese);
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

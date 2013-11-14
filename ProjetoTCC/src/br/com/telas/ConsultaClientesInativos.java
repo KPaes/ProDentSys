@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import java.awt.Button;
 import javax.swing.ListSelectionModel;
 
 import br.com.TableModel.TableCellRenderer;
@@ -50,7 +49,7 @@ import org.jdesktop.swingx.JXSearchField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class CadCliente extends JFrame implements KeyListener{
+public class ConsultaClientesInativos extends JFrame implements KeyListener{
     final JPanel lista = new JPanel();
     final JPanel formulario = new JPanel();
     final JPanel buttonPanel = new JPanel();
@@ -79,10 +78,10 @@ public class CadCliente extends JFrame implements KeyListener{
 	
 	String email = null;
 	
-	public CadCliente() throws DaoException {
+	public ConsultaClientesInativos() throws DaoException {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CadCliente.class.getResource("/br/com/images/logo_transp.png")));
-		setTitle("Cadastro de Clientes");
+		setTitle("Clientes Excluídos");
 		int width = 800;
         int height = 600;
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -110,6 +109,123 @@ public class CadCliente extends JFrame implements KeyListener{
         txtPesq.setBounds(10, 85, 132, 20);
         buttonPanel.add(txtPesq);
         txtPesq.setColumns(10);
+                 
+
+                 lista.setBounds(152, 0, 656, 562);
+                 getContentPane().add(lista);
+                 lista.setLayout(null);
+                 
+                 JLabel lblFuncionriosCadastrados = new JLabel("Clientes Excluídos");
+                 lblFuncionriosCadastrados.setFont(new Font("Kalinga", Font.BOLD, 16));
+                 lblFuncionriosCadastrados.setHorizontalAlignment(SwingConstants.CENTER);
+                 lblFuncionriosCadastrados.setBackground(Color.WHITE);
+                 lblFuncionriosCadastrados.setBounds(10, 11, 612, 29);
+                 lista.add(lblFuncionriosCadastrados);
+                 lista.setVisible(true);  
+                 table = new JTable();
+                 table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int linha = table.getSelectedRow();
+				int coluna = table.getSelectedColumn();
+				String matricula = (String) table.getValueAt(linha,0);
+				Integer mat = Integer.parseInt(matricula); 
+				if(coluna == 5){
+					int opcao;
+					opcao = JOptionPane.showConfirmDialog(null,"Deseja ativar o cliente de matricula: "+matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
+					   if(opcao == JOptionPane.YES_OPTION){  
+						   try {
+							clienteDao.ativarClientes(mat);
+							atualizaLista(table,"");
+						} catch (DaoException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Cliente ativado com sucesso!");
+					   }
+				}
+				if (coluna == 4){
+					ClienteDent objCliente = new ClienteDent();
+					
+					try {
+						objCliente = clienteDao.consultarClienteID(mat);
+						atualizaFormulario(objCliente);
+						buttonPanel.setVisible(false);
+					} catch (DaoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				
+			}
+		});
+                 
+                 
+                 
+         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+         table.setModel(new DefaultTableModel(
+        		  new Object[][] {
+                   },
+                   new String[] {
+                      "Número", "Nome", "Telefone", "E-mail", "Editar","Ativar"
+                   }
+                                                                                     	
+               )
+               { 
+					private static final long serialVersionUID = 1L;
+
+					@Override 
+                    public boolean isCellEditable(int row, int col) 
+                    { 
+                    return false; 
+                    } 
+                    }
+                    );
+         table.getColumnModel().getColumn(0).setPreferredWidth(55);
+         table.getColumnModel().getColumn(0).setMinWidth(55);
+         table.getColumnModel().getColumn(1).setPreferredWidth(200);
+         table.getColumnModel().getColumn(1).setMinWidth(200);
+         table.getColumnModel().getColumn(2).setPreferredWidth(80);
+         table.getColumnModel().getColumn(2).setMinWidth(80);
+         table.getColumnModel().getColumn(3).setPreferredWidth(100);
+         table.getColumnModel().getColumn(3).setMinWidth(100);
+         table.setBounds(39, 175, 530, 232);
+         atualizaLista(table,"");
+         
+         
+              JScrollPane scrollPane = new JScrollPane();
+              scrollPane.setBounds(10, 51, 636, 473);
+              lista.add(scrollPane);
+              
+              scrollPane.setViewportView(table);
                    
                 
 
@@ -386,146 +502,7 @@ public class CadCliente extends JFrame implements KeyListener{
                              buttonPanel.setVisible(true);
                           }
                       });
-                 
-
-                 lista.setBounds(152, 0, 656, 562);
-                 getContentPane().add(lista);
-                 lista.setLayout(null);
-                 
-                 JLabel lblFuncionriosCadastrados = new JLabel("Clientes Cadastrados");
-                 lblFuncionriosCadastrados.setFont(new Font("Kalinga", Font.BOLD, 16));
-                 lblFuncionriosCadastrados.setHorizontalAlignment(SwingConstants.CENTER);
-                 lblFuncionriosCadastrados.setBackground(Color.WHITE);
-                 lblFuncionriosCadastrados.setBounds(10, 11, 612, 29);
-                 lista.add(lblFuncionriosCadastrados);
-                 
-
-
-                   
-                 Button Novo = new Button("Adicionar");          
-                 Novo.setBounds(10, 530, 70, 22);
-                 lista.add(Novo);                                    
-                 lista.setVisible(true);  
                  buttonPanel.setVisible(true);
-                 table = new JTable();
-                 table.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int linha = table.getSelectedRow();
-				int coluna = table.getSelectedColumn();
-				String matricula = (String) table.getValueAt(linha,0);
-				Integer mat = Integer.parseInt(matricula); 
-				if(coluna == 5){
-					int opcao;
-					opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o cliente de matricula: "+matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
-					   if(opcao == JOptionPane.YES_OPTION){  
-						   try {
-							clienteDao.excluirClientes(mat);
-							atualizaLista(table,"");
-						} catch (DaoException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-							JOptionPane.showMessageDialog(null, "Dados excluídos com sucesso!");
-					   }
-				}
-				if (coluna == 4){
-					ClienteDent objCliente = new ClienteDent();
-					
-					try {
-						objCliente = clienteDao.consultarClienteID(mat);
-						atualizaFormulario(objCliente);
-						buttonPanel.setVisible(false);
-					} catch (DaoException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-				
-			}
-		});
-                 
-                 
-                 
-         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-         table.setModel(new DefaultTableModel(
-        		  new Object[][] {
-                   },
-                   new String[] {
-                      "Número", "Nome", "Telefone", "E-mail", "Editar","Excluir"
-                   }
-                                                                                     	
-               )
-               { 
-					private static final long serialVersionUID = 1L;
-
-					@Override 
-                    public boolean isCellEditable(int row, int col) 
-                    { 
-                    return false; 
-                    } 
-                    }
-                    );
-         table.getColumnModel().getColumn(0).setPreferredWidth(55);
-         table.getColumnModel().getColumn(0).setMinWidth(55);
-         table.getColumnModel().getColumn(1).setPreferredWidth(200);
-         table.getColumnModel().getColumn(1).setMinWidth(200);
-         table.getColumnModel().getColumn(2).setPreferredWidth(80);
-         table.getColumnModel().getColumn(2).setMinWidth(80);
-         table.getColumnModel().getColumn(3).setPreferredWidth(100);
-         table.getColumnModel().getColumn(3).setMinWidth(100);
-         table.setBounds(39, 175, 530, 232);
-         atualizaLista(table,"");
-         
-         
-              JScrollPane scrollPane = new JScrollPane();
-              scrollPane.setBounds(10, 51, 636, 473);
-              lista.add(scrollPane);
-              
-              scrollPane.setViewportView(table);
-              
-              Novo.addActionListener(new ActionListener() {
-            	  public void actionPerformed(ActionEvent arg0) {
-            		  lista.setVisible(false);
-                      formulario.setVisible(true);
-                      buttonPanel.setVisible(false);
-                      limpaFormulario();
-                      try {
-                      atualizaLista(table,"");
-                      } catch (DaoException e) {
-                      // TODO Auto-generated catch block
-                    	  e.printStackTrace();
-                      }
-                      }
-                      });	
 	}
 	
 	public void atualizaLista(JTable lista, String nome) throws DaoException{
@@ -533,7 +510,7 @@ public class CadCliente extends JFrame implements KeyListener{
 		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
         ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.png"));  
-        ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir.png"));
+        ImageIcon ativar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_ok.png"));
 
 		TableColumnModel columnModel = table.getColumnModel();
 		
@@ -545,14 +522,14 @@ public class CadCliente extends JFrame implements KeyListener{
 		renderer.setToolTipText("Editar");
 		columnModel.getColumn(4).setCellRenderer(renderer);
 		
-		renderer1.setValue(excluir);
+		renderer1.setValue(ativar);
 		renderer1.setHorizontalAlignment(JLabel.CENTER);
-		renderer1.setToolTipText("Excluir");
+		renderer1.setToolTipText("Ativar novamente o cliente");
 		columnModel.getColumn(5).setCellRenderer(renderer1);
 
         dtm.setRowCount(0); 
 		List<ClienteDent> listaCliente  = new ArrayList<ClienteDent>();
- 		listaCliente = clienteDao.consultarClientes(nome);
+ 		listaCliente = clienteDao.consultarClientesInativos(nome);
  		String dados[] = new String[4]; 
 		for (ClienteDent obj : listaCliente) {
 			dados[0] = String.valueOf(obj.getNumCliente()) ;

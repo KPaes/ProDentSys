@@ -15,13 +15,21 @@ import br.com.bean.Pedido;
 public class PedidoDao {
 
 	private static final String EXCLUIR_PEDIDO = 
-			"delete from tbpedido where numPed = ?";
+//			"delete from tbpedido where numPed = ?";
+			"update tbpedido set " +
+			"situacaoPed = ? " +
+			"where numPed = ? ";
+
+	private static final String ATIVAR_PEDIDO = 
+			"update tbpedido set " +
+			"situacaoPed = ? " +
+			"where numPed = ? ";
 	
 	private static final String INSERIR_PEDIDO =
 			"insert into tbpedido(nomeCliente, numCliente, nomePaciente, dataPedido, "+
 			"dataEntrega, tipoProtese, nomeProtese,  nomeFunc, " + //precoProtese, numProtese,
-			"numFunc, totalPedido, observacoesPed, cpfCliente) " +
-			"values (?,?,?,?,?,?,?,?,?,?,?,?)";
+			"numFunc, totalPedido, observacoesPed, cpfCliente, situacaoPed) " +
+			"values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_PEDIDO =
 			"update tbpedido set " +
@@ -41,17 +49,22 @@ public class PedidoDao {
 	
 	
 	private static final  String CONSULTA_PEDIDOS =
-			"select * from tbpedido order by numPed desc";
+			"select * from tbpedido where situacaoPed = 'A' order by numPed desc";
 	
 	private static final  String CONSULTA_PEDIDOS_ID = 
 			"select * from tbpedido where numPed = ?";
 	
 	private static final  String CONSULTA_PEDIDOS_NOME =
-			"select * from tbpedido where nomeCliente like ? order by nomeCliente";	
+			"select * from tbpedido where nomeCliente like ? and situacaoPed = 'A' order by nomeCliente";	
 	
 	private static final String TOTAL_BUSCAR = 
-			"select SUM(totalPedido) from tbpedido where numFunc = ? and dataEntrega between ? and ?";
+			"select SUM(totalPedido) from tbpedido where numFunc = ? and dataEntrega between ? and ? and situacaoPed = 'A' ";
 	
+	private static final  String CONSULTA_PEDIDOS_INATIVOS =
+			"select * from tbpedido where situacaoPed = 'I' order by numPed desc";
+	
+	private static final  String CONSULTA_PEDIDOS_NOME_INATIVO =
+			"select * from tbpedido where nomeCliente like ? and situacaoPed = 'I' order by nomeCliente";	
 	
 	public Pedido comissaoTotalPedido(int idFunc, Date data1, Date data2) throws DaoException{		
 		Pedido objPed = new Pedido();
@@ -89,6 +102,46 @@ public class PedidoDao {
 				statement = conn.prepareStatement(CONSULTA_PEDIDOS);
 			}else{
 				statement = conn.prepareStatement(CONSULTA_PEDIDOS_NOME);
+				statement.setString(1, "%"+nome+"%");
+			}
+			result = statement.executeQuery();
+			while (result.next()) {
+				Pedido objPedido = new Pedido();
+				objPedido.setNumPed(result.getInt(1)); 
+				objPedido.setNumCliente(result.getInt(3)); 
+				objPedido.setNomeCliente(result.getString(2));
+				objPedido.setNomePaciente(result.getString(4));
+				
+				objPedido.setDataPedido(result.getDate(5));
+				objPedido.setDataEntrega(result.getDate(6));
+				
+				objPedido.setTipoProtese(result.getString(7));
+				objPedido.setNomeProtese(result.getString(8)); 
+				objPedido.setNomeFunc(result.getString(9));
+				objPedido.setNumFunc(result.getInt(10));
+				objPedido.setTotalPedido(result.getDouble(11));
+				objPedido.setObservacoesPed(result.getString(12));
+				objPedido.setCpfCliente(result.getString(13));
+				listaPedido.add(objPedido);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return listaPedido;		
+	}	
+	
+	public List<Pedido> consultarPedidosInativos(String nome) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		List<Pedido> listaPedido = new ArrayList<Pedido>();
+		try {
+			if(nome.equals("")){
+				statement = conn.prepareStatement(CONSULTA_PEDIDOS_INATIVOS);
+			}else{
+				statement = conn.prepareStatement(CONSULTA_PEDIDOS_NOME_INATIVO);
 				statement.setString(1, "%"+nome+"%");
 			}
 			result = statement.executeQuery();
@@ -225,6 +278,7 @@ public class PedidoDao {
 			statement.setDouble(10, obj.getTotalPedido());
 			statement.setString(11, obj.getObservacoesPed());
 			statement.setString(12, obj.getCpfCliente()); 
+			statement.setString(13, "A"); 
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -278,7 +332,8 @@ public class PedidoDao {
 		ResultSet result = null;
 		try {
 			statement = conn.prepareStatement(EXCLUIR_PEDIDO);
-			statement.setInt(1, idPedido);
+			statement.setString(1, "I");
+			statement.setInt(2, idPedido);
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -289,5 +344,21 @@ public class PedidoDao {
 		return true;		
 	}
 	
+	public boolean ativarPedidos(int idPedido) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(ATIVAR_PEDIDO);
+			statement.setString(1, "A");
+			statement.setInt(2, idPedido);
+			statement.executeUpdate();
 
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return true;		
+	}
 }

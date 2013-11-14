@@ -17,12 +17,20 @@ import br.com.bean.ClienteDent;
 public class ClienteDao {
 
 	private static final String EXCLUIR_CLIENTE = 
-			"delete from tbcliente where numCliente = ?";
+//			"delete from tbcliente where numCliente = ?";
+			"update tbcliente set " +
+			"situacaoCliente = ? " +
+			"where numCliente = ? ";
+
+	private static final String ATIVAR_CLIENTE = 
+			"update tbcliente set " +
+			"situacaoCliente = ? " +
+			"where numCliente = ? ";
 	
 	private static final String INSERIR_CLIENTE =
 			"insert into tbcliente(nomeCliente, cpfCliente, telCliente, "+
-			"ruaCliente, numEndCliente, bairroCliente, cidadeCliente, cepCliente, emailCliente, complCliente) " +
-			"values (?,?,?,?,?,?,?,?,?,?)";
+			"ruaCliente, numEndCliente, bairroCliente, cidadeCliente, cepCliente, emailCliente, complCliente, situacaoCliente) " +
+			"values (?,?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_CLIENTE =
 			"update tbCliente set " +
@@ -40,19 +48,25 @@ public class ClienteDao {
 	
 	
 	private static final  String CONSULTA_CLIENTES =
-			"select * from tbcliente order by numCliente";
+			"select * from tbcliente where situacaoCliente = 'A' order by nomeCliente";
 	
 	private static final  String CONSULTA_CLIENTES_ID = 
-			"select * from tbcliente where numCliente = ?";
+			"select * from tbcliente where numCliente = ?";	
 	
 	private static final  String CONSULTA_CLIENTE_NOME =
-			"select * from tbcliente where nomeCliente like ? order by nomeCliente";		
+			"select * from tbcliente where nomeCliente like ? and situacaoCliente='A' order by nomeCliente";		
 	
 	private static final String PROCURAR_CLIENTE_ID =
-			"select nomeCliente, emailCliente, cpfCliente from tbcliente where numCliente = ?";
+			"select nomeCliente, emailCliente, cpfCliente from tbcliente where numCliente = ? and situacaoCliente='A'";
 	
 	private static final String VERIFICAR_CPF_EXISTENTE =
 			"SELECT * FROM tbcliente WHERE cpfCliente = ?";
+	
+	private static final  String CONSULTA_CLIENTES_INATIVOS =
+			"select * from tbcliente where situacaoCliente = 'I' order by nomeCliente";
+	
+	private static final  String CONSULTA_CLIENTE_NOME_INATIVO =
+			"select * from tbcliente where nomeCliente like ? and situacaoCliente = 'I' order by nomeCliente";
 	
 	
 	/**
@@ -188,6 +202,42 @@ public class ClienteDao {
 		return listaCliente;		
 	}	
 	
+	public List<ClienteDent> consultarClientesInativos(String nome) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		List<ClienteDent> listaCliente = new ArrayList<ClienteDent>();
+		try {
+			if(nome.equals("")){
+				statement = conn.prepareStatement(CONSULTA_CLIENTES_INATIVOS);
+			}else{
+				statement = conn.prepareStatement(CONSULTA_CLIENTE_NOME_INATIVO);
+				statement.setString(1, "%"+nome+"%");
+			}
+			result = statement.executeQuery();
+			while (result.next()) {
+				ClienteDent objCliente = new ClienteDent();
+				objCliente.setNumCliente(result.getInt(1));
+				objCliente.setNomeCliente(result.getString(2));
+				objCliente.setCpfCliente(result.getString(3));
+				objCliente.setTelCliente(result.getString(4));
+				objCliente.setRuaCliente(result.getString(5));
+				objCliente.setNumEndCliente(result.getString(6));
+				objCliente.setBairroCliente(result.getString(7));
+				objCliente.setCidadeCliente(result.getString(8));
+				objCliente.setCepCliente(result.getString(9));
+				objCliente.setEmailCliente(result.getString(10));
+				objCliente.setComplCliente(result.getString(11));
+				listaCliente.add(objCliente);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return listaCliente;		
+	}	
+	
 	public int inserirClientes(ClienteDent obj, int matri) throws DaoException{		
 		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
@@ -204,6 +254,7 @@ public class ClienteDao {
 			statement.setString(8, obj.getCepCliente());
 			statement.setString(9, obj.getEmailCliente());
 			statement.setString(10, obj.getComplCliente());
+			statement.setString(11, "A");
 			statement.executeUpdate();
 			
 			statement = conn.prepareStatement("select max(numCliente) from tbcliente");
@@ -257,7 +308,26 @@ public class ClienteDao {
 		ResultSet result = null;
 		try {
 			statement = conn.prepareStatement(EXCLUIR_CLIENTE);
-			statement.setInt(1, idCliente);
+			statement.setString(1, "I");
+			statement.setInt(2, idCliente);
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return true;		
+	}
+	
+	public boolean ativarClientes(int idCliente) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(ATIVAR_CLIENTE);
+			statement.setString(1, "A");
+			statement.setInt(2, idCliente);
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

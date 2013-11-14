@@ -62,7 +62,7 @@ import javax.swing.JMenuItem;
 
 
 
-public class Ped extends JFrame implements KeyListener {
+public class ConsultaPedidosInativos extends JFrame implements KeyListener {
 	 final static JPanel lista = new JPanel();
 	    final static JPanel formulario = new JPanel();
 	    final static JPanel carrinho = new JPanel();
@@ -108,10 +108,10 @@ public class Ped extends JFrame implements KeyListener {
 	    
        // MouseListener tableMouseListener = null;
 
-		public Ped() throws DaoException {
+		public ConsultaPedidosInativos() throws DaoException {
 			setResizable(false);
 			setIconImage(Toolkit.getDefaultToolkit().getImage(Ped.class.getResource("/br/com/images/logo_transp.png")));
-			setTitle("Cadastro de Pedidos");
+			setTitle("Pedidos Exclu\u00EDdos");
 			int width = 800;
 	        int height = 600;
 	       // setModal(true);
@@ -497,7 +497,7 @@ public class Ped extends JFrame implements KeyListener {
 	        	        getContentPane().add(lista);
 	        	        lista.setLayout(null);
 	        	        
-	        	        JLabel lblFuncionriosCadastrados1 = new JLabel("Pedidos Agendados");
+	        	        JLabel lblFuncionriosCadastrados1 = new JLabel("Pedidos Exclu\u00EDdos");
 	        	        lblFuncionriosCadastrados1.setFont(new Font("Kalinga", Font.BOLD, 16));
 	        	        lblFuncionriosCadastrados1.setHorizontalAlignment(SwingConstants.CENTER);
 	        	        lblFuncionriosCadastrados1.setBackground(Color.WHITE);
@@ -546,16 +546,16 @@ public class Ped extends JFrame implements KeyListener {
 					Integer mat = Integer.parseInt(matricula); 
 					if(coluna == 6){
 						int opcao;
-						opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o registro de matricula: "+ matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
+						opcao = JOptionPane.showConfirmDialog(null,"Deseja ativar o registro de matricula: "+ matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
 						   if(opcao == JOptionPane.YES_OPTION){  
 							   try {
-								pedidoDao.excluirPedidos(mat);
+								pedidoDao.ativarPedidos(mat);
 								atualizaLista(table,"");
 							} catch (DaoException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-								JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
+								JOptionPane.showMessageDialog(null, "Pedido ativado com sucesso!");
 						   }
 					}
 					if (coluna == 5){
@@ -582,7 +582,7 @@ public class Ped extends JFrame implements KeyListener {
 	        		  new Object[][] {
 	        	                  	},
 	        	                  	new String[] {
-	        	                  		"Número", "Dentista", "Paciente", "Data Entrega", "Observações", "Editar","Excluir"
+	        	                  		"Número", "Dentista", "Paciente", "Data Entrega", "Observações", "Editar","Ativar"
 	        	                  	}
 	        	                  	
 	        	                  )
@@ -818,7 +818,7 @@ public class Ped extends JFrame implements KeyListener {
 			DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
 	        ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.png"));  
-	        ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir.png"));
+	        ImageIcon ativar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_ok.png"));
 
 			TableColumnModel columnModel = table.getColumnModel();
 			
@@ -829,13 +829,13 @@ public class Ped extends JFrame implements KeyListener {
 			renderer.setHorizontalAlignment(JLabel.CENTER);
 			columnModel.getColumn(5).setCellRenderer(renderer);
 			
-			renderer1.setValue(excluir);
+			renderer1.setValue(ativar);
 			renderer1.setHorizontalAlignment(JLabel.CENTER);
 			columnModel.getColumn(6).setCellRenderer(renderer1);
 
 	        dtm.setRowCount(0); 
 			List<Pedido> listaPedido  = new ArrayList<Pedido>();
-	 		listaPedido = pedidoDao.consultarPedidos(nome);
+	 		listaPedido = pedidoDao.consultarPedidosInativos(nome);
 	 		String dados[] = new String[5]; 
 			for (Pedido obj : listaPedido) {
 				dados[0] = String.valueOf(obj.getNumPed()) ;

@@ -15,12 +15,20 @@ import br.com.bean.Fornecedor;
 public class FornecedorDao {
 
 	private static final String EXCLUIR_FORNECEDOR = 
-			"delete from tbfornecedor where numFornec = ?";
+//			"delete from tbfornecedor where numFornec = ?";
+			"update tbfornecedor set " +
+			"situacaoFornec = ? " +
+			"where numFornec = ? ";
+
+	private static final String ATIVAR_FORNECEDOR = 
+			"update tbfornecedor set " +
+			"situacaoFornec = ? " +
+			"where numFornec = ? ";
 	
 	private static final String INSERIR_FORNECEDOR =
 			"insert into tbfornecedor(nomeFornec, telFornec, "+
-			"ruaFornec, numEndFornec, bairroFornec, cidadeFornec, cepFornec, complFornec) " +
-			"values (?,?,?,?,?,?,?,?)";
+			"ruaFornec, numEndFornec, bairroFornec, cidadeFornec, cepFornec, complFornec, situacaoFornec) " +
+			"values (?,?,?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_FORNECEDOR =
 			"update tbfornecedor set " +
@@ -36,13 +44,19 @@ public class FornecedorDao {
 	
 	
 	private static final  String CONSULTA_FORNECEDORES =
-			"select * from tbfornecedor order by numFornec";
+			"select * from tbfornecedor where situacaoFornec = 'A' order by numFornec";
 	
 	private static final  String CONSULTA_FORNECEDORES_ID = 
 			"select * from tbfornecedor where numFornec = ?";
 	
 	private static final  String CONSULTA_FORNECEDORES_NOME =
-			"select * from tbfornecedor where nomeFornec like ? order by nomeFornec";	
+			"select * from tbfornecedor where nomeFornec like ? and situacaoFornec = 'A' order by nomeFornec";	
+	
+	private static final  String CONSULTA_FORNECEDORES_INATIVOS =
+			"select * from tbfornecedor where situacaoFornec = 'I' order by numFornec";
+	
+	private static final  String CONSULTA_FORNECEDORES_NOME_INATIVO =
+			"select * from tbfornecedor where nomeFornec like ? and situacaoFornec = 'I' order by nomeFornec";
 	
 	public List<Fornecedor> consultarFornecedores(String nome) throws DaoException{		
 		Connection conn = DbUtil.getConnection();
@@ -54,6 +68,40 @@ public class FornecedorDao {
 				statement = conn.prepareStatement(CONSULTA_FORNECEDORES);
 			}else{
 				statement = conn.prepareStatement(CONSULTA_FORNECEDORES_NOME);
+				statement.setString(1, "%"+nome+"%");
+			}
+			result = statement.executeQuery();
+			while (result.next()) {
+				Fornecedor objFornec = new Fornecedor();
+				objFornec.setNumFornec(result.getInt(1));
+				objFornec.setNomeFornec(result.getString(2));
+				objFornec.setTelFornec(result.getString(3));
+				objFornec.setRuaFornec(result.getString(4));
+				objFornec.setNumEndFornec(result.getString(5));
+				objFornec.setBairroFornec(result.getString(6));
+				objFornec.setCidadeFornec(result.getString(7));
+				objFornec.setCepFornec(result.getString(8));
+				objFornec.setComplFornec(result.getString(9));
+				listaFornec.add(objFornec);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return listaFornec;		
+	}	
+	
+	public List<Fornecedor> consultarFornecedoresInativos(String nome) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		List<Fornecedor> listaFornec = new ArrayList<Fornecedor>();
+		try {
+			if(nome.equals("")){
+				statement = conn.prepareStatement(CONSULTA_FORNECEDORES_INATIVOS);
+			}else{
+				statement = conn.prepareStatement(CONSULTA_FORNECEDORES_NOME_INATIVO);
 				statement.setString(1, "%"+nome+"%");
 			}
 			result = statement.executeQuery();
@@ -149,6 +197,7 @@ public class FornecedorDao {
 			statement.setString(6, obj.getCidadeFornec());
 			statement.setString(7, obj.getCepFornec());
 			statement.setString(8, obj.getComplFornec());
+			statement.setString(9, "A");
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -190,7 +239,26 @@ public class FornecedorDao {
 		ResultSet result = null;
 		try {
 			statement = conn.prepareStatement(EXCLUIR_FORNECEDOR);
-			statement.setInt(1, idFornecedor);
+			statement.setString(1, "I");
+			statement.setInt(2, idFornecedor);
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return true;		
+	}
+	
+	public boolean ativarFornecedores(int idFornecedor) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(ATIVAR_FORNECEDOR);
+			statement.setString(1, "A");
+			statement.setInt(2, idFornecedor);
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

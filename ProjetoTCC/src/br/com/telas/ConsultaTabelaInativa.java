@@ -39,7 +39,7 @@ import java.util.List;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
-public class ConTabeladePreco extends JFrame {
+public class ConsultaTabelaInativa extends JFrame {
 	
 	
 	/**
@@ -77,7 +77,7 @@ public class ConTabeladePreco extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ConTabeladePreco() throws DaoException {
+	public ConsultaTabelaInativa() throws DaoException {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ConTabeladePreco.class.getResource("/br/com/images/logo_transp.png")));
 		setTitle("Tabela de Pre\u00E7o");
@@ -252,7 +252,7 @@ public class ConTabeladePreco extends JFrame {
 		btnNewButton.setBounds(110, 127, 100, 23);
 		contentPane.add(btnNewButton);
 		
-		JButton btnRemover = new JButton("Remover");
+		JButton btnRemover = new JButton("Ativar");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {				
 				int numLinha  = tabela.getSelectedRow();
@@ -260,14 +260,14 @@ public class ConTabeladePreco extends JFrame {
 					String matricula = (String) tabela.getValueAt(numLinha,0);
 					Integer mat = Integer.parseInt(matricula);					
 					try {
-						tabDao.excluirTabeladePreco(mat);
+						tabDao.ativarTabeladePreco(mat);
 						atualizaLista(tabela,"");
 					} catch (DaoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
-					JOptionPane.showMessageDialog(rootPane, "Removido!");
+					JOptionPane.showMessageDialog(rootPane, "Ativado!");
 				}else{					
 					JOptionPane.showMessageDialog(rootPane, "Clique primeiro na linha desejada!");
 				}				
@@ -397,7 +397,7 @@ public class ConTabeladePreco extends JFrame {
 		
         dtm.setRowCount(0); 
 		List<TabeladePreco> listaTab  = new ArrayList<TabeladePreco>();
-		listaTab = tabDao.consultarProteses(nome);
+		listaTab = tabDao.consultarProtesesInativas(nome);
  		String dados[] = new String[4]; 
 		for (TabeladePreco obj : listaTab) {
 			dados[0] = String.valueOf(obj.getNumProtese()) ;

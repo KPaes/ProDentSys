@@ -20,8 +20,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-
-import java.awt.Button;
 import javax.swing.ListSelectionModel;
 
 import br.com.TableModel.TableCellRenderer;
@@ -47,7 +45,7 @@ import javax.swing.JFormattedTextField;
 
 import org.jdesktop.swingx.JXSearchField;
 
-public class CadFornecedor extends JDialog implements KeyListener {
+public class ConsultaFornecedoresInativos extends JDialog implements KeyListener {
     final JPanel lista = new JPanel();
     final JPanel formulario = new JPanel();
     final JPanel buttonPanel = new JPanel();
@@ -66,13 +64,13 @@ public class CadFornecedor extends JDialog implements KeyListener {
 	private JTextField textField_9;
 	
 
-	public CadFornecedor() throws DaoException {
+	public ConsultaFornecedoresInativos() throws DaoException {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CadFornecedor.class.getResource("/br/com/images/logo_sys.png")));
-		setTitle("Cadastro de Fornecedores");
+		setTitle("Fornecedores Exclu\u00EDdos");
 		//setIconImage(Toolkit.getDefaultToolkit().getImage(CadFuncionario.class.getResource("/br/com/images/cadForm.jpg")));
 		int width = 800;
-        int height =600;
+        int height = 600;
         setModal(true);
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screen.width-width)/2;
@@ -99,6 +97,125 @@ public class CadFornecedor extends JDialog implements KeyListener {
         txtPesq.setBounds(0, 84, 152, 20);
         buttonPanel.add(txtPesq);
         txtPesq.setColumns(10);
+                  
+
+                  lista.setBounds(152, 0, 656, 562);
+                  getContentPane().add(lista);
+                  lista.setLayout(null);
+                  
+                  JLabel lblFuncionriosCadastrados = new JLabel("Fornecedores Exclu\u00EDdos");
+                  lblFuncionriosCadastrados.setFont(new Font("Kalinga", Font.BOLD, 16));
+                  lblFuncionriosCadastrados.setHorizontalAlignment(SwingConstants.CENTER);
+                  lblFuncionriosCadastrados.setBackground(Color.WHITE);
+                  lblFuncionriosCadastrados.setBounds(10, 11, 612, 29);
+                  lista.add(lblFuncionriosCadastrados);
+                    lista.setVisible(true);       
+                    table = new JTable();
+                    
+                    table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int linha = table.getSelectedRow();
+				int coluna = table.getSelectedColumn();
+				String matricula = (String) table.getValueAt(linha,0);
+				Integer mat = Integer.parseInt(matricula); 
+				if(coluna == 4){
+					int opcao;
+					opcao = JOptionPane.showConfirmDialog(null,"Deseja ativar o fornecedor de matricula: "+matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
+					   if(opcao == JOptionPane.YES_OPTION){  
+						   try {
+							fornecDao.ativarFornecedores(mat);
+							atualizaLista(table,"");
+						} catch (DaoException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Fornecedor ativado com sucesso!");
+					   }
+				}
+				if (coluna == 3){
+					Fornecedor objFornec = new Fornecedor();
+
+					try {
+						objFornec = fornecDao.consultarFornecedorID(mat);
+						atualizaFormulario(objFornec);
+						buttonPanel.setVisible(false);
+					} catch (DaoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				
+			}
+		});
+                    
+                    
+                    
+                    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    table.setModel(new DefaultTableModel(
+        		  new Object[][] {
+                            	},
+                            	new String[] {
+                            		"Número", "Nome", "Telefone", "Editar","Ativar"
+                            	}
+                            	
+                            )
+                            { 
+					private static final long serialVersionUID = 1L;
+
+					@Override 
+                          	  public boolean isCellEditable(int row, int col) 
+                          	  { 
+                          	  return false; 
+                          	  } 
+                          	  }
+                            );
+                    table.getColumnModel().getColumn(0).setPreferredWidth(55);
+                    table.getColumnModel().getColumn(0).setMinWidth(55);
+                    table.getColumnModel().getColumn(1).setPreferredWidth(220);
+                    table.getColumnModel().getColumn(1).setMinWidth(220);
+                    table.getColumnModel().getColumn(2).setPreferredWidth(80);
+                    table.getColumnModel().getColumn(2).setMinWidth(80);
+                    table.getColumnModel().getColumn(3).setPreferredWidth(70);
+                    table.getColumnModel().getColumn(3).setMinWidth(70);
+                    table.getColumnModel().getColumn(4).setPreferredWidth(60);
+                    table.getColumnModel().getColumn(4).setMinWidth(60);
+                    table.setBounds(39, 175, 530, 232);
+                    
+                                      atualizaLista(table,"");
+                                      
+                                      
+                                      JScrollPane scrollPane = new JScrollPane();
+                                      scrollPane.setBounds(10, 51, 636, 473);
+                                      lista.add(scrollPane);
+                                      
+                                                     scrollPane.setViewportView(table);
                                  
 
                   formulario.setBounds(152, 0, 632, 562);
@@ -286,147 +403,6 @@ public class CadFornecedor extends JDialog implements KeyListener {
                                      btnVoltar.setToolTipText("Voltar");
                                      btnVoltar.setBounds(21, 340, 89, 23);
                                      formulario.add(btnVoltar);
-                                     
-
-                                     lista.setBounds(152, 0, 656, 562);
-                                     getContentPane().add(lista);
-                                     lista.setLayout(null);
-                                     
-                                     JLabel lblFuncionriosCadastrados = new JLabel("Fornecedores Cadastrados");
-                                     lblFuncionriosCadastrados.setFont(new Font("Kalinga", Font.BOLD, 16));
-                                     lblFuncionriosCadastrados.setHorizontalAlignment(SwingConstants.CENTER);
-                                     lblFuncionriosCadastrados.setBackground(Color.WHITE);
-                                     lblFuncionriosCadastrados.setBounds(10, 11, 612, 29);
-                                     lista.add(lblFuncionriosCadastrados);
-                                     
-
-
-                                       
-                                       Button Novo = new Button("Adicionar");          
-                                       Novo.setBounds(10, 530, 70, 22);
-                                       lista.add(Novo);                                    
-                                       lista.setVisible(true);       
-                                       table = new JTable();
-                                       
-                    table.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int linha = table.getSelectedRow();
-				int coluna = table.getSelectedColumn();
-				String matricula = (String) table.getValueAt(linha,0);
-				Integer mat = Integer.parseInt(matricula); 
-				if(coluna == 4){
-					int opcao;
-					opcao = JOptionPane.showConfirmDialog(null,"Deseja excluir o fornecedor de matricula: "+matricula ,"Cuidado!!",JOptionPane.YES_NO_OPTION);				
-					   if(opcao == JOptionPane.YES_OPTION){  
-						   try {
-							fornecDao.excluirFornecedores(mat);
-							atualizaLista(table,"");
-						} catch (DaoException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-							JOptionPane.showMessageDialog(null, "Dados excluídos com sucesso!");
-					   }
-				}
-				if (coluna == 3){
-					Fornecedor objFornec = new Fornecedor();
-
-					try {
-						objFornec = fornecDao.consultarFornecedorID(mat);
-						atualizaFormulario(objFornec);
-						buttonPanel.setVisible(false);
-					} catch (DaoException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-				
-			}
-		});
-                    
-                    
-                    
-                    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                    table.setModel(new DefaultTableModel(
-        		  new Object[][] {
-                            	},
-                            	new String[] {
-                            		"Número", "Nome", "Telefone", "Editar","Excluir"
-                            	}
-                            	
-                            )
-                            { 
-					private static final long serialVersionUID = 1L;
-
-					@Override 
-                          	  public boolean isCellEditable(int row, int col) 
-                          	  { 
-                          	  return false; 
-                          	  } 
-                          	  }
-                            );
-                    table.getColumnModel().getColumn(0).setPreferredWidth(55);
-                    table.getColumnModel().getColumn(0).setMinWidth(55);
-                    table.getColumnModel().getColumn(1).setPreferredWidth(220);
-                    table.getColumnModel().getColumn(1).setMinWidth(220);
-                    table.getColumnModel().getColumn(2).setPreferredWidth(80);
-                    table.getColumnModel().getColumn(2).setMinWidth(80);
-                    table.getColumnModel().getColumn(3).setPreferredWidth(70);
-                    table.getColumnModel().getColumn(3).setMinWidth(70);
-                    table.getColumnModel().getColumn(4).setPreferredWidth(60);
-                    table.getColumnModel().getColumn(4).setMinWidth(60);
-                    table.setBounds(39, 175, 530, 232);
-                    
-                                      atualizaLista(table,"");
-                                      
-                                      
-                                      JScrollPane scrollPane = new JScrollPane();
-                                      scrollPane.setBounds(10, 51, 636, 473);
-                                      lista.add(scrollPane);
-                                      
-                                                     scrollPane.setViewportView(table);
-                                                     
-                                                             Novo.addActionListener(new ActionListener() {
-                                                             	public void actionPerformed(ActionEvent arg0) {
-                                                             		lista.setVisible(false);
-                                                             		formulario.setVisible(true);
-                                                             		buttonPanel.setVisible(false);
-                                                             		limpaFormulario();
-                                                             		try {
-                                                                       			atualizaLista(table,"");
-                                                                       		} catch (DaoException e) {
-                                                                       			// TODO Auto-generated catch block
-                                                                       			e.printStackTrace();
-                                                                       		}
-                                                             	}
-                                                             });	
                                      formulario.setVisible(false);
                                      
                                      btnVoltar.addActionListener(new ActionListener() {
@@ -443,7 +419,7 @@ public class CadFornecedor extends JDialog implements KeyListener {
 		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
         ImageIcon editar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/editar.png"));  
-        ImageIcon excluir = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_excluir.png"));
+        ImageIcon ativar = new ImageIcon(CadFuncionario.class.getResource("/br/com/images/icon_ok.png"));
 
 		TableColumnModel columnModel = table.getColumnModel();
 		
@@ -455,16 +431,16 @@ public class CadFornecedor extends JDialog implements KeyListener {
 		renderer.setToolTipText("Editar");
 		columnModel.getColumn(3).setCellRenderer(renderer);
 		
-		renderer1.setValue(excluir);
+		renderer1.setValue(ativar);
 		renderer1.setHorizontalAlignment(JLabel.CENTER);
-		renderer1.setToolTipText("Excluir");
+		renderer1.setToolTipText("Ativar novamente o fornecedor");
 		columnModel.getColumn(4).setCellRenderer(renderer1);
 
         dtm.setRowCount(0); 
 		List<Fornecedor> listaFornec  = new ArrayList<Fornecedor>();
 		
 		
-		listaFornec = fornecDao.consultarFornecedores(nome);
+		listaFornec = fornecDao.consultarFornecedoresInativos(nome);
 		
 		String dados[] = new String[3]; 
 		for (Fornecedor obj : listaFornec) {

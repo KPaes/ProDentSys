@@ -4,7 +4,6 @@ import java.awt.HeadlessException;
 import java.util.InputMismatchException;
 
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
 
 import br.com.exception.EntradaUsuarioException;
 import br.com.dao.ClienteDao;
@@ -92,7 +91,7 @@ public class ValidaCPF {
 	String param = cpf.getText().replace("-", "").replace(".", "");
 	boolean ret = false;
 	if(ValidaCPF.isCPF(param) == false){
-		JOptionPane.showMessageDialog(null, "O CPF digitado (" + cpf.getText() + ") é inválido, favor tente novamente!");
+//		JOptionPane.showMessageDialog(null, "O CPF digitado (" + cpf.getText() + ") é inválido, favor tente novamente!");
 	} else{
 		ret = true;
 	}
@@ -107,7 +106,7 @@ public class ValidaCPF {
 			
 				try {
 					if(clienteDao.buscarCpfExistente(param) == true){
-						JOptionPane.showMessageDialog(null, "O CPF digitado (" + cpf.getText() + ") já existe no nosso banco de dados, favor tente novamente!");
+//						JOptionPane.showMessageDialog(null, "O CPF digitado (" + cpf.getText() + ") já existe no nosso banco de dados, favor tente novamente!");
 					}
 					else{
 						ret = true;

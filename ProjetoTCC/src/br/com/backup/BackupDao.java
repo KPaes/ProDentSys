@@ -109,7 +109,7 @@ public class BackupDao {
 	
 	
 	public boolean restoreFull(String file) throws DaoException{		
-		Connection conn = DbUtil.getConnection2();
+		Connection conn = DbUtil.getConnection();
 		PreparedStatement statement = null;
 		@SuppressWarnings("unused")
 		boolean result = false;
@@ -137,7 +137,7 @@ public class BackupDao {
 	}
 	
 	public boolean restoreDif(String file) throws DaoException{		
-		Connection conn = DbUtil.getConnection2();
+		Connection conn = DbUtil.getConnection();
 		//BackupBean obj = new BackupBean();
 		PreparedStatement statement = null;
 		@SuppressWarnings("unused")

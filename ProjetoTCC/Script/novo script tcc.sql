@@ -33,6 +33,9 @@ alter table tbFuncionario
 add comissaoFunc numeric(5,2) null
 go
 
+alter table tbFuncionario
+add situacaoFunc char(1) null
+go
 
 SET ANSI_PADDING OFF
 GO
@@ -48,13 +51,16 @@ numEndCliente varchar(4) not null,
 bairroCliente varchar(25) not null,
 cidadeCliente varchar(30) not null,
 cepCliente char(9) not null,
-emailCliente varchar(60) unique constraint chkEmailCli check (emailCliente like '%@%') null,
+emailCliente varchar(60),
 complCliente varchar(140)
 )
 go
 
+alter table tbCliente
+add situacaoCliente char(1) null
+go
 
---Criação de tabela - Pedido ALTERAR PARA VIEW
+--Criação de tabela - Pedido 
 create table tbPedido(
 numPed integer identity not null primary key,
 nomeCliente varchar(65) not null,
@@ -80,6 +86,10 @@ alter table tbPedido
 add cpfCliente char(14) not null 
 go
 
+alter table tbPedido
+add situacaoPed char(1)
+go
+
 
 --Criação de tabela - Fornecedor
 create table tbFornecedor(
@@ -96,7 +106,9 @@ primary key(numFornec)
 )
 go
 
-
+alter table tbFornecedor
+add situacaoFornec char(1) null
+go
 
 --Criação de tabela - Folha de Pagamento
 create table tbFolhadePagamento(
@@ -114,7 +126,9 @@ constraint PK_codDep primary key (codDep),
 constraint FK_numFuncionario foreign key (numFunc) references tbFuncionario)
 go
 
-
+alter table tbFolhadePagamento
+add situacaoFolha char(1)
+go
 
 
 --Criação de tabela - Tabela de Preoços
@@ -125,6 +139,10 @@ precoProtese numeric(10,2) not null,
 numProtese integer identity not null
 primary key(numProtese)
 )
+go
+
+alter table tbTabeladePrecos
+add situacaoProtese char(1)
 go
 
 

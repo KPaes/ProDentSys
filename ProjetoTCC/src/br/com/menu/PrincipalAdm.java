@@ -26,6 +26,11 @@ import br.com.telas.Ped;
 import br.com.telas.SobreSys;
 import br.com.telas.TelaFolhadePagamento;
 import br.com.telas.TelaRelatorio;
+import br.com.telas.ConsultaFuncionariosInativos;
+import br.com.telas.ConsultaClientesInativos;
+import br.com.telas.ConsultaFornecedoresInativos;
+import br.com.telas.ConsultaPedidosInativos;
+import br.com.telas.ConsultaTabelaInativa;
 
 
 import java.awt.Color;
@@ -66,7 +71,7 @@ public class PrincipalAdm extends JFrame {
 	public PrincipalAdm() {
 		super("ProDentSys");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/br/com/images/logo_transp.png")));
-		setTitle("ProDentSys v1.0 - Administrador");
+		setTitle("ProDentSys v2.0 - Administrador");
         for (int i = 0; i < 500; i++){  
             System.out.println(i);      
         }        
@@ -161,7 +166,25 @@ public class PrincipalAdm extends JFrame {
 		});
 		mnCadastros.add(mntmFornecedor);
 		
-		JMenuItem mntmPreos = new JMenuItem("Pedido");
+		JMenu mnRelatrio = new JMenu("Pedidos");
+		mnRelatrio.setMnemonic('i');
+		menuBar.add(mnRelatrio);
+		
+		JMenuItem mntmRelatrioDoDia = new JMenuItem("Relat\u00F3rio de Pedidos");
+		mntmRelatrioDoDia.setToolTipText("Gerar Relatórios de Pedidos");
+		mntmRelatrioDoDia.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_MASK));
+		mntmRelatrioDoDia.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mntmRelatrioDoDia.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/rela.png")));
+		mntmRelatrioDoDia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaRelatorio relatorio;
+				relatorio = new TelaRelatorio();
+				relatorio.setVisible(true);
+			}
+		});
+		
+		JMenuItem mntmPreos = new JMenuItem("Efetuar e Consultar Pedidos");
+		mnRelatrio.add(mntmPreos);
 		mntmPreos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		mntmPreos.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/Sport-Wrestler-Male-Light-icon.png")));
 		mntmPreos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_MASK));
@@ -180,7 +203,7 @@ public class PrincipalAdm extends JFrame {
 				}
 			}
 		});
-		mnCadastros.add(mntmPreos);
+		mnRelatrio.add(mntmRelatrioDoDia);
 		
 		JMenu mnTabela = new JMenu("Tabela de Pre\u00E7o");
 		mnTabela.setMnemonic('T');
@@ -224,24 +247,6 @@ public class PrincipalAdm extends JFrame {
 		});
 		mnEnviarEmail.add(mntmEmailParaCliente);
 		
-		JMenu mnRelatrio = new JMenu("Relat\u00F3rio");
-		mnRelatrio.setMnemonic('i');
-		menuBar.add(mnRelatrio);
-		
-		JMenuItem mntmRelatrioDoDia = new JMenuItem("Relat\u00F3rio de Pedidos");
-		mntmRelatrioDoDia.setToolTipText("Gerar Relatórios de Pedidos");
-		mntmRelatrioDoDia.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_MASK));
-		mntmRelatrioDoDia.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		mntmRelatrioDoDia.setIcon(new ImageIcon(Principal.class.getResource("/br/com/images/rela.png")));
-		mntmRelatrioDoDia.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TelaRelatorio relatorio;
-				relatorio = new TelaRelatorio();
-				relatorio.setVisible(true);
-			}
-		});
-		mnRelatrio.add(mntmRelatrioDoDia);
-		
 		menu_1 = new JMenu("Restrito");
 		menu_1.setMnemonic('R');
 		menu_1.setToolTipText("Área restrita!");
@@ -273,6 +278,88 @@ public class PrincipalAdm extends JFrame {
 		mntmGerarBackup.setIcon(new ImageIcon(PrincipalAdm.class.getResource("/br/com/images/bkp.png")));
 		mntmGerarBackup.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		menu_1.add(mntmGerarBackup);
+		
+		JMenu mnInativos = new JMenu("Inativos");
+		mnInativos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		menu_1.add(mnInativos);
+		
+		JMenuItem mntmClientesInativos = new JMenuItem("Clientes Inativos");
+		mntmClientesInativos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mntmClientesInativos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ConsultaClientesInativos clienteInativo = new ConsultaClientesInativos();
+					clienteInativo.setVisible(true);
+				} catch (DaoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mntmClientesInativos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mnInativos.add(mntmClientesInativos);
+		
+		JMenuItem mntmFuncionriosInativos = new JMenuItem("Funcion\u00E1rios Inativos");
+		mntmFuncionriosInativos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mntmFuncionriosInativos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ConsultaFuncionariosInativos funcInativo = new ConsultaFuncionariosInativos();
+					funcInativo.setVisible(true);
+				} catch (DaoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnInativos.add(mntmFuncionriosInativos);
+		mntmFuncionriosInativos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		
+		JMenuItem mntmFornecedoresInativos = new JMenuItem("Fornecedores Inativos");
+		mntmFornecedoresInativos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mntmFornecedoresInativos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ConsultaFornecedoresInativos fornecInativo = new ConsultaFornecedoresInativos();
+					fornecInativo.setVisible(true);
+				} catch (DaoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mntmFornecedoresInativos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mnInativos.add(mntmFornecedoresInativos);
+		
+		JMenuItem mntmPedidosInativos = new JMenuItem("Pedidos Inativos");
+		mntmPedidosInativos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ConsultaPedidosInativos pedInativo = new ConsultaPedidosInativos();
+					pedInativo.setVisible(true);
+				} catch (DaoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mntmPedidosInativos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mnInativos.add(mntmPedidosInativos);
+		
+		JMenuItem mntmTabelaDePreo = new JMenuItem("Pr\u00F3teses Inativas");
+		mntmTabelaDePreo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ConsultaTabelaInativa tabInativa = new ConsultaTabelaInativa();
+					tabInativa.setVisible(true);
+				} catch (DaoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mntmTabelaDePreo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		mnInativos.add(mntmTabelaDePreo);
 		mntmGerarBackup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaBackup bkp = new TelaBackup();
@@ -360,8 +447,8 @@ public class PrincipalAdm extends JFrame {
 	
 	private void openPdf() throws IOException {  
 //        getThePdfAndPutOnC();  
-//		Desktop.getDesktop().open(new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf")); // Hardcode mesmo  
-		Desktop.getDesktop().open(new File("/br/com/anexos/ManualCliente.pdf"));
+		Desktop.getDesktop().open(new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf")); // Hardcode mesmo  
+//		Desktop.getDesktop().open(new File("/br/com/anexos/ManualCliente.pdf"));
         
     }
 	

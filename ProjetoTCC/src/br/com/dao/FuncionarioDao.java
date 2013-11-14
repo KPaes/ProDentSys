@@ -19,12 +19,20 @@ import br.com.bean.Funcionario;
 
 public class FuncionarioDao {	
 	private static final String EXCLUIR_FUNCIONARIO = 
-			"delete from tbfuncionario where numFunc = ?";
+			//"delete from tbfuncionario where numFunc = ?";
+			"update tbfuncionario set " +
+			"situacaoFunc = ? " +
+			"where numFunc = ? ";
+	
+	private static final String ATIVAR_FUNCIONARIO = 
+			"update tbfuncionario set " +
+			"situacaoFunc = ? " +
+			"where numFunc = ? ";
 	
 	private static final String INSERIR_FUNCIONARIO =
 			"insert into tbfuncionario(nomeFunc, telFunc, profissaoFunc, "+
-			"login_funcionario, senha_funcionario, salarioFunc, comissaoFunc) " +
-			"values (?,?,?,?,?,?,?)";
+			"login_funcionario, senha_funcionario, salarioFunc, comissaoFunc, situacaoFunc) " +
+			"values (?,?,?,?,?,?,?,?)";
 	
 	private static final String ATUALIZAR_FUNCIONARIO =
 			"update tbfuncionario set " +
@@ -49,13 +57,20 @@ public class FuncionarioDao {
 			"where numFunc = ? ";
 	
 	private static final  String CONSULTA_FUNCIONARIOS =
-			"select * from tbfuncionario order by numFunc";
+			"select * from tbfuncionario where situacaoFunc = 'A' order by numFunc ";
+	
+	private static final  String CONSULTA_FUNCIONARIOS_INATIVOS =
+			"select * from tbfuncionario where situacaoFunc = 'I' order by numFunc ";
+	
+	private static final  String CONSULTA_FUNCIONARIOS_NOME_INATIVO =
+			"select * from tbfuncionario where nomeFunc like ? and situacaoFunc = 'I' order by nomeFunc  ";	
+	
 	
 	private static final  String CONSULTA_FUNCIONARIO_ID = 
 			"select * from tbfuncionario where numFunc = ?";
 	
 	private static final  String CONSULTA_FUNCIONARIOS_NOME =
-			"select * from tbfuncionario where nomeFunc like ? order by nomeFunc";	
+			"select * from tbfuncionario where nomeFunc like ? and situacaoFunc = 'A' order by nomeFunc  ";	
 	
 	private static final String PROCURAR_FUNCIONARIO_ID =
 			"select nomeFunc, profissaoFunc, salarioFunc, comissaoFunc from tbfuncionario where numFunc = ?";
@@ -221,6 +236,39 @@ public class FuncionarioDao {
 		return listaFunc;		
 	}
 
+	public List<Funcionario> consultarFuncionariosInativos(String nome) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		List<Funcionario> listaFunc = new ArrayList<Funcionario>();
+		try {
+			if(nome.equals("")){
+				statement = conn.prepareStatement(CONSULTA_FUNCIONARIOS_INATIVOS);
+			}else{
+				statement = conn.prepareStatement(CONSULTA_FUNCIONARIOS_NOME_INATIVO);
+				statement.setString(1, "%"+nome+"%");
+			}
+			result = statement.executeQuery();
+			while (result.next()) {
+				Funcionario objFunc = new Funcionario();
+				objFunc.setNumFunc(result.getInt(1));
+				objFunc.setNomeFunc(result.getString(2));
+				objFunc.setTelFunc(result.getString(3));
+				objFunc.setProfissaoFunc(result.getString(4));
+				objFunc.setLogin(result.getString(5));
+				objFunc.setSenha(result.getString(6));
+				objFunc.setSalarioFunc(result.getDouble(7));
+				objFunc.setComissaoFunc(result.getDouble(8));	
+				listaFunc.add(objFunc);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return listaFunc;		
+	}
+	
 	public Funcionario consultarFuncionarioID(int idFunc) throws DaoException{		
 		Funcionario objFunc = new Funcionario();
 		Connection conn = DbUtil.getConnection();
@@ -300,9 +348,8 @@ public class FuncionarioDao {
 				e.printStackTrace();
 			}
 			statement.setDouble(6, obj.getSalarioFunc());			
-
 			statement.setDouble(7, obj.getComissaoFunc());
-			
+			statement.setString(8, "A");
 			statement.executeUpdate();
 			
 			
@@ -381,7 +428,8 @@ public class FuncionarioDao {
 		ResultSet result = null;
 		try {
 			statement = conn.prepareStatement(EXCLUIR_FUNCIONARIO);
-			statement.setInt(1, idFuncioanrio);
+			statement.setString(1, "I");
+			statement.setInt(2, idFuncioanrio);
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -392,6 +440,23 @@ public class FuncionarioDao {
 		return true;		
 	}
 	
+	public boolean ativarFuncionarios(int idFuncioanrio) throws DaoException{		
+		Connection conn = DbUtil.getConnection();
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = conn.prepareStatement(ATIVAR_FUNCIONARIO);
+			statement.setString(1, "A");
+			statement.setInt(2, idFuncioanrio);
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		} finally {
+			DbUtil.close(conn, statement, result);
+		}
+		return true;		
+	}
 
 	public Funcionario habilitarMenu(String nomeFunc) throws DaoException{		
 		Funcionario objFunc = new Funcionario();

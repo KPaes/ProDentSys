@@ -39,6 +39,7 @@ import br.com.util.ValidacaoUtil;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -51,8 +52,13 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXSearchField;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import javax.swing.JMenuItem;
 
-public class TelaFolhadePagamento extends JFrame {
+public class TelaFolhadePagamento extends JFrame implements KeyListener {
     final JPanel lista = new JPanel();
     final JPanel formulario = new JPanel();
     final JPanel buttonPanel = new JPanel();
@@ -63,13 +69,13 @@ public class TelaFolhadePagamento extends JFrame {
 	private static final long serialVersionUID = 1L;	
 
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JFormattedTextField textField_3;
+	private static JTextField textField;
+	private static JTextField textField_1;
+	private static JFormattedTextField textField_3;
 	private JTextField textField_5;
-	private JTextField textField_9;
-	private JTextField textField_2;
-	private JTextField textField_4;
+	private static JTextField textField_9;
+	private static JTextField textField_2;
+	private static JTextField textField_4;
 	private JTextField textField_6;
 	
 	private JXDatePicker dateInicio;
@@ -80,15 +86,14 @@ public class TelaFolhadePagamento extends JFrame {
 	private Double porCentCom = 0.0;
 	private Double total = 0.0;
 	private Double totalCom = 0.0;
-	private JTextField textField_7;
+	private JXSearchField txtPesq;
 
 	public TelaFolhadePagamento() throws DaoException {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaFolhadePagamento.class.getResource("/br/com/images/logo_transp.png")));
 		setTitle("Folha de Pagamento");
 		int width = 800;
-        int height =600;
-      //  setModal(true);
+        int height = 600;
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screen.width-width)/2;
         int y = (screen.height-height)/3;
@@ -101,26 +106,13 @@ public class TelaFolhadePagamento extends JFrame {
         getContentPane().add(buttonPanel);
         buttonPanel.setLayout(null);
         
-        JButton btnPesquisar = new JButton("");
-        btnPesquisar.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/pesquisar.png")));
-        btnPesquisar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		try {
-					atualizaLista(table,textField_7.getText().toString());
-				} catch (DaoException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-        	}
-        });
-        btnPesquisar.setToolTipText("Pesquisar Pagamento");
-        btnPesquisar.setBounds(48, 107, 50, 23);
-        buttonPanel.add(btnPesquisar);
-        
-        textField_7 = new JTextField();
-        textField_7.setBounds(10, 76, 132, 20);
-        buttonPanel.add(textField_7);
-        textField_7.setColumns(10);
+        txtPesq = new JXSearchField();
+        txtPesq.addKeyListener(this);
+        txtPesq.setPrompt("Nome funcionário");
+        txtPesq.setToolTipText("Digite o nome do funcionário para pesquisar");
+        txtPesq.setBounds(10, 76, 132, 20);
+        buttonPanel.add(txtPesq);
+        txtPesq.setColumns(10);
         
         JLabel lblPesquisar = new JLabel("Pesquisar");
         lblPesquisar.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
@@ -137,6 +129,18 @@ public class TelaFolhadePagamento extends JFrame {
                          panel.setLayout(null);
                          panel.setBounds(21, 33, 590, 290);
                          formulario.add(panel);
+                         
+                         JPopupMenu popupMenu = new JPopupMenu();
+                         addPopup(panel, popupMenu);
+                         
+                         JMenuItem mntmPesquisarFuncionrio = new JMenuItem("Pesquisar Funcion\u00E1rio");
+                         mntmPesquisarFuncionrio.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/search.png")));
+                         mntmPesquisarFuncionrio.addActionListener(new ActionListener() {
+                         	public void actionPerformed(ActionEvent e) {
+                         		new ViewSelecionaFuncionario(1);
+                         	}
+                         });
+                         popupMenu.add(mntmPesquisarFuncionrio);
                          
                          JLabel lblNome = new JLabel("Nome:");
                          lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -164,14 +168,14 @@ public class TelaFolhadePagamento extends JFrame {
                          panel.add(lbln);
                          
                           
-                          JButton button = new JButton("");
-                          button.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/salvar.png")));
-                          button.setToolTipText("Salvar Alt+S");
-                          button.setMnemonic(KeyEvent.VK_S);                          
-                          button.setBounds(504, 244, 56, 33);
-                          panel.add(button);
+                          JButton btnSalvar = new JButton("");
+                          btnSalvar.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/salvar.png")));
+                          btnSalvar.setToolTipText("Salvar Alt+S");
+                          btnSalvar.setMnemonic(KeyEvent.VK_S);                          
+                          btnSalvar.setBounds(504, 244, 56, 33);
+                          panel.add(btnSalvar);
                           
-                          button.addActionListener(new ActionListener() {					
+                          btnSalvar.addActionListener(new ActionListener() {					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 					  					  
@@ -222,13 +226,13 @@ public class TelaFolhadePagamento extends JFrame {
 					}
 				});
                           
-                          JButton button_1 = new JButton("");
-                          button_1.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/limpar.png")));
-                          button_1.setToolTipText("Limpar Alt+L");
-                          button_1.setMnemonic(KeyEvent.VK_L);
-                          button_1.setBounds(438, 244, 56, 33);
-                          panel.add(button_1);
-                          button_1.addActionListener(new ActionListener() {
+                          JButton btnLimpar = new JButton("");
+                          btnLimpar.setIcon(new ImageIcon(TelaFolhadePagamento.class.getResource("/br/com/images/limpar.png")));
+                          btnLimpar.setToolTipText("Limpar Alt+L");
+                          btnLimpar.setMnemonic(KeyEvent.VK_L);
+                          btnLimpar.setBounds(438, 244, 56, 33);
+                          panel.add(btnLimpar);
+                          btnLimpar.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -674,7 +678,7 @@ public class TelaFolhadePagamento extends JFrame {
 		dateFim.getEditor().setText("");
 		
 	}
-	private void chamaFuncionario(int idFunc) {
+	public static void chamaFuncionario(int idFunc) {
 		Funcionario objFunc = new Funcionario();
 
 		FuncionarioDao objDao = new FuncionarioDao();				
@@ -685,7 +689,7 @@ public class TelaFolhadePagamento extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}	
-		
+		textField.setText(String.valueOf(idFunc));
 		textField_9.setText(objFunc.getNomeFunc());
 		textField_1.setText(objFunc.getProfissaoFunc());
 		
@@ -798,6 +802,45 @@ public class TelaFolhadePagamento extends JFrame {
 		}	
 				
 		return result;
+	}
+	
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyPressed(KeyEvent event) {
+		if(event.getSource() == txtPesq){
+			try {
+				atualizaLista(table, txtPesq.getText().toString());
+			} catch (DaoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+		
+	
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }
 
