@@ -1,4 +1,4 @@
-package br.com.telas;
+package br.com.menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -11,7 +11,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.border.LineBorder;
 
-import br.com.telas.SplashScreen;
+import br.com.menu.SplashScreen;
 
 import java.awt.Font;
 

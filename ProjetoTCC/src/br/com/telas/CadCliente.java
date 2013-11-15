@@ -324,7 +324,7 @@ public class CadCliente extends JFrame implements KeyListener{
 						if(ValidaCPF.existe(txtCPF, false) == false){
 							lblCpf.setText("CPF já cadastrado no sistema!");
 							txtCPF.requestFocus();
-						}if(ValidaCPF.valida(txtCPF) == false){
+						}else if(ValidaCPF.valida(txtCPF) == false){
 								lblCpf.setText("CPF inválido!");
 								txtCPF.requestFocus();
 						}

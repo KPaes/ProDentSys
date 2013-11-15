@@ -21,7 +21,6 @@ import javax.swing.JPasswordField;
 import br.com.bean.Funcionario;
 import br.com.dao.FuncionarioDao;
 import br.com.exception.DaoException;
-import br.com.telas.SplashScreen;
 import br.com.util.SwingUtil;
 
 import java.awt.event.ActionListener;
@@ -151,7 +150,7 @@ public class Login extends JDialog {
 		String usuario = txtUsuario.getText();
 		String senha = new String(pwfSenha.getPassword());
 		if(usuario.equals("admin") && senha.equals("admin")){
-			Principal tela = new Principal();
+			PrincipalAdm tela = new PrincipalAdm();
 			tela.setVisible(true);
 			dispose();
 		}else{

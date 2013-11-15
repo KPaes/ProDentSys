@@ -70,7 +70,7 @@ public class CadFuncionario extends JFrame implements KeyListener, ActionListene
 	
 	private JLabel lblIndisponivel;
 	private JLabel lblSenhaInvalida;
-	private int status_nome_usuario = 1;
+	private int status_nome_usuario = 0;
 	@SuppressWarnings("unused")
 	private int status_senha_usuario = 1;
 	private JPasswordField textSenhaOld;
