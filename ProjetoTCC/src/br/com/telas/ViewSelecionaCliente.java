@@ -24,6 +24,7 @@ import org.jdesktop.swingx.JXSearchField;
 import br.com.TableModel.TableCellRenderer;
 import br.com.bean.ClienteDent;
 import br.com.dao.ClienteDao;
+import br.com.enviaremail.Interface;
 import br.com.exception.DaoException;
 
 import javax.swing.JScrollPane;
@@ -187,6 +188,11 @@ public class ViewSelecionaCliente extends JDialog implements KeyListener, Action
 						dispose();
 						num = func.getNumCliente();
 						Ped.chamaCliente(num);
+					}
+					else if(this.requisicao == 2){
+						dispose();
+						num = func.getNumCliente();
+						Interface.chamaCliente(num);
 					}
 				}
 			}else{

@@ -20,6 +20,7 @@ import org.apache.commons.mail.EmailException;
 import br.com.bean.ClienteDent;
 import br.com.dao.ClienteDao;
 import br.com.exception.DaoException;
+import br.com.telas.ViewSelecionaCliente;
 import br.com.util.BarraDeProgresso;
 import br.com.util.ValidaEmail;
 
@@ -30,6 +31,11 @@ import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
 
 public class Interface extends JFrame {
 
@@ -42,10 +48,10 @@ public class Interface extends JFrame {
 	private JEditorPane epMensagem;
     
 	private JPanel contentPane;
-	private JTextField textPara;
-	private JTextField textEmail;
+	private static JTextField textPara;
+	private static JTextField textEmail;
 	private JTextField textAssunto;
-	private JTextField textField_4;
+	private static JTextField textField_4;
 	private static final long serialVersionUID = 1L;
 	
 	Mensagem mensagem = new Mensagem();
@@ -81,6 +87,19 @@ public class Interface extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(contentPane, popupMenu);
+		
+		JMenuItem mntmPesquisarCliente = new JMenuItem("Pesquisar Cliente");
+		mntmPesquisarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new ViewSelecionaCliente(2);
+			}
+		});
+		mntmPesquisarCliente.setIcon(new ImageIcon(Interface.class.getResource("/br/com/images/search.png")));
+		mntmPesquisarCliente.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		popupMenu.add(mntmPesquisarCliente);
 		
 		progressBar.setBounds(91, 300, 349, 19);
 
@@ -222,6 +241,7 @@ public class Interface extends JFrame {
 		contentPane.add(btnProcurar);
 		
 		textField_4 = new JTextField();
+		textField_4.setToolTipText("Se n\u00E3o souber o n\u00FAmero do cliente, clique com o bot\u00E3o direito em algum lugar do formul\u00E1rio para pesquisar");
 		textField_4.setBounds(115, 45, 100, 20);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
@@ -298,5 +318,41 @@ public class Interface extends JFrame {
 		    
 		    Thread t = new Thread(run);  
 			t.start();
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
+	
+	public static void chamaCliente(int idCliente) {
+		ClienteDent objCliente = new ClienteDent();
+
+		ClienteDao objDao = new ClienteDao();				
+		
+		try {
+			objCliente = objDao.procurarClienteID(idCliente);
+			
+		} catch (DaoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
+		
+		textPara.setText(objCliente.getNomeCliente());
+	    textEmail.setText(objCliente.getEmailCliente());		
+		textField_4.setText(String.valueOf(idCliente));
+	
 	}
 }
