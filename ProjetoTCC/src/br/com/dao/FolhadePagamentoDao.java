@@ -55,7 +55,7 @@ public class FolhadePagamentoDao {
 	
 
 	private static final String QUANTIDADE_PEDIDO =
-			"SELECT COUNT(numPed) FROM tbPedido where numFunc = ?";
+			"SELECT COUNT(numPed) FROM tbPedido where numFunc = ? and situacaoPed = 'A' ";
 	
 	
 	public List<FolhaPagamento> consultarPagamento(String nome) throws DaoException{		

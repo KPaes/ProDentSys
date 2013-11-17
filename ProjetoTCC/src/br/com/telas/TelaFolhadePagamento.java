@@ -354,20 +354,23 @@ public class TelaFolhadePagamento extends JFrame implements KeyListener {
                         			MonthDay inicio = new MonthDay(dateInicio.getDate());
                               		MonthDay fim = new MonthDay(dateFim.getDate());
                               		int mes = Months.monthsBetween(inicio, fim).getMonths();
-
+                              		if(mes >= 2){
+                              			salario = Double.parseDouble(textField_3.getText()) * mes;  
+                              		}
+                              		else{
                               		
                           		//		String aux = textField_4.getText().replace(",", ".").trim();
                           			//	bonus = Double.parseDouble(aux);
                           			bonus = Double.parseDouble(textField_4.getText());
                           				
-                                  		salario = Double.parseDouble(textField_3.getText()) * mes;  
+                                  		salario = Double.parseDouble(textField_3.getText());  
                                   		totalCom = Double.parseDouble(textField_2.getText());
                                   		
                                   		salarioTotal = totalCom + bonus + salario;
                                   		
                                   		textField_6.setText(String.valueOf(salarioTotal));
                                   		textField_6.setEditable(false);
-                          		
+                              		}
                                   		
                           		}                          	
                           		

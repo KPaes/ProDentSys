@@ -20,14 +20,14 @@ public class RelatorioDao {
 	
 	private static final String RELATORIO_ENTRE_DATAS =
 			" select * from tbPedido " + 
-					" where dataEntrega between ? and ? ";
+					" where situacaoPed = 'A' and dataEntrega between ? and ? ";
 	
 	private static final String FOLHA_DE_PAGAMENTO =
 			"SELECT a.nomeCliente, a.nomePaciente, a.observacoesPed, a.totalPedido, a.dataEntrega," +
 			" b.nomeFunc, b.salarioFunc, b.comissaoFuncTotal, b.bonusFunc, b.dataInicio, b.dataFim," +
 			" b.totalFunc FROM tbPedido a " +
 			" inner join tbFolhadePagamento b " +
-			" on a.numFunc = b.numFunc and a.dataEntrega between b.dataInicio and b.dataFim " +
+			" on a.numFunc = b.numFunc and a.situacaoPed = 'A' and a.dataEntrega between b.dataInicio and b.dataFim " +
 			" WHERE b.numFunc = ? and a.dataEntrega between ? and ?";
 	
 	
