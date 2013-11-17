@@ -451,8 +451,8 @@ public class PrincipalAdm extends JFrame {
 	
 	private void openPdf() throws IOException {  
 //        getThePdfAndPutOnC();  
-		Desktop.getDesktop().open(new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf")); // Hardcode mesmo  
-//		Desktop.getDesktop().open(new File("/br/com/anexos/ManualCliente.pdf"));
+//		Desktop.getDesktop().open(new File("C:\\Program Files (x86)\\ProDentSys\\ManualCliente.pdf")); // Hardcode mesmo  
+		Desktop.getDesktop().open(new File("/br/com/anexos/ManualCliente.pdf"));
         
     }
 	
